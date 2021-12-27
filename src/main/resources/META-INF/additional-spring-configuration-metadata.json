@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "ding.robot.access-token",
+      "type": "java.lang.String",
+      "description": "钉钉机器人的access-token."
+    },
+    {
+      "name": "ding.robot.sign-key",
+      "type": "java.lang.String",
+      "description": "钉钉机器人的sign-key."
+    }
+  ] }
