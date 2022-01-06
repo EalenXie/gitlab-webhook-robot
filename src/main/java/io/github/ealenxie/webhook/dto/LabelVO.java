@@ -1,9 +1,7 @@
 package io.github.ealenxie.webhook.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
 
 /**
  * Created by EalenXie on 2021/12/16 14:39
@@ -19,11 +17,9 @@ public class LabelVO {
     @JsonProperty("project_id")
     private Long projectId;
     @JsonProperty("created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Date createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
+    private String createdAt;
     @JsonProperty("updated_at")
-    private Date updatedAt;
+    private String updatedAt;
 
     private Boolean template;
 
@@ -66,19 +62,19 @@ public class LabelVO {
         this.projectId = projectId;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 

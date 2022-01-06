@@ -121,7 +121,7 @@ public class PipelineHookVO implements DingRobotActionCard {
                 sb.append(" ").append("\uD83D\uDD57").append(totalTime).append("s").append("\n\n");
                 Collections.sort(builds);
                 for (BuildVO build : builds) {
-                    String costTime = String.valueOf((build.getFinishedAt().getTime() - build.getStartedAt().getTime()) / 1000);
+                    String costTime = String.valueOf(build.getDuration());
                     String color = "";
                     String emoji = "";
                     if (Objects.equals(build.getStatus(), "success")) {

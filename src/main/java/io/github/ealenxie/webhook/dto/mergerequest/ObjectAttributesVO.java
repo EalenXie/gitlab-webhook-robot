@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.webhook.dto.CommitVO;
 import io.github.ealenxie.webhook.dto.ProjectVO;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -18,16 +17,14 @@ public class ObjectAttributesVO {
     @JsonProperty("author_id")
     private Long authorId;
     @JsonProperty("created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Date createdAt;
+    private String createdAt;
     private String description;
     @JsonProperty("head_pipeline_id")
     private Long headPipelineId;
     private Long id;
     private Long iid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("last_edited_at")
-    private Date lastEditedAt;
+    private String lastEditedAt;
     @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
     @JsonProperty("merge_commit_sha")
@@ -59,7 +56,7 @@ public class ObjectAttributesVO {
     private String title;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("updated_at")
-    private Date updatedAt;
+    private String updatedAt;
     @JsonProperty("updated_by_id")
     private Long updatedById;
     private String url;
@@ -100,11 +97,11 @@ public class ObjectAttributesVO {
         this.authorId = authorId;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -140,11 +137,11 @@ public class ObjectAttributesVO {
         this.iid = iid;
     }
 
-    public Date getLastEditedAt() {
+    public String getLastEditedAt() {
         return lastEditedAt;
     }
 
-    public void setLastEditedAt(Date lastEditedAt) {
+    public void setLastEditedAt(String lastEditedAt) {
         this.lastEditedAt = lastEditedAt;
     }
 
@@ -268,11 +265,11 @@ public class ObjectAttributesVO {
         this.title = title;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 

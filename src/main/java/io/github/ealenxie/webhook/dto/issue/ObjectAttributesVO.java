@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.webhook.dto.LabelVO;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,22 +15,22 @@ public class ObjectAttributesVO {
     private Long authorId;
     @JsonProperty("closed_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Date closedAt;
+    private String closedAt;
     private Boolean confidential;
     @JsonProperty("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Date createdAt;
+    private String createdAt;
     private String description;
     @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
     @JsonProperty("due_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private Date dueDate;
+    private String dueDate;
     private Long id;
     private Long iid;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("last_edited_at")
-    private Date lastEditedAt;
+    private String lastEditedAt;
     @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
     @JsonProperty("milestone_id")
@@ -51,7 +50,7 @@ public class ObjectAttributesVO {
     private String title;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("updated_at")
-    private Date updatedAt;
+    private String updatedAt;
     @JsonProperty("updated_by_id")
     private Long updatedById;
     private Double weight;
@@ -84,11 +83,11 @@ public class ObjectAttributesVO {
         this.authorId = authorId;
     }
 
-    public Date getClosedAt() {
+    public String getClosedAt() {
         return closedAt;
     }
 
-    public void setClosedAt(Date closedAt) {
+    public void setClosedAt(String closedAt) {
         this.closedAt = closedAt;
     }
 
@@ -100,11 +99,11 @@ public class ObjectAttributesVO {
         this.confidential = confidential;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -124,11 +123,11 @@ public class ObjectAttributesVO {
         this.discussionLocked = discussionLocked;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -148,11 +147,11 @@ public class ObjectAttributesVO {
         this.iid = iid;
     }
 
-    public Date getLastEditedAt() {
+    public String getLastEditedAt() {
         return lastEditedAt;
     }
 
-    public void setLastEditedAt(Date lastEditedAt) {
+    public void setLastEditedAt(String lastEditedAt) {
         this.lastEditedAt = lastEditedAt;
     }
 
@@ -228,11 +227,11 @@ public class ObjectAttributesVO {
         this.title = title;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
