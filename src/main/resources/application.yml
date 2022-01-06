@@ -6,3 +6,6 @@ ding:
   robot:
     access-token: xxxxxxxxxxxxxxxxxxx
     sign-key: xxxxxxxxxxxxxxx
+spring:
+  application:
+    name: gitlab-webhook-dingrobot
