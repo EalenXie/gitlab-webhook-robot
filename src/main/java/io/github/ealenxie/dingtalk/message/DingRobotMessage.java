@@ -13,13 +13,7 @@ public abstract class DingRobotMessage {
 
     private DingTalkAt at;
 
-    public String getMsgType() {
-        return msgType;
-    }
-
-    public void setMsgType(String msgType) {
-        this.msgType = msgType;
-    }
+    public abstract String getMsgType();
 
     public DingTalkAt getAt() {
         return at;

@@ -7,11 +7,9 @@ import io.github.ealenxie.dingtalk.dto.Text;
  */
 public class TextMessage extends DingRobotMessage {
 
-    private static final String MSG_TYPE = "text";
-
     @Override
     public String getMsgType() {
-        return MSG_TYPE;
+        return "text";
     }
 
     private Text text;

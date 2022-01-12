@@ -7,11 +7,9 @@ import io.github.ealenxie.dingtalk.dto.ActionCard;
  */
 public class ActionCardMessage extends DingRobotMessage {
 
-    private static final String MSG_TYPE = "actionCard";
-
     @Override
     public String getMsgType() {
-        return MSG_TYPE;
+        return "actionCard";
     }
 
     private ActionCard actionCard;

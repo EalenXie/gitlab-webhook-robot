@@ -7,11 +7,9 @@ import io.github.ealenxie.dingtalk.dto.Link;
  */
 public class LinkMessage extends DingRobotMessage {
 
-    private static final String MSG_TYPE = "link";
-
     @Override
     public String getMsgType() {
-        return MSG_TYPE;
+        return "link";
     }
 
     private Link link;

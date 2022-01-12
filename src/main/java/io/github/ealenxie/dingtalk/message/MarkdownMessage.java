@@ -7,11 +7,9 @@ import io.github.ealenxie.dingtalk.dto.Markdown;
  */
 public class MarkdownMessage extends DingRobotMessage {
 
-    private static final String MSG_TYPE = "markdown";
-
     @Override
     public String getMsgType() {
-        return MSG_TYPE;
+        return "markdown";
     }
 
     private Markdown markdown;

@@ -7,11 +7,9 @@ import io.github.ealenxie.dingtalk.dto.FeedCard;
  */
 public class FeedCardMessage extends DingRobotMessage {
 
-    private static final String MSG_TYPE = "feedCard";
-
     @Override
     public String getMsgType() {
-        return MSG_TYPE;
+        return "feedCard";
     }
 
     private FeedCard feedCard;
