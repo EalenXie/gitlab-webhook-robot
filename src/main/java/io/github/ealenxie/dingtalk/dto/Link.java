@@ -10,6 +10,16 @@ public class Link {
     private String picUrl;
     private String messageUrl;
 
+    public Link() {
+    }
+
+    public Link(String text, String title, String picUrl, String messageUrl) {
+        this.text = text;
+        this.title = title;
+        this.picUrl = picUrl;
+        this.messageUrl = messageUrl;
+    }
+
     public String getText() {
         return text;
     }

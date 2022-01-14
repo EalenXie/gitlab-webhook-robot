@@ -12,6 +12,13 @@ public class LinkMessage extends DingRobotMessage {
         return "link";
     }
 
+    public LinkMessage() {
+    }
+
+    public LinkMessage(Link link) {
+        this.link = link;
+    }
+
     private Link link;
 
     public Link getLink() {

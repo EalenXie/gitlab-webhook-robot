@@ -1,7 +1,7 @@
 package io.github.ealenxie.webhook.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.github.ealenxie.webhook.DingRobotHandler;
+import io.github.ealenxie.webhook.DingRobotWebHookHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +19,10 @@ public class GitlabWebhookAPI {
     private static final String EVENT_HEADER = "X-Gitlab-Event";
 
     @Resource
-    private DingRobotHandler dingRobotHandler;
+    private DingRobotWebHookHandler dingRobotWebHookHandler;
 
     @PostMapping("/actuator/gitlab/webhook")
     public ResponseEntity<String> pipeline(@RequestBody JsonNode requestBody, @RequestHeader(EVENT_HEADER) String event) {
-        return dingRobotHandler.handle(requestBody, event);
+        return dingRobotWebHookHandler.handle(requestBody, event);
     }
 }

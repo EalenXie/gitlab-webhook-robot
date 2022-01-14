@@ -14,6 +14,13 @@ public class FeedCardMessage extends DingRobotMessage {
 
     private FeedCard feedCard;
 
+    public FeedCardMessage() {
+    }
+
+    public FeedCardMessage(FeedCard feedCard) {
+        this.feedCard = feedCard;
+    }
+
     public FeedCard getFeedCard() {
         return feedCard;
     }

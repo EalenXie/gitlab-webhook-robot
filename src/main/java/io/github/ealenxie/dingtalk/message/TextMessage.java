@@ -14,6 +14,13 @@ public class TextMessage extends DingRobotMessage {
 
     private Text text;
 
+    public TextMessage() {
+    }
+
+    public TextMessage(Text text) {
+        this.text = text;
+    }
+
     public Text getText() {
         return text;
     }

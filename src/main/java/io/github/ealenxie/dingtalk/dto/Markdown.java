@@ -9,6 +9,13 @@ public class Markdown {
 
     private String message;
 
+    public Markdown() {
+    }
+
+    public Markdown(String title, String message) {
+        this.title = title;
+        this.message = message;
+    }
 
     public String getTitle() {
         return title;

@@ -1,8 +1,5 @@
 package io.github.ealenxie.dingtalk;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.dingtalk.message.DingRobotMessage;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.config.SocketConfig;
@@ -43,11 +40,9 @@ public class DingRobotAPI {
     private static final Logger log = LoggerFactory.getLogger(DingRobotAPI.class);
     private static final HttpHeaders HEADERS;
     public static final RestTemplate REST_TEMPLATE;
-    public static final ObjectMapper OBJECTMapper;
+    private static final String DEFAULT_API_URL = "https://oapi.dingtalk.com/robot/send";
 
     static {
-        OBJECTMapper = new ObjectMapper();
-        OBJECTMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 钉钉请求头为 application/json
         HEADERS = new HttpHeaders();
         HEADERS.setContentType(MediaType.APPLICATION_JSON);
@@ -103,6 +98,17 @@ public class DingRobotAPI {
     /**
      * 调用钉钉机器人接口
      *
+     * @param message     钉钉机器人消息
+     * @param accessToken accessToken
+     * @param signKey     signKey
+     */
+    public static ResponseEntity<String> callDingRobot(DingRobotMessage message, String accessToken, String signKey) {
+        return callDingRobot(DEFAULT_API_URL, message, accessToken, signKey);
+    }
+
+    /**
+     * 调用钉钉机器人接口
+     *
      * @param url         接口URL
      * @param message     钉钉机器人消息
      * @param accessToken accessToken
@@ -110,17 +116,13 @@ public class DingRobotAPI {
      */
     public static ResponseEntity<String> callDingRobot(String url, DingRobotMessage message, String accessToken, String signKey) {
         try {
-            String body = OBJECTMapper.writeValueAsString(message);
-            HttpEntity<String> entity = new HttpEntity<>(body, HEADERS);
+            HttpEntity<DingRobotMessage> entity = new HttpEntity<>(message, HEADERS);
             long timeStamp = System.currentTimeMillis();
             String sign = sign(timeStamp, signKey);
-            ResponseEntity<String> stringResponseEntity = REST_TEMPLATE.postForEntity(url + "?access_token=" + accessToken + "&timestamp=" + timeStamp + "&sign=" + sign, entity, String.class);
-            log.info("钉钉消息发送调用完成,收到响应:{}", stringResponseEntity.getBody());
-            return stringResponseEntity;
+            return REST_TEMPLATE.postForEntity(url + "?access_token=" + accessToken + "&timestamp=" + timeStamp + "&sign=" + sign, entity, String.class);
         } catch (RestClientResponseException e) {
+            log.warn("钉钉消息发送调用失败,收到响应:{}", e.getResponseBodyAsString());
             return ResponseEntity.status(e.getRawStatusCode()).body(e.getResponseBodyAsString());
-        } catch (JsonProcessingException e) {
-            throw new UnsupportedOperationException(e);
         }
     }
 

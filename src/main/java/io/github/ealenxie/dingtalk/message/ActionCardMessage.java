@@ -12,6 +12,13 @@ public class ActionCardMessage extends DingRobotMessage {
         return "actionCard";
     }
 
+    public ActionCardMessage() {
+    }
+
+    public ActionCardMessage(ActionCard actionCard) {
+        this.actionCard = actionCard;
+    }
+
     private ActionCard actionCard;
 
     public ActionCard getActionCard() {

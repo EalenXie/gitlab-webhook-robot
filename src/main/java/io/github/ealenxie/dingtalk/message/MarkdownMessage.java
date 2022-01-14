@@ -14,6 +14,13 @@ public class MarkdownMessage extends DingRobotMessage {
 
     private Markdown markdown;
 
+    public MarkdownMessage() {
+    }
+
+    public MarkdownMessage(Markdown markdown) {
+        this.markdown = markdown;
+    }
+
     public Markdown getMarkdown() {
         return markdown;
     }

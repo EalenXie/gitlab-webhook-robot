@@ -9,6 +9,13 @@ public class FeedCard {
 
     private List<Link> links;
 
+    public FeedCard() {
+    }
+
+    public FeedCard(List<Link> links) {
+        this.links = links;
+    }
+
     public List<Link> getLinks() {
         return links;
     }

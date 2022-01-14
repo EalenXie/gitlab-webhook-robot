@@ -1,6 +1,8 @@
 package io.github.ealenxie.webhook;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.dingtalk.DingRobotAPI;
 import io.github.ealenxie.dingtalk.dto.ActionCard;
 import io.github.ealenxie.dingtalk.message.ActionCardMessage;
@@ -21,11 +23,11 @@ import javax.annotation.Resource;
  * 钉钉机器人处理 webhook事件
  */
 @Service
-public class DingRobotHandler implements WebHookHandler<JsonNode, ResponseEntity<String>> {
+public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, ResponseEntity<String>> {
 
     @Resource
     private DingRobotConfig dingRobotConfig;
-
+    public static final ObjectMapper OBJECTMapper;
     private static final String PUSH_HOOK = "Push Hook";
     private static final String PIPELINE_HOOK = "Pipeline Hook";
     private static final String MERGE_REQUEST_HOOK = "Merge Request Hook";
@@ -33,31 +35,36 @@ public class DingRobotHandler implements WebHookHandler<JsonNode, ResponseEntity
     private static final String STATUS_PENDING = "pending";
     private static final String ACTION_UPDATE = "update";
 
+    static {
+        OBJECTMapper = new ObjectMapper();
+        OBJECTMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
     @Override
     public ResponseEntity<String> handle(JsonNode body, String event) {
         switch (event) {
             case PUSH_HOOK:
-                PushHookVO pushHookVO = DingRobotAPI.OBJECTMapper.convertValue(body, PushHookVO.class);
+                PushHookVO pushHookVO = OBJECTMapper.convertValue(body, PushHookVO.class);
                 if (!pushHookVO.getCommits().isEmpty()) {
                     return callDingRobotActionCard(pushHookVO);
                 }
                 break;
             case PIPELINE_HOOK:
-                PipelineHookVO pipelineHookVO = DingRobotAPI.OBJECTMapper.convertValue(body, PipelineHookVO.class);
+                PipelineHookVO pipelineHookVO = OBJECTMapper.convertValue(body, PipelineHookVO.class);
                 ObjectAttributesVO objectAttributes = pipelineHookVO.getObjectAttributes();
                 if (objectAttributes != null && !STATUS_PENDING.equals(objectAttributes.getStatus())) {
                     return callDingRobotActionCard(pipelineHookVO);
                 }
                 break;
             case MERGE_REQUEST_HOOK:
-                MergeRequestHookVO mergeRequestHookVO = DingRobotAPI.OBJECTMapper.convertValue(body, MergeRequestHookVO.class);
+                MergeRequestHookVO mergeRequestHookVO = OBJECTMapper.convertValue(body, MergeRequestHookVO.class);
                 String action = mergeRequestHookVO.getObjectAttributes().getAction();
                 if (action != null && !ACTION_UPDATE.equals(action)) {
                     return callDingRobotActionCard(mergeRequestHookVO);
                 }
                 break;
             case ISSUE_HOOK:
-                IssueHookVO issueHookVO = DingRobotAPI.OBJECTMapper.convertValue(body, IssueHookVO.class);
+                IssueHookVO issueHookVO = OBJECTMapper.convertValue(body, IssueHookVO.class);
                 String issueAction = issueHookVO.getObjectAttributes().getAction();
                 if (!ACTION_UPDATE.equals(issueAction)) {
                     return callDingRobotActionCard(issueHookVO);
@@ -71,13 +78,12 @@ public class DingRobotHandler implements WebHookHandler<JsonNode, ResponseEntity
 
 
     private ResponseEntity<String> callDingRobotActionCard(DingRobotActionCard dto) {
-        ActionCardMessage actionCardMessage = new ActionCardMessage();
         ActionCard actionCard = new ActionCard();
         actionCard.setTitle(dto.getTitle());
         actionCard.setText(dto.getText());
         actionCard.setBtnOrientation(dto.getBtnOrientation());
         actionCard.setBtnList(dto.getBtnList());
-        actionCardMessage.setActionCard(actionCard);
+        ActionCardMessage actionCardMessage = new ActionCardMessage(actionCard);
         return DingRobotAPI.callDingRobot(dingRobotConfig.getUrl(), actionCardMessage, dingRobotConfig.getAccessToken(), dingRobotConfig.getSignKey());
     }
 }
