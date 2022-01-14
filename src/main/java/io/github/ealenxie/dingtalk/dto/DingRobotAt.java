@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/10/25 11:42
  */
-public class DingTalkAt {
+public class DingRobotAt {
 
     private List<String> atMobiles;
 
