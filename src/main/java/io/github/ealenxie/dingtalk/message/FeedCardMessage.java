@@ -1,5 +1,6 @@
 package io.github.ealenxie.dingtalk.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.dingtalk.dto.FeedCard;
 
 /**
@@ -7,9 +8,11 @@ import io.github.ealenxie.dingtalk.dto.FeedCard;
  */
 public class FeedCardMessage extends DingRobotMessage {
 
-    @Override
+    @JsonProperty("msgtype")
+    private String msgType = "feedCard";
+
     public String getMsgType() {
-        return "feedCard";
+        return msgType;
     }
 
     private FeedCard feedCard;

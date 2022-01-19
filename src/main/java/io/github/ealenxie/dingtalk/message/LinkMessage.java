@@ -1,5 +1,6 @@
 package io.github.ealenxie.dingtalk.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.dingtalk.dto.Link;
 
 /**
@@ -7,9 +8,12 @@ import io.github.ealenxie.dingtalk.dto.Link;
  */
 public class LinkMessage extends DingRobotMessage {
 
-    @Override
+
+    @JsonProperty("msgtype")
+    private String msgType = "link";
+
     public String getMsgType() {
-        return "link";
+        return msgType;
     }
 
     public LinkMessage() {

@@ -1,6 +1,5 @@
 package io.github.ealenxie.dingtalk.message;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.dingtalk.dto.DingRobotAt;
 
 /**
@@ -8,12 +7,7 @@ import io.github.ealenxie.dingtalk.dto.DingRobotAt;
  */
 public abstract class DingRobotMessage {
 
-    @JsonProperty("msgtype")
-    private String msgType;
-
     private DingRobotAt at;
-
-    public abstract String getMsgType();
 
     public DingRobotAt getAt() {
         return at;

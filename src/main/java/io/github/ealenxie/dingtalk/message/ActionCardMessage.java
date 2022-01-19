@@ -1,5 +1,6 @@
 package io.github.ealenxie.dingtalk.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.dingtalk.dto.ActionCard;
 
 /**
@@ -7,10 +8,13 @@ import io.github.ealenxie.dingtalk.dto.ActionCard;
  */
 public class ActionCardMessage extends DingRobotMessage {
 
-    @Override
+    @JsonProperty("msgtype")
+    private String msgType = "actionCard";
+
     public String getMsgType() {
-        return "actionCard";
+        return msgType;
     }
+
 
     public ActionCardMessage() {
     }

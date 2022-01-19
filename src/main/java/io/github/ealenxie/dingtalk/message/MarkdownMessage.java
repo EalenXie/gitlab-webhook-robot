@@ -1,5 +1,6 @@
 package io.github.ealenxie.dingtalk.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.dingtalk.dto.Markdown;
 
 /**
@@ -7,9 +8,12 @@ import io.github.ealenxie.dingtalk.dto.Markdown;
  */
 public class MarkdownMessage extends DingRobotMessage {
 
-    @Override
+
+    @JsonProperty("msgtype")
+    private String msgType = "markdown";
+
     public String getMsgType() {
-        return "markdown";
+        return msgType;
     }
 
     private Markdown markdown;
