@@ -44,6 +44,7 @@ ding:
 - [x] Pipeline Hook
 - [x] Merge Request Hook
 - [x] Issue Hook
+- [x] Releases Hook
 - 目前暂未实现的事件
 - [ ] Tag Push Hook
 - [ ] Confidential Issue Hook
@@ -53,4 +54,3 @@ ding:
 - [ ] Wiki Page Hook
 - [ ] Deployment Hook
 - [ ] Feature Flag Hook
-- [ ] Releases Hook 

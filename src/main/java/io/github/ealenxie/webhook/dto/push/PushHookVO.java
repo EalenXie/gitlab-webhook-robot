@@ -33,6 +33,7 @@ public class PushHookVO implements HookVO, DingRobotActionCard {
     @JsonProperty("user_avatar")
     private String userAvatar;
     @JsonProperty("project_id")
+
     private Long projectId;
     private ProjectVO project;
     private List<CommitVO> commits;

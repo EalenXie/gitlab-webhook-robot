@@ -13,6 +13,7 @@ import io.github.ealenxie.webhook.dto.issue.IssueHookVO;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHookVO;
 import io.github.ealenxie.webhook.dto.pipeline.PipelineHookVO;
 import io.github.ealenxie.webhook.dto.push.PushHookVO;
+import io.github.ealenxie.webhook.dto.release.ReleaseHookVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     private static final String PIPELINE_HOOK = "Pipeline Hook";
     private static final String MERGE_REQUEST_HOOK = "Merge Request Hook";
     private static final String ISSUE_HOOK = "Issue Hook";
+    private static final String RELEASE_HOOK = "Release Hook";
     private static final String STATUS_PENDING = "pending";
     private static final String ACTION_UPDATE = "update";
 
@@ -68,6 +70,13 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
                 String issueAction = issueHookVO.getObjectAttributes().getAction();
                 if (!ACTION_UPDATE.equals(issueAction)) {
                     return callDingRobotActionCard(issueHookVO);
+                }
+                break;
+            case RELEASE_HOOK:
+                ReleaseHookVO releaseHookVO = OBJECTMapper.convertValue(body, ReleaseHookVO.class);
+                String releaseAction = releaseHookVO.getAction();
+                if (!ACTION_UPDATE.equals(releaseAction)) {
+                    return callDingRobotActionCard(releaseHookVO);
                 }
                 break;
             default:

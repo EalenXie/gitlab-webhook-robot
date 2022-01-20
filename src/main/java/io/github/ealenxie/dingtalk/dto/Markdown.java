@@ -7,14 +7,14 @@ public class Markdown {
 
     private String title;
 
-    private String message;
+    private String text;
 
     public Markdown() {
     }
 
-    public Markdown(String title, String message) {
+    public Markdown(String title, String text) {
         this.title = title;
-        this.message = message;
+        this.text = text;
     }
 
     public String getTitle() {
@@ -25,11 +25,11 @@ public class Markdown {
         this.title = title;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String text) {
+        this.text = text;
     }
 }
