@@ -189,12 +189,12 @@ public class PushHookVO implements HookVO, DingRobotActionCard {
         StringBuilder sb = new StringBuilder();
         String[] refSplit = ref.split("/");
         String branch = refSplit[refSplit.length - 1];
-        sb.append("[[").append(project.getName()).append(":").append(branch).append("]](").append(project.getWebUrl()).append("/-/tree/").append(branch).append(") ");
+        sb.append(String.format("[[%s:%s]](%s/-/tree/%s) ", project.getName(), branch, project.getWebUrl(), branch));
         String c = commits.size() > 1 ? "commits" : "commit";
-        sb.append("<font color='#000000'>");
-        sb.append(eventName).append(" ").append(totalCommitsCount).append(" new ").append(c).append(" by \uD83D\uDE00 ").append("[").append(userUsername).append("](").append(getUserHomePage(project.getWebUrl(), userUsername)).append(")").append("</font>\n\n");
+        String user = String.format("[%s](%s)", userUsername, getUserHomePage(project.getWebUrl(), userUsername));
+        sb.append(String.format("<font color='#000000'>%s %s new %s by \uD83D\uDE00 %s </font>%n%n", eventName, totalCommitsCount, c, user));
         for (CommitVO vo : commits) {
-            sb.append("- ").append("[").append(vo.getId(), 0, 8).append("]").append("(").append(vo.getUrl()).append(")").append(" ").append(vo.getAuthor().getName()).append(" - ").append(vo.getTitle()).append("\n");
+            sb.append(String.format("- [%s](%s) %s - %s%n",vo.getId().substring(0,8),vo.getUrl(),vo.getAuthor().getName(),vo.getTitle()));
         }
         return sb.toString();
     }

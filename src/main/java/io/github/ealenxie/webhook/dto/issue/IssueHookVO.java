@@ -94,8 +94,8 @@ public class IssueHookVO implements HookVO, DingRobotActionCard {
     @Override
     public String getText() {
         StringBuilder sb = new StringBuilder();
-        String projectUrl = "[" + getProject().getName() + "](" + project.getWebUrl() + ")";
-        String issue = "[#" + objectAttributes.getId() + "](" + objectAttributes.getUrl() + ")";
+        String projectUrl = String.format("[%s](%s)", getProject().getName(), project.getWebUrl());
+        String issue = String.format("[#%s](%s)", objectAttributes.getId(), objectAttributes.getUrl());
         String emoji = "";
         String titleEmoji = "";
         if (objectAttributes.getState().equals("opened")) {
@@ -105,9 +105,8 @@ public class IssueHookVO implements HookVO, DingRobotActionCard {
             titleEmoji = "\uD83D\uDFE2";
             emoji = "✌️";
         }
-        sb.append("#### ").append(titleEmoji).append(projectUrl).append(" **").append(objectAttributes.getTitle()).append("** \n");
-        sb.append("<font color='#000000' >").append("The Issue [").append(issue).append("] ").append(objectAttributes.getState()).append(emoji).append(" by [").append(user.getUsername()).append("](").append(getUserHomePage(project.getWebUrl(), user.getUsername())).append(") </font> \n");
-        sb.append(">").append(objectAttributes.getDescription());
+        sb.append(String.format("#### %s%s **%s** %n", titleEmoji, projectUrl, objectAttributes.getTitle()));
+        sb.append(String.format("<font color='#000000'>The Issue [%s] %s%s by [%s](%s) </font> %n>%s", issue, objectAttributes.getState(), emoji, user.getUsername(), getUserHomePage(project.getWebUrl(), user.getUsername()), objectAttributes.getDescription()));
         return sb.toString();
     }
 

@@ -87,7 +87,6 @@ public class PipelineHookVO implements DingRobotActionCard {
     }
 
 
-
     @Override
     public String getTitle() {
         return getObjectKind();
@@ -99,26 +98,28 @@ public class PipelineHookVO implements DingRobotActionCard {
         StringBuilder sb = new StringBuilder();
         if (objectAttributes != null) {
             String status = objectAttributes.getStatus();
-            String pipeline = objectKind+ "[#" + objectAttributes.getId() + " \uD83D\uDE80](" + project.getWebUrl() + "/-/pipelines/" + objectAttributes.getId() + ")";
-            sb.append("[").append("[").append(project.getName()).append(":").append(objectAttributes.getRef()).append("]").append("](").append(project.getWebUrl()).append("/-/tree/").append(objectAttributes.getRef()).append(") ")
-                    .append("<font color='#000000'>").append(pipeline).append(" ").append(status).append("</font>")
-                    .append("\n\n");
+            String pipeline = String.format("%s [#%s \uD83D\uDE80](%s/-/pipelines/%s)", objectKind, objectAttributes.getId(), project.getWebUrl(), objectAttributes.getId());
+            sb.append(String.format("[[%s:%s]](%s/-/tree/%s) <font color='#000000'>%s %s</font>%n%n", project.getName(), objectAttributes.getRef(), project.getWebUrl(), getObjectAttributes().getRef(), pipeline, status));
             if (!"running".equals(status)) {
                 int totalTime = (int) (objectAttributes.getDuration() + objectAttributes.getQueuedDuration());
-                sb.append(">[").append(commit.getId(), 0, 8).append("]")
-                        .append("(").append(commit.getUrl()).append(") ")
-                        .append(commit.getAuthor().getName()).append(" - ").append(commit.getTitle());
-                sb.append("</font>\n\n");
+                sb.append(String.format(">[%s](%s) %s - %s%n%n", commit.getId().substring(0, 8), commit.getUrl(), commit.getAuthor().getName(), commit.getTitle()));
+                String statusEmoji = "";
+                String statusColor = "";
                 if (Objects.equals(status, "success")) {
-                    sb.append("✅").append(pipeline).append(" : ").append("<font color='#00b140'>").append(objectAttributes.getDetailedStatus()).append("</font>");
+                    statusEmoji = "✅";
+                    statusColor = "#00b140";
                 } else if (Objects.equals(status, "failed")) {
-                    sb.append("❌").append(pipeline).append(" : ").append("<font color='#ff0000'>").append(objectAttributes.getDetailedStatus()).append("</font>");
+                    statusEmoji = "❌";
+                    statusColor = "#ff0000";
+
                 } else if (Objects.equals(status, "canceled")) {
-                    sb.append("⏹️").append(pipeline).append(" : ").append("<font color='#FFDAC8'>").append(objectAttributes.getDetailedStatus()).append("</font>");
+                    statusEmoji = "⏹️";
+                    statusColor = "#FFDAC8";
                 } else if (Objects.equals(status, "skipped")) {
-                    sb.append("⏭️").append(pipeline).append(" : ").append("<font color='#8E8E8E'>").append(objectAttributes.getDetailedStatus()).append("</font>");
+                    statusEmoji = "⏭️";
+                    statusColor = "#8E8E8E";
                 }
-                sb.append(" ").append("\uD83D\uDD57").append(totalTime).append("s").append("\n\n");
+                sb.append(String.format("%s%s : <font color='%s'>%s</font> \uD83D\uDD57 %ss%n%n", statusEmoji, pipeline, statusColor, objectAttributes.getDetailedStatus(), totalTime));
                 Collections.sort(builds);
                 for (BuildVO build : builds) {
                     String costTime = String.valueOf(build.getDuration());
@@ -137,10 +138,7 @@ public class PipelineHookVO implements DingRobotActionCard {
                         color = "#8E8E8E";
                         emoji = "⏭️";
                     }
-                    sb.append(">").append(emoji).append(" ");
-                    sb.append("[").append(build.getStage()).append("]").append("(").append(project.getWebUrl()).append("/-/jobs/").append(build.getId()).append(")").append(" : ");
-                    sb.append("<font color='").append(color).append("'>").append(build.getStatus()).append("</font> ");
-                    sb.append("\uD83D\uDD57").append(costTime).append("s").append("\n\n");
+                    sb.append(String.format(">%s [%s](%s/-/jobs/%s) : <font color='%s'>%s</font> \uD83D\uDD57%ss%n%n", emoji, build.getStage(), project.getWebUrl(), build.getId(), color, build.getStatus(), costTime));
                 }
             }
         }

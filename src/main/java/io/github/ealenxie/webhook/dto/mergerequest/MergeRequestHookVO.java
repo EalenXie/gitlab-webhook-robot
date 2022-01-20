@@ -92,21 +92,23 @@ public class MergeRequestHookVO implements HookVO, DingRobotActionCard {
     @Override
     public String getText() {
         StringBuilder sb = new StringBuilder();
-        sb.append("<font color='#000000'>");
-        sb.append("[[").append(project.getName()).append("]](").append(project.getWebUrl()).append(") ");
-        String source = "[" + objectAttributes.getSourceBranch() + "](" + project.getWebUrl() + "/-/tree/" + objectAttributes.getSourceBranch() + ")";
-        String target = "[" + objectAttributes.getTargetBranch() + "](" + project.getWebUrl() + "/-/tree/" + objectAttributes.getTargetBranch() + ")";
-        sb.append("[").append(user.getUsername()).append("](").append(getUserHomePage(project.getWebUrl(), user.getUsername())).append(") ").append(objectAttributes.getState()).append(" ").append(objectKind).append(" [#").append(objectAttributes.getId()).append("](").append(objectAttributes.getUrl()).append(")(").append(objectAttributes.getTitle()).append(")</font>\n\n");
+        String p = String.format("[[%s](%s)]", project.getName(), project.getWebUrl());
+        String sources = String.format("[%s](%s/-/tree/%s)", objectAttributes.getSourceBranch(), project.getWebUrl(), objectAttributes.getSourceBranch());
+        String targets = String.format("[%s](%s/-/tree/%s)", objectAttributes.getTargetBranch(), project.getWebUrl(), objectAttributes.getTargetBranch());
+        String u = String.format("[%s](%s)", user.getUsername(), getUserHomePage(project.getWebUrl(), user.getUsername()));
+        String merge = String.format(" [#%s](%s)(%s)", objectAttributes.getId(), objectAttributes.getUrl(), objectAttributes.getTitle());
+        sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), objectKind, merge));
         switch (objectAttributes.getState()) {
             case "opened":
-                sb.append(" \uD83D\uDE00 ").append(user.getUsername()).append(" wants to merge  ").append(source).append("➔➔").append(target).append("\n");
-                sb.append(">[").append(objectAttributes.getLastCommit().getId(), 0, 8).append("]").append("(").append(objectAttributes.getLastCommit().getUrl()).append(")").append(" ").append(objectAttributes.getLastCommit().getAuthor().getName()).append(" - ").append(objectAttributes.getLastCommit().getMessage()).append("\n");
+                sb.append(String.format("%s %s  wants to merge %s ➔➔ %s %n", " \uD83D\uDE00 ", user.getUsername(), sources, targets));
+                String c = String.format(" %s - %s%n", objectAttributes.getLastCommit().getAuthor().getName(), objectAttributes.getLastCommit().getMessage());
+                sb.append(">[").append(objectAttributes.getLastCommit().getId(), 0, 8).append("]").append("(").append(objectAttributes.getLastCommit().getUrl()).append(")").append(c);
                 break;
             case "merged":
-                sb.append(" \uD83D\uDE00 ").append(user.getUsername()).append(" has completed the merge ").append(source).append("➔➔").append(target).append("✔️\n");
+                sb.append(String.format(" \uD83D\uDE00 %s has completed the merge %s➔➔%s✔️%n", user.getUsername(), sources, targets));
                 break;
             case "closed":
-                sb.append(" \uD83D\uDE36 ").append(user.getUsername()).append(" has closed the merge ").append(source).append("➔➔").append(target).append("\uD83D\uDEAB \n");
+                sb.append(String.format(" \uD83D\uDE36 %s has closed the merge %s➔➔%s\uD83D\uDEAB %n", user.getUsername(), sources, targets));
                 break;
             default:
                 break;
