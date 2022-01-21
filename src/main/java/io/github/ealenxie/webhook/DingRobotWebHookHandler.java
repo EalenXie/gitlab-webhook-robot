@@ -11,6 +11,7 @@ import io.github.ealenxie.webhook.dto.DingRobotActionCard;
 import io.github.ealenxie.webhook.dto.ObjectAttributesVO;
 import io.github.ealenxie.webhook.dto.issue.IssueHookVO;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHookVO;
+import io.github.ealenxie.webhook.dto.note.NoteHookVO;
 import io.github.ealenxie.webhook.dto.pipeline.PipelineHookVO;
 import io.github.ealenxie.webhook.dto.push.PushHookVO;
 import io.github.ealenxie.webhook.dto.release.ReleaseHookVO;
@@ -34,6 +35,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     private static final String MERGE_REQUEST_HOOK = "Merge Request Hook";
     private static final String ISSUE_HOOK = "Issue Hook";
     private static final String RELEASE_HOOK = "Release Hook";
+    private static final String NOTE_HOOK = "Note Hook";
     private static final String STATUS_PENDING = "pending";
     private static final String ACTION_UPDATE = "update";
 
@@ -79,6 +81,9 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
                     return callDingRobotActionCard(releaseHookVO);
                 }
                 break;
+            case NOTE_HOOK:
+                NoteHookVO noteHookVO = OBJECTMapper.convertValue(body, NoteHookVO.class);
+                return callDingRobotActionCard(noteHookVO);
             default:
                 return ResponseEntity.ok().body(null);
         }

@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/20 9:57
  */
-public class ReleaseHookVO implements HookVO, DingRobotActionCard {
+public class ReleaseHookVO implements DingRobotActionCard {
 
     private String id;
     @JsonProperty("created_at")

@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2021/12/10 10:12
  */
-public class MergeRequestHookVO implements HookVO, DingRobotActionCard {
+public class MergeRequestHookVO implements DingRobotActionCard {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -92,10 +92,10 @@ public class MergeRequestHookVO implements HookVO, DingRobotActionCard {
     @Override
     public String getText() {
         StringBuilder sb = new StringBuilder();
-        String p = String.format("[[%s](%s)]", project.getName(), project.getWebUrl());
+        String p = String.format("[[%s]](%s)", project.getName(), project.getWebUrl());
         String sources = String.format("[%s](%s/-/tree/%s)", objectAttributes.getSourceBranch(), project.getWebUrl(), objectAttributes.getSourceBranch());
         String targets = String.format("[%s](%s/-/tree/%s)", objectAttributes.getTargetBranch(), project.getWebUrl(), objectAttributes.getTargetBranch());
-        String u = String.format("[%s](%s)", user.getUsername(), getUserHomePage(project.getWebUrl(), user.getUsername()));
+        String u = String.format("[%s](%s)", user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()));
         String merge = String.format(" [#%s](%s)(%s)", objectAttributes.getId(), objectAttributes.getUrl(), objectAttributes.getTitle());
         sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), objectKind, merge));
         switch (objectAttributes.getState()) {

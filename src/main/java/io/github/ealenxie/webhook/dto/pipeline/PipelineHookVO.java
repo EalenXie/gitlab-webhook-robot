@@ -111,7 +111,6 @@ public class PipelineHookVO implements DingRobotActionCard {
                 } else if (Objects.equals(status, "failed")) {
                     statusEmoji = "❌";
                     statusColor = "#ff0000";
-
                 } else if (Objects.equals(status, "canceled")) {
                     statusEmoji = "⏹️";
                     statusColor = "#FFDAC8";
@@ -122,7 +121,7 @@ public class PipelineHookVO implements DingRobotActionCard {
                 sb.append(String.format("%s%s : <font color='%s'>%s</font> \uD83D\uDD57 %ss%n%n", statusEmoji, pipeline, statusColor, objectAttributes.getDetailedStatus(), totalTime));
                 Collections.sort(builds);
                 for (BuildVO build : builds) {
-                    String costTime = String.valueOf(build.getDuration());
+                    String costTime = String.format("%.0f", build.getDuration());
                     String color = "";
                     String emoji = "";
                     if (Objects.equals(build.getStatus(), "success")) {
