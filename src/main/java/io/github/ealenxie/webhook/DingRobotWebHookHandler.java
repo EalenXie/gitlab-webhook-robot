@@ -15,6 +15,7 @@ import io.github.ealenxie.webhook.dto.note.NoteHookVO;
 import io.github.ealenxie.webhook.dto.pipeline.PipelineHookVO;
 import io.github.ealenxie.webhook.dto.push.PushHookVO;
 import io.github.ealenxie.webhook.dto.release.ReleaseHookVO;
+import io.github.ealenxie.webhook.dto.tag.TagHookVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     private static final String ISSUE_HOOK = "Issue Hook";
     private static final String RELEASE_HOOK = "Release Hook";
     private static final String NOTE_HOOK = "Note Hook";
-    private static final String STATUS_PENDING = "pending";
+    private static final String TAG_PUSH_HOOK = "Tag Push Hook";
     private static final String ACTION_UPDATE = "update";
 
     static {
@@ -56,7 +57,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
             case PIPELINE_HOOK:
                 PipelineHookVO pipelineHookVO = OBJECTMapper.convertValue(body, PipelineHookVO.class);
                 ObjectAttributesVO objectAttributes = pipelineHookVO.getObjectAttributes();
-                if (objectAttributes != null && !STATUS_PENDING.equals(objectAttributes.getStatus())) {
+                if (objectAttributes != null && !"pending".equals(objectAttributes.getStatus())) {
                     return callDingRobotActionCard(pipelineHookVO);
                 }
                 break;
@@ -84,6 +85,12 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
             case NOTE_HOOK:
                 NoteHookVO noteHookVO = OBJECTMapper.convertValue(body, NoteHookVO.class);
                 return callDingRobotActionCard(noteHookVO);
+            case TAG_PUSH_HOOK:
+                TagHookVO tagHookVO = OBJECTMapper.convertValue(body, TagHookVO.class);
+                if ("tag_push".equals(tagHookVO.getObjectKind())) {
+                    return callDingRobotActionCard(tagHookVO);
+                }
+                break;
             default:
                 return ResponseEntity.ok().body(null);
         }

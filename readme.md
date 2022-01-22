@@ -46,8 +46,8 @@ ding:
 - [x] Issue Hook
 - [x] Releases Hook
 - [x] Note Hook
+- [x] Tag Push Hook
 - 目前暂未实现的事件
-- [ ] Tag Push Hook
 - [ ] Confidential Issue Hook
 - [ ] Confidential Note Hook
 - [ ] Job Hook
