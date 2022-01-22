@@ -3,7 +3,8 @@ package io.github.ealenxie.webhook.dto;
 /**
  * Created by EalenXie on 2021/12/1 10:00
  */
-public class ArtifactsFileVO {
+public class ArtifactsFile {
+
 
     private String filename;
 

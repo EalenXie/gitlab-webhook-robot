@@ -1,16 +1,14 @@
-package io.github.ealenxie.webhook.dto.push;
+package io.github.ealenxie.webhook.dto.tag;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.webhook.dto.*;
 
-
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by EalenXie on 2021/12/1 11:21
+ * Created by EalenXie on 2022/1/22 10:07
  */
-public class PushHookVO implements DingRobotActionCard {
+public class TagHook implements DingRobotActionCard {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -34,11 +32,12 @@ public class PushHookVO implements DingRobotActionCard {
     private String userAvatar;
     @JsonProperty("project_id")
     private Long projectId;
-    private ProjectVO project;
-    private List<CommitVO> commits;
+    private Project project;
+    private List<Commit> commits;
     @JsonProperty("total_commits_count")
     private Integer totalCommitsCount;
-    private RepositoryVO repository;
+    private Repository repository;
+
 
     public String getObjectKind() {
         return objectKind;
@@ -144,20 +143,28 @@ public class PushHookVO implements DingRobotActionCard {
         this.projectId = projectId;
     }
 
-    public ProjectVO getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(ProjectVO project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
-    public List<CommitVO> getCommits() {
+    public List<Commit> getCommits() {
         return commits;
     }
 
-    public void setCommits(List<CommitVO> commits) {
+    public void setCommits(List<Commit> commits) {
         this.commits = commits;
+    }
+
+    public Repository getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
     public Integer getTotalCommitsCount() {
@@ -168,15 +175,6 @@ public class PushHookVO implements DingRobotActionCard {
         this.totalCommitsCount = totalCommitsCount;
     }
 
-    public RepositoryVO getRepository() {
-        return repository;
-    }
-
-    public void setRepository(RepositoryVO repository) {
-        this.repository = repository;
-    }
-
-
     @Override
     public String getTitle() {
         return getObjectKind();
@@ -184,17 +182,11 @@ public class PushHookVO implements DingRobotActionCard {
 
     @Override
     public String getText() {
-        Collections.sort(commits);
-        StringBuilder sb = new StringBuilder();
         String[] refSplit = ref.split("/");
-        String branch = refSplit[refSplit.length - 1];
-        sb.append(String.format("[[%s:%s]](%s/-/tree/%s) ", project.getName(), branch, project.getWebUrl(), branch));
-        String c = commits.size() > 1 ? "commits" : "commit";
+        String tag = refSplit[refSplit.length - 1];
+        String t = String.format("[%s](%s/-/tree/%s)", tag, project.getWebUrl(), tag);
+        String p = String.format("[%s](%s)", project.getName(), project.getWebUrl());
         String user = String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
-        sb.append(String.format("<font color='#000000'>%s %s new %s by \uD83D\uDE00 %s </font>%n%n", eventName, totalCommitsCount, c, user));
-        for (CommitVO vo : commits) {
-            sb.append(String.format("- [%s](%s) %s - %s%n",vo.getId().substring(0,8),vo.getUrl(),vo.getAuthor().getName(),vo.getTitle()));
-        }
-        return sb.toString();
+        return String.format("%s push new tag(%s) by %s \uD83D\uDE80\uD83D\uDE80\uD83D\uDE80%n%n > %s", p, t, user, message);
     }
 }

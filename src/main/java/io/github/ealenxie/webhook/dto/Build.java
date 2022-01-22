@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Created by EalenXie on 2021/12/1 9:46
  */
-public class BuildVO implements Comparable<BuildVO> {
+public class Build implements Comparable<Build> {
 
     private Long id;
     private String stage;
@@ -30,10 +30,10 @@ public class BuildVO implements Comparable<BuildVO> {
     private Boolean manual;
     @JsonProperty("allow_failure")
     private Boolean allowFailure;
-    private UserVO user;
-    private RunnerVO runner;
+    private User user;
+    private Runner runner;
     @JsonProperty("artifacts_file")
-    private ArtifactsFileVO artifactFile;
+    private ArtifactsFile artifactFile;
     private String environment;
 
 
@@ -133,28 +133,27 @@ public class BuildVO implements Comparable<BuildVO> {
         this.allowFailure = allowFailure;
     }
 
-    public UserVO getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserVO user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-
-    public RunnerVO getRunner() {
+    public Runner getRunner() {
         return runner;
     }
 
-    public void setRunner(RunnerVO runner) {
+    public void setRunner(Runner runner) {
         this.runner = runner;
     }
 
-    public ArtifactsFileVO getArtifactFile() {
+    public ArtifactsFile getArtifactFile() {
         return artifactFile;
     }
 
-    public void setArtifactFile(ArtifactsFileVO artifactFile) {
+    public void setArtifactFile(ArtifactsFile artifactFile) {
         this.artifactFile = artifactFile;
     }
 
@@ -167,7 +166,7 @@ public class BuildVO implements Comparable<BuildVO> {
     }
 
     @Override
-    public int compareTo(BuildVO o) {
+    public int compareTo(Build o) {
         if (Objects.equals(id, o.id)) {
             return 0;
         }

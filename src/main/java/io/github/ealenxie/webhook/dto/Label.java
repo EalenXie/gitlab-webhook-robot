@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by EalenXie on 2021/12/16 14:39
  */
-public class LabelVO {
+public class Label {
 
     private Long id;
 

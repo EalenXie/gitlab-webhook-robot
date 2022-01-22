@@ -7,7 +7,8 @@ import java.util.Date;
 /**
  * Created by EalenXie on 2021/12/1 9:40
  */
-public class CommitVO implements Comparable<CommitVO> {
+public class Commit implements Comparable<Commit> {
+
 
     private String id;
 
@@ -20,7 +21,7 @@ public class CommitVO implements Comparable<CommitVO> {
 
     private String url;
 
-    private AuthorVO author;
+    private Author author;
 
     private String[] added;
 
@@ -68,11 +69,11 @@ public class CommitVO implements Comparable<CommitVO> {
         this.url = url;
     }
 
-    public AuthorVO getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorVO author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -101,7 +102,7 @@ public class CommitVO implements Comparable<CommitVO> {
     }
 
     @Override
-    public int compareTo(CommitVO o) {
+    public int compareTo(Commit o) {
         if (timestamp.after(o.timestamp)) {
             return -1;
         }

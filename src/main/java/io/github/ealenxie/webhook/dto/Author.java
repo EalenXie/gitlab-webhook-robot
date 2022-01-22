@@ -3,7 +3,8 @@ package io.github.ealenxie.webhook.dto;
 /**
  * Created by EalenXie on 2021/12/1 9:40
  */
-public class AuthorVO {
+public class Author {
+
 
     private String name;
 

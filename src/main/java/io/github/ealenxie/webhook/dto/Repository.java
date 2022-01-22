@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by EalenXie on 2021/12/1 11:35
  */
-public class RepositoryVO {
+public class Repository {
+
     private String name;
     private String url;
     private String homepage;

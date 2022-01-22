@@ -8,19 +8,21 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/16 14:15
  */
-public class IssueHookVO implements DingRobotActionCard {
+public class IssueHook implements DingRobotActionCard {
+
 
     @JsonProperty("object_kind")
     private String objectKind;
     @JsonProperty("event_type")
     private String eventType;
-    private UserVO user;
-    private ProjectVO project;
+    private User user;
+    private Project project;
     @JsonProperty("object_attributes")
-    private ObjectAttributesVO objectAttributes;
-    private List<LabelVO> labels;
-    private ChangesVO changes;
-    private RepositoryVO repository;
+    private ObjectAttributes objectAttributes;
+
+    private List<Label> labels;
+    private Changes changes;
+    private Repository repository;
 
     public String getObjectKind() {
         return objectKind;
@@ -38,51 +40,52 @@ public class IssueHookVO implements DingRobotActionCard {
         this.eventType = eventType;
     }
 
-    public UserVO getUser() {
-        return user;
-    }
 
-    public void setUser(UserVO user) {
-        this.user = user;
-    }
-
-    public ProjectVO getProject() {
-        return project;
-    }
-
-    public void setProject(ProjectVO project) {
-        this.project = project;
-    }
-
-    public ObjectAttributesVO getObjectAttributes() {
+    public ObjectAttributes getObjectAttributes() {
         return objectAttributes;
     }
 
-    public void setObjectAttributes(ObjectAttributesVO objectAttributes) {
+    public void setObjectAttributes(ObjectAttributes objectAttributes) {
         this.objectAttributes = objectAttributes;
     }
 
-    public List<LabelVO> getLabels() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public List<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(List<LabelVO> labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
     }
 
-    public ChangesVO getChanges() {
+    public Changes getChanges() {
         return changes;
     }
 
-    public void setChanges(ChangesVO changes) {
+    public void setChanges(Changes changes) {
         this.changes = changes;
     }
 
-    public RepositoryVO getRepository() {
+    public Repository getRepository() {
         return repository;
     }
 
-    public void setRepository(RepositoryVO repository) {
+    public void setRepository(Repository repository) {
         this.repository = repository;
     }
 

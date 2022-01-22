@@ -6,19 +6,20 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/21 15:51
  */
-public class NoteHookVO implements DingRobotActionCard {
+public class NoteHook implements DingRobotActionCard {
+
     @JsonProperty("object_kind")
     private String objectKind;
     @JsonProperty("event_type")
     private String eventType;
-    private UserVO user;
+    private User user;
     @JsonProperty("project_id")
     private Long projectId;
-    private ProjectVO project;
+    private Project project;
     @JsonProperty("object_attributes")
-    private ObjectAttributesVO objectAttributes;
-    private RepositoryVO repository;
-    private IssueVO issue;
+    private ObjectAttributes objectAttributes;
+    private Repository repository;
+    private Issue issue;
 
     public String getObjectKind() {
         return objectKind;
@@ -36,13 +37,6 @@ public class NoteHookVO implements DingRobotActionCard {
         this.eventType = eventType;
     }
 
-    public UserVO getUser() {
-        return user;
-    }
-
-    public void setUser(UserVO user) {
-        this.user = user;
-    }
 
     public Long getProjectId() {
         return projectId;
@@ -52,35 +46,44 @@ public class NoteHookVO implements DingRobotActionCard {
         this.projectId = projectId;
     }
 
-    public ProjectVO getProject() {
-        return project;
-    }
 
-    public void setProject(ProjectVO project) {
-        this.project = project;
-    }
-
-    public ObjectAttributesVO getObjectAttributes() {
+    public ObjectAttributes getObjectAttributes() {
         return objectAttributes;
     }
 
-    public void setObjectAttributes(ObjectAttributesVO objectAttributes) {
+    public void setObjectAttributes(ObjectAttributes objectAttributes) {
         this.objectAttributes = objectAttributes;
     }
 
-    public RepositoryVO getRepository() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Repository getRepository() {
         return repository;
     }
 
-    public void setRepository(RepositoryVO repository) {
+    public void setRepository(Repository repository) {
         this.repository = repository;
     }
 
-    public IssueVO getIssue() {
+    public Issue getIssue() {
         return issue;
     }
 
-    public void setIssue(IssueVO issue) {
+    public void setIssue(Issue issue) {
         this.issue = issue;
     }
 

@@ -5,13 +5,14 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/1/20 10:05
  */
-public class AssetsVO {
+public class Assets {
+
 
     private Integer count;
 
     private String[] links;
 
-    private List<SourceVO> sources;
+    private List<Source> sources;
 
     public Integer getCount() {
         return count;
@@ -29,11 +30,11 @@ public class AssetsVO {
         this.links = links;
     }
 
-    public List<SourceVO> getSources() {
+    public List<Source> getSources() {
         return sources;
     }
 
-    public void setSources(List<SourceVO> sources) {
+    public void setSources(List<Source> sources) {
         this.sources = sources;
     }
 }

@@ -7,7 +7,8 @@ import java.util.Map;
 /**
  * Created by EalenXie on 2021/12/10 10:43
  */
-public class ChangesVO {
+public class Changes {
+
 
     @JsonProperty("merge_status")
     private Map<String, Object> mergeStatus;

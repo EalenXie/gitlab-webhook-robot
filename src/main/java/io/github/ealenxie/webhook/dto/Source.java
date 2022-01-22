@@ -3,7 +3,7 @@ package io.github.ealenxie.webhook.dto;
 /**
  * Created by EalenXie on 2022/1/20 10:06
  */
-public class SourceVO {
+public class Source {
 
     private String format;
 

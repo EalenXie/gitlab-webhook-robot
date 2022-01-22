@@ -1,48 +1,56 @@
-package io.github.ealenxie.webhook.dto;
+package io.github.ealenxie.webhook.dto.mergerequest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.ealenxie.webhook.dto.Commit;
+import io.github.ealenxie.webhook.dto.Project;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * Created by EalenXie on 2022/1/21 16:13
+ * Created by EalenXie on 2021/12/1 9:25
  */
-public class IssueVO {
+public class ObjectAttributes {
+
+    @JsonProperty("assignee_id")
+    private Long assigneeId;
     @JsonProperty("author_id")
     private Long authorId;
-    @JsonProperty("closed_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private String closedAt;
-    private Boolean confidential;
     @JsonProperty("created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String createdAt;
     private String description;
-    @JsonProperty("discussion_locked")
-    private Boolean discussionLocked;
-    @JsonProperty("due_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
-    private String dueDate;
+    @JsonProperty("head_pipeline_id")
+    private Long headPipelineId;
     private Long id;
     private Long iid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("last_edited_at")
     private String lastEditedAt;
     @JsonProperty("last_edited_by_id")
     private Long lastEditedById;
+    @JsonProperty("merge_commit_sha")
+    private String mergeCommitSha;
+    @JsonProperty("merge_error")
+    private String mergeError;
+    @JsonProperty("merge_params")
+    private Map<String, Object> mergeParams;
+    @JsonProperty("merge_status")
+    private String mergeStatus;
+    @JsonProperty("merge_user_id")
+    private Long mergeUserId;
+    @JsonProperty("merge_when_pipeline_succeeds")
+    private Boolean mergeWhenPipelineSucceeds;
     @JsonProperty("milestone_id")
     private Long milestoneId;
-    @JsonProperty("moved_to_id")
-    private Long movedToId;
-    @JsonProperty("duplicated_to_id")
-    private Long duplicatedToId;
-    @JsonProperty("project_id")
-    private Long projectId;
-    @JsonProperty("relative_position")
-    private Integer relativePosition;
+    @JsonProperty("source_branch")
+    private String sourceBranch;
+    @JsonProperty("source_project_id")
+    private Long sourceProjectId;
     @JsonProperty("state_id")
     private Long stateId;
+    @JsonProperty("target_branch")
+    private String targetBranch;
+    @JsonProperty("target_project_id")
+    private String targetProjectId;
     @JsonProperty("time_estimate")
     private Integer timeEstimate;
     private String title;
@@ -51,8 +59,13 @@ public class IssueVO {
     private String updatedAt;
     @JsonProperty("updated_by_id")
     private Long updatedById;
-    private Double weight;
     private String url;
+    private Project source;
+    private Project target;
+    @JsonProperty("last_commit")
+    private Commit lastCommit;
+    @JsonProperty("work_in_progress")
+    private Boolean workInProgress;
     @JsonProperty("total_time_spent")
     private Integer totalTimeSpent;
     @JsonProperty("time_change")
@@ -65,13 +78,16 @@ public class IssueVO {
     private Integer humanTimeEstimate;
     @JsonProperty("assignee_ids")
     private Integer[] assigneeIds;
-    @JsonProperty("assignee_id")
-    private Long assigneeId;
     private String state;
     private String action;
-    private String severity;
-    private List<LabelVO> labels;
 
+    public Long getAssigneeId() {
+        return assigneeId;
+    }
+
+    public void setAssigneeId(Long assigneeId) {
+        this.assigneeId = assigneeId;
+    }
 
     public Long getAuthorId() {
         return authorId;
@@ -79,22 +95,6 @@ public class IssueVO {
 
     public void setAuthorId(Long authorId) {
         this.authorId = authorId;
-    }
-
-    public String getClosedAt() {
-        return closedAt;
-    }
-
-    public void setClosedAt(String closedAt) {
-        this.closedAt = closedAt;
-    }
-
-    public Boolean getConfidential() {
-        return confidential;
-    }
-
-    public void setConfidential(Boolean confidential) {
-        this.confidential = confidential;
     }
 
     public String getCreatedAt() {
@@ -113,20 +113,12 @@ public class IssueVO {
         this.description = description;
     }
 
-    public Boolean getDiscussionLocked() {
-        return discussionLocked;
+    public Long getHeadPipelineId() {
+        return headPipelineId;
     }
 
-    public void setDiscussionLocked(Boolean discussionLocked) {
-        this.discussionLocked = discussionLocked;
-    }
-
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setHeadPipelineId(Long headPipelineId) {
+        this.headPipelineId = headPipelineId;
     }
 
     public Long getId() {
@@ -161,6 +153,54 @@ public class IssueVO {
         this.lastEditedById = lastEditedById;
     }
 
+    public String getMergeCommitSha() {
+        return mergeCommitSha;
+    }
+
+    public void setMergeCommitSha(String mergeCommitSha) {
+        this.mergeCommitSha = mergeCommitSha;
+    }
+
+    public String getMergeError() {
+        return mergeError;
+    }
+
+    public void setMergeError(String mergeError) {
+        this.mergeError = mergeError;
+    }
+
+    public Map<String, Object> getMergeParams() {
+        return mergeParams;
+    }
+
+    public void setMergeParams(Map<String, Object> mergeParams) {
+        this.mergeParams = mergeParams;
+    }
+
+    public String getMergeStatus() {
+        return mergeStatus;
+    }
+
+    public void setMergeStatus(String mergeStatus) {
+        this.mergeStatus = mergeStatus;
+    }
+
+    public Long getMergeUserId() {
+        return mergeUserId;
+    }
+
+    public void setMergeUserId(Long mergeUserId) {
+        this.mergeUserId = mergeUserId;
+    }
+
+    public Boolean getMergeWhenPipelineSucceeds() {
+        return mergeWhenPipelineSucceeds;
+    }
+
+    public void setMergeWhenPipelineSucceeds(Boolean mergeWhenPipelineSucceeds) {
+        this.mergeWhenPipelineSucceeds = mergeWhenPipelineSucceeds;
+    }
+
     public Long getMilestoneId() {
         return milestoneId;
     }
@@ -169,36 +209,20 @@ public class IssueVO {
         this.milestoneId = milestoneId;
     }
 
-    public Long getMovedToId() {
-        return movedToId;
+    public String getSourceBranch() {
+        return sourceBranch;
     }
 
-    public void setMovedToId(Long movedToId) {
-        this.movedToId = movedToId;
+    public void setSourceBranch(String sourceBranch) {
+        this.sourceBranch = sourceBranch;
     }
 
-    public Long getDuplicatedToId() {
-        return duplicatedToId;
+    public Long getSourceProjectId() {
+        return sourceProjectId;
     }
 
-    public void setDuplicatedToId(Long duplicatedToId) {
-        this.duplicatedToId = duplicatedToId;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-
-    public Integer getRelativePosition() {
-        return relativePosition;
-    }
-
-    public void setRelativePosition(Integer relativePosition) {
-        this.relativePosition = relativePosition;
+    public void setSourceProjectId(Long sourceProjectId) {
+        this.sourceProjectId = sourceProjectId;
     }
 
     public Long getStateId() {
@@ -207,6 +231,22 @@ public class IssueVO {
 
     public void setStateId(Long stateId) {
         this.stateId = stateId;
+    }
+
+    public String getTargetBranch() {
+        return targetBranch;
+    }
+
+    public void setTargetBranch(String targetBranch) {
+        this.targetBranch = targetBranch;
+    }
+
+    public String getTargetProjectId() {
+        return targetProjectId;
+    }
+
+    public void setTargetProjectId(String targetProjectId) {
+        this.targetProjectId = targetProjectId;
     }
 
     public Integer getTimeEstimate() {
@@ -241,20 +281,44 @@ public class IssueVO {
         this.updatedById = updatedById;
     }
 
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Project getSource() {
+        return source;
+    }
+
+    public void setSource(Project source) {
+        this.source = source;
+    }
+
+    public Project getTarget() {
+        return target;
+    }
+
+    public void setTarget(Project target) {
+        this.target = target;
+    }
+
+    public Commit getLastCommit() {
+        return lastCommit;
+    }
+
+    public void setLastCommit(Commit lastCommit) {
+        this.lastCommit = lastCommit;
+    }
+
+    public Boolean getWorkInProgress() {
+        return workInProgress;
+    }
+
+    public void setWorkInProgress(Boolean workInProgress) {
+        this.workInProgress = workInProgress;
     }
 
     public Integer getTotalTimeSpent() {
@@ -305,14 +369,6 @@ public class IssueVO {
         this.assigneeIds = assigneeIds;
     }
 
-    public Long getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(Long assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
     public String getState() {
         return state;
     }
@@ -327,21 +383,5 @@ public class IssueVO {
 
     public void setAction(String action) {
         this.action = action;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
-    public List<LabelVO> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<LabelVO> labels) {
-        this.labels = labels;
     }
 }

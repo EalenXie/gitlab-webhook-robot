@@ -10,25 +10,25 @@ import java.util.Objects;
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
-public class PipelineHookVO implements DingRobotActionCard {
+public class PipelineHook implements DingRobotActionCard {
+
 
     @JsonProperty("object_kind")
     private String objectKind;
 
     @JsonProperty("object_attributes")
-    private ObjectAttributesVO objectAttributes;
+    private ObjectAttributes objectAttributes;
 
     @JsonProperty("merge_request")
     private String mergeRequest;
 
-    private UserVO user;
+    private User user;
 
-    private ProjectVO project;
+    private Project project;
 
-    private CommitVO commit;
+    private Commit commit;
 
-    private List<BuildVO> builds;
-
+    private List<Build> builds;
 
     public String getObjectKind() {
         return objectKind;
@@ -38,13 +38,6 @@ public class PipelineHookVO implements DingRobotActionCard {
         this.objectKind = objectKind;
     }
 
-    public ObjectAttributesVO getObjectAttributes() {
-        return objectAttributes;
-    }
-
-    public void setObjectAttributes(ObjectAttributesVO objectAttributes) {
-        this.objectAttributes = objectAttributes;
-    }
 
     public String getMergeRequest() {
         return mergeRequest;
@@ -54,35 +47,43 @@ public class PipelineHookVO implements DingRobotActionCard {
         this.mergeRequest = mergeRequest;
     }
 
-    public UserVO getUser() {
+    public ObjectAttributes getObjectAttributes() {
+        return objectAttributes;
+    }
+
+    public void setObjectAttributes(ObjectAttributes objectAttributes) {
+        this.objectAttributes = objectAttributes;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserVO user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public ProjectVO getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(ProjectVO project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
-    public CommitVO getCommit() {
+    public Commit getCommit() {
         return commit;
     }
 
-    public void setCommit(CommitVO commit) {
+    public void setCommit(Commit commit) {
         this.commit = commit;
     }
 
-    public List<BuildVO> getBuilds() {
+    public List<Build> getBuilds() {
         return builds;
     }
 
-    public void setBuilds(List<BuildVO> builds) {
+    public void setBuilds(List<Build> builds) {
         this.builds = builds;
     }
 
@@ -120,7 +121,7 @@ public class PipelineHookVO implements DingRobotActionCard {
                 }
                 sb.append(String.format("%s%s : <font color='%s'>%s</font> \uD83D\uDD57 %ss%n%n", statusEmoji, pipeline, statusColor, objectAttributes.getDetailedStatus(), totalTime));
                 Collections.sort(builds);
-                for (BuildVO build : builds) {
+                for (Build build : builds) {
                     String costTime = String.format("%.0f", build.getDuration());
                     String color = "";
                     String emoji = "";

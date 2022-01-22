@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by EalenXie on 2021/12/1 9:51
  */
-public class RunnerVO {
+public class Runner {
 
     private Long id;
 

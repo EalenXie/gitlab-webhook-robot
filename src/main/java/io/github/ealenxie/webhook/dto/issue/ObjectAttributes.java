@@ -2,14 +2,15 @@ package io.github.ealenxie.webhook.dto.issue;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.webhook.dto.LabelVO;
+import io.github.ealenxie.webhook.dto.Label;
 
 import java.util.List;
 
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
-public class ObjectAttributesVO {
+public class ObjectAttributes {
+
 
     @JsonProperty("author_id")
     private Long authorId;
@@ -72,7 +73,7 @@ public class ObjectAttributesVO {
     private String state;
     private String action;
     private String severity;
-    private List<LabelVO> labels;
+    private List<Label> labels;
 
 
     public Long getAuthorId() {
@@ -339,11 +340,11 @@ public class ObjectAttributesVO {
         this.severity = severity;
     }
 
-    public List<LabelVO> getLabels() {
+    public List<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(List<LabelVO> labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
     }
 }

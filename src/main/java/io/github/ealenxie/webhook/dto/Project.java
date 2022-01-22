@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by EalenXie on 2021/12/1 9:33
  */
-public class ProjectVO {
+public class Project {
 
     private Long id;
 

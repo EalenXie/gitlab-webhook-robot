@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
-public class ObjectAttributesVO {
+public class ObjectAttributes {
+
     private String attachment;
     @JsonProperty("author_id")
     private Long authorId;

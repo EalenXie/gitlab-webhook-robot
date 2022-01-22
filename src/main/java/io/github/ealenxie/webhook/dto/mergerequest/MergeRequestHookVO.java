@@ -12,13 +12,13 @@ public class MergeRequestHookVO implements DingRobotActionCard {
     private String objectKind;
     @JsonProperty("event_type")
     private String eventType;
-    private UserVO user;
-    private ProjectVO project;
+    private User user;
+    private Project project;
     @JsonProperty("object_attributes")
-    private ObjectAttributesVO objectAttributes;
+    private ObjectAttributes objectAttributes;
     private String[] labels;
-    private ChangesVO changes;
-    private RepositoryVO repository;
+    private Changes changes;
+    private Repository repository;
 
     public String getObjectKind() {
         return objectKind;
@@ -36,27 +36,12 @@ public class MergeRequestHookVO implements DingRobotActionCard {
         this.eventType = eventType;
     }
 
-    public UserVO getUser() {
-        return user;
-    }
 
-    public void setUser(UserVO user) {
-        this.user = user;
-    }
-
-    public ProjectVO getProject() {
-        return project;
-    }
-
-    public void setProject(ProjectVO project) {
-        this.project = project;
-    }
-
-    public ObjectAttributesVO getObjectAttributes() {
+    public ObjectAttributes getObjectAttributes() {
         return objectAttributes;
     }
 
-    public void setObjectAttributes(ObjectAttributesVO objectAttributes) {
+    public void setObjectAttributes(ObjectAttributes objectAttributes) {
         this.objectAttributes = objectAttributes;
     }
 
@@ -68,19 +53,35 @@ public class MergeRequestHookVO implements DingRobotActionCard {
         this.labels = labels;
     }
 
-    public ChangesVO getChanges() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Changes getChanges() {
         return changes;
     }
 
-    public void setChanges(ChangesVO changes) {
+    public void setChanges(Changes changes) {
         this.changes = changes;
     }
 
-    public RepositoryVO getRepository() {
+    public Repository getRepository() {
         return repository;
     }
 
-    public void setRepository(RepositoryVO repository) {
+    public void setRepository(Repository repository) {
         this.repository = repository;
     }
 

@@ -6,7 +6,8 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/20 9:57
  */
-public class ReleaseHookVO implements DingRobotActionCard {
+public class ReleaseHook implements DingRobotActionCard {
+
 
     private String id;
     @JsonProperty("created_at")
@@ -16,12 +17,11 @@ public class ReleaseHookVO implements DingRobotActionCard {
     private String name;
     private String tag;
     private String description;
-    private ProjectVO project;
+    private Project project;
     private String url;
     private String action;
-    private AssetsVO assets;
-    private CommitVO commit;
-
+    private Assets assets;
+    private Commit commit;
 
     public String getId() {
         return id;
@@ -71,13 +71,6 @@ public class ReleaseHookVO implements DingRobotActionCard {
         this.description = description;
     }
 
-    public ProjectVO getProject() {
-        return project;
-    }
-
-    public void setProject(ProjectVO project) {
-        this.project = project;
-    }
 
     public String getUrl() {
         return url;
@@ -95,19 +88,27 @@ public class ReleaseHookVO implements DingRobotActionCard {
         this.action = action;
     }
 
-    public CommitVO getCommit() {
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Commit getCommit() {
         return commit;
     }
 
-    public void setCommit(CommitVO commit) {
+    public void setCommit(Commit commit) {
         this.commit = commit;
     }
 
-    public AssetsVO getAssets() {
+    public Assets getAssets() {
         return assets;
     }
 
-    public void setAssets(AssetsVO assets) {
+    public void setAssets(Assets assets) {
         this.assets = assets;
     }
 
@@ -123,7 +124,7 @@ public class ReleaseHookVO implements DingRobotActionCard {
         StringBuilder context = new StringBuilder(head);
         context.append(description).append("\n\n");
         context.append("<font color='#000000'>Assets</font> \n");
-        for (SourceVO source : assets.getSources()) {
+        for (Source source : assets.getSources()) {
             context.append(String.format("> - [\uD83D\uDCC1 Source code (%s)](%s) %n", source.getFormat(), source.getUrl()));
         }
         return context.toString();

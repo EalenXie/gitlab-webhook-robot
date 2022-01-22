@@ -8,14 +8,14 @@ import io.github.ealenxie.dingtalk.dto.ActionCard;
 import io.github.ealenxie.dingtalk.message.ActionCardMessage;
 import io.github.ealenxie.webhook.conf.DingRobotConfig;
 import io.github.ealenxie.webhook.dto.DingRobotActionCard;
-import io.github.ealenxie.webhook.dto.ObjectAttributesVO;
-import io.github.ealenxie.webhook.dto.issue.IssueHookVO;
+import io.github.ealenxie.webhook.dto.ObjectAttributes;
+import io.github.ealenxie.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHookVO;
-import io.github.ealenxie.webhook.dto.note.NoteHookVO;
-import io.github.ealenxie.webhook.dto.pipeline.PipelineHookVO;
-import io.github.ealenxie.webhook.dto.push.PushHookVO;
-import io.github.ealenxie.webhook.dto.release.ReleaseHookVO;
-import io.github.ealenxie.webhook.dto.tag.TagHookVO;
+import io.github.ealenxie.webhook.dto.note.NoteHook;
+import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
+import io.github.ealenxie.webhook.dto.push.PushHook;
+import io.github.ealenxie.webhook.dto.release.ReleaseHook;
+import io.github.ealenxie.webhook.dto.tag.TagHook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -49,14 +49,14 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     public ResponseEntity<String> handle(JsonNode body, String event) {
         switch (event) {
             case PUSH_HOOK:
-                PushHookVO pushHookVO = OBJECTMapper.convertValue(body, PushHookVO.class);
+                PushHook pushHookVO = OBJECTMapper.convertValue(body, PushHook.class);
                 if (!pushHookVO.getCommits().isEmpty()) {
                     return callDingRobotActionCard(pushHookVO);
                 }
                 break;
             case PIPELINE_HOOK:
-                PipelineHookVO pipelineHookVO = OBJECTMapper.convertValue(body, PipelineHookVO.class);
-                ObjectAttributesVO objectAttributes = pipelineHookVO.getObjectAttributes();
+                PipelineHook pipelineHookVO = OBJECTMapper.convertValue(body, PipelineHook.class);
+                ObjectAttributes objectAttributes = pipelineHookVO.getObjectAttributes();
                 if (objectAttributes != null && !"pending".equals(objectAttributes.getStatus())) {
                     return callDingRobotActionCard(pipelineHookVO);
                 }
@@ -69,24 +69,24 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
                 }
                 break;
             case ISSUE_HOOK:
-                IssueHookVO issueHookVO = OBJECTMapper.convertValue(body, IssueHookVO.class);
+                IssueHook issueHookVO = OBJECTMapper.convertValue(body, IssueHook.class);
                 String issueAction = issueHookVO.getObjectAttributes().getAction();
                 if (!ACTION_UPDATE.equals(issueAction)) {
                     return callDingRobotActionCard(issueHookVO);
                 }
                 break;
             case RELEASE_HOOK:
-                ReleaseHookVO releaseHookVO = OBJECTMapper.convertValue(body, ReleaseHookVO.class);
+                ReleaseHook releaseHookVO = OBJECTMapper.convertValue(body, ReleaseHook.class);
                 String releaseAction = releaseHookVO.getAction();
                 if (!ACTION_UPDATE.equals(releaseAction)) {
                     return callDingRobotActionCard(releaseHookVO);
                 }
                 break;
             case NOTE_HOOK:
-                NoteHookVO noteHookVO = OBJECTMapper.convertValue(body, NoteHookVO.class);
+                NoteHook noteHookVO = OBJECTMapper.convertValue(body, NoteHook.class);
                 return callDingRobotActionCard(noteHookVO);
             case TAG_PUSH_HOOK:
-                TagHookVO tagHookVO = OBJECTMapper.convertValue(body, TagHookVO.class);
+                TagHook tagHookVO = OBJECTMapper.convertValue(body, TagHook.class);
                 if ("tag_push".equals(tagHookVO.getObjectKind())) {
                     return callDingRobotActionCard(tagHookVO);
                 }
