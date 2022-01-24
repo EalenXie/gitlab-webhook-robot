@@ -6,7 +6,8 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2021/12/10 10:12
  */
-public class MergeRequestHookVO implements DingRobotActionCard {
+public class MergeRequestHook implements DingRobotActionCard {
+
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -103,7 +104,7 @@ public class MergeRequestHookVO implements DingRobotActionCard {
             case "opened":
                 sb.append(String.format("%s %s  wants to merge %s ➔➔ %s %n", " \uD83D\uDE00 ", user.getUsername(), sources, targets));
                 String c = String.format(" %s - %s%n", objectAttributes.getLastCommit().getAuthor().getName(), objectAttributes.getLastCommit().getMessage());
-                sb.append(">[").append(objectAttributes.getLastCommit().getId(), 0, 8).append("]").append("(").append(objectAttributes.getLastCommit().getUrl()).append(")").append(c);
+                sb.append(String.format(">[%s](%s)%s", objectAttributes.getLastCommit().getId().substring(0, 8), objectAttributes.getLastCommit().getUrl(), c));
                 break;
             case "merged":
                 sb.append(String.format(" \uD83D\uDE00 %s has completed the merge %s➔➔%s✔️%n", user.getUsername(), sources, targets));

@@ -47,10 +47,10 @@ ding:
 - [x] Releases Hook
 - [x] Note Hook
 - [x] Tag Push Hook
+- [x] Job Hook
 - 目前暂未实现的事件
 - [ ] Confidential Issue Hook
 - [ ] Confidential Note Hook
-- [ ] Job Hook
 - [ ] Wiki Page Hook
 - [ ] Deployment Hook
 - [ ] Feature Flag Hook

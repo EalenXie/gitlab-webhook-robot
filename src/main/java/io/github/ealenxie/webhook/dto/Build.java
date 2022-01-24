@@ -1,6 +1,5 @@
 package io.github.ealenxie.webhook.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
@@ -15,13 +14,10 @@ public class Build implements Comparable<Build> {
     private String name;
     private String status;
     @JsonProperty("created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String createdAt;
     @JsonProperty("started_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String startedAt;
     @JsonProperty("finished_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String finishedAt;
     private Double duration;
     @JsonProperty("queued_duration")

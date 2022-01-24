@@ -10,7 +10,8 @@ import io.github.ealenxie.webhook.conf.DingRobotConfig;
 import io.github.ealenxie.webhook.dto.DingRobotActionCard;
 import io.github.ealenxie.webhook.dto.ObjectAttributes;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
-import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHookVO;
+import io.github.ealenxie.webhook.dto.job.JobHook;
+import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHook;
 import io.github.ealenxie.webhook.dto.note.NoteHook;
 import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
 import io.github.ealenxie.webhook.dto.push.PushHook;
@@ -37,6 +38,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     private static final String ISSUE_HOOK = "Issue Hook";
     private static final String RELEASE_HOOK = "Release Hook";
     private static final String NOTE_HOOK = "Note Hook";
+    private static final String JOB_HOOK = "Job Hook";
     private static final String TAG_PUSH_HOOK = "Tag Push Hook";
     private static final String ACTION_UPDATE = "update";
 
@@ -62,7 +64,7 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
                 }
                 break;
             case MERGE_REQUEST_HOOK:
-                MergeRequestHookVO mergeRequestHookVO = OBJECTMapper.convertValue(body, MergeRequestHookVO.class);
+                MergeRequestHook mergeRequestHookVO = OBJECTMapper.convertValue(body, MergeRequestHook.class);
                 String action = mergeRequestHookVO.getObjectAttributes().getAction();
                 if (action != null && !ACTION_UPDATE.equals(action)) {
                     return callDingRobotActionCard(mergeRequestHookVO);
@@ -91,6 +93,9 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
                     return callDingRobotActionCard(tagHookVO);
                 }
                 break;
+            case JOB_HOOK:
+                JobHook jobHook = OBJECTMapper.convertValue(body, JobHook.class);
+                return callDingRobotActionCard(jobHook);
             default:
                 return ResponseEntity.ok().body(null);
         }
