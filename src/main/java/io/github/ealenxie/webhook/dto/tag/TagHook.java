@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/1/22 10:07
  */
-public class TagHook implements DingRobotActionCard {
+public class TagHook implements DingRobotActionCard , DingRobotMarkdown{
 
     @JsonProperty("object_kind")
     private String objectKind;

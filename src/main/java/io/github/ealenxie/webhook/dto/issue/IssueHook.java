@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/16 14:15
  */
-public class IssueHook implements DingRobotActionCard {
+public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
 
 
     @JsonProperty("object_kind")

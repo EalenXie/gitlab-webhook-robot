@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2021/12/10 10:12
  */
-public class MergeRequestHook implements DingRobotActionCard {
+public class MergeRequestHook implements DingRobotActionCard , DingRobotMarkdown{
 
 
     @JsonProperty("object_kind")

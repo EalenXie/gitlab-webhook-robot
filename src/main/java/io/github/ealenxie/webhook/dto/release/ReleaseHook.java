@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/20 9:57
  */
-public class ReleaseHook implements DingRobotActionCard {
+public class ReleaseHook implements DingRobotActionCard , DingRobotMarkdown{
 
 
     private String id;

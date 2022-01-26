@@ -1,17 +1,14 @@
 package io.github.ealenxie.webhook.dto.job;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.webhook.dto.DingRobotActionCard;
-import io.github.ealenxie.webhook.dto.Repository;
-import io.github.ealenxie.webhook.dto.Runner;
-import io.github.ealenxie.webhook.dto.User;
+import io.github.ealenxie.webhook.dto.*;
 
 import java.util.Objects;
 
 /**
  * Created by EalenXie on 2022/1/24 13:14
  */
-public class JobHook implements DingRobotActionCard {
+public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
 
     @JsonProperty("object_kind")
     private String objectKind;

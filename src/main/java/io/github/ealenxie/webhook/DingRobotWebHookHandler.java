@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.dingtalk.DingRobotAPI;
-import io.github.ealenxie.dingtalk.dto.ActionCard;
-import io.github.ealenxie.dingtalk.message.ActionCardMessage;
+import io.github.ealenxie.dingtalk.dto.Markdown;
+import io.github.ealenxie.dingtalk.message.MarkdownMessage;
 import io.github.ealenxie.webhook.conf.DingRobotConfig;
-import io.github.ealenxie.webhook.dto.DingRobotActionCard;
+import io.github.ealenxie.webhook.dto.DingRobotMarkdown;
 import io.github.ealenxie.webhook.dto.ObjectAttributes;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.webhook.dto.job.JobHook;
@@ -103,13 +103,11 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     }
 
 
-    private ResponseEntity<String> callDingRobotActionCard(DingRobotActionCard dto) {
-        ActionCard actionCard = new ActionCard();
-        actionCard.setTitle(dto.getTitle());
-        actionCard.setText(dto.getText());
-        actionCard.setBtnOrientation(dto.getBtnOrientation());
-        actionCard.setBtnList(dto.getBtnList());
-        ActionCardMessage actionCardMessage = new ActionCardMessage(actionCard);
+    private ResponseEntity<String> callDingRobotActionCard(DingRobotMarkdown dto) {
+        Markdown markdown = new Markdown();
+        markdown.setTitle(dto.getTitle());
+        markdown.setText(dto.getText());
+        MarkdownMessage actionCardMessage = new MarkdownMessage(markdown);
         return DingRobotAPI.callDingRobot(dingRobotConfig.getUrl(), actionCardMessage, dingRobotConfig.getAccessToken(), dingRobotConfig.getSignKey());
     }
 }

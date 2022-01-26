@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/21 15:51
  */
-public class NoteHook implements DingRobotActionCard {
+public class NoteHook implements DingRobotActionCard , DingRobotMarkdown{
 
     @JsonProperty("object_kind")
     private String objectKind;

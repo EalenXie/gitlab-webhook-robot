@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/1 11:21
  */
-public class PushHook implements DingRobotActionCard {
+public class PushHook implements DingRobotActionCard , DingRobotMarkdown{
 
 
     @JsonProperty("object_kind")

@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
-public class PipelineHook implements DingRobotActionCard {
+public class PipelineHook implements DingRobotActionCard , DingRobotMarkdown{
 
 
     @JsonProperty("object_kind")
