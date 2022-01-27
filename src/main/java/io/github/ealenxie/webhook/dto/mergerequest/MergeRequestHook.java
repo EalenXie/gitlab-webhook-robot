@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2021/12/10 10:12
  */
-public class MergeRequestHook implements DingRobotActionCard , DingRobotMarkdown{
+public class MergeRequestHook implements DingRobotActionCard, DingRobotMarkdown {
 
 
     @JsonProperty("object_kind")
@@ -102,15 +102,15 @@ public class MergeRequestHook implements DingRobotActionCard , DingRobotMarkdown
         sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), objectKind, merge));
         switch (objectAttributes.getState()) {
             case "opened":
-                sb.append(String.format("%s %s  wants to merge %s ➔➔ %s %n", " \uD83D\uDE00 ", user.getUsername(), sources, targets));
+                sb.append(String.format("%s %s  wants to merge %s ➔➔ %s %n", new Emoji(" \uD83D\uDE00 "), user.getUsername(), sources, targets));
                 String c = String.format(" %s - %s%n", objectAttributes.getLastCommit().getAuthor().getName(), objectAttributes.getLastCommit().getMessage());
                 sb.append(String.format(">[%s](%s)%s", objectAttributes.getLastCommit().getId().substring(0, 8), objectAttributes.getLastCommit().getUrl(), c));
                 break;
             case "merged":
-                sb.append(String.format(" \uD83D\uDE00 %s has completed the merge %s➔➔%s✔️%n", user.getUsername(), sources, targets));
+                sb.append(String.format(" %s %s has completed the merge %s➔➔%s%s%n", new Emoji(" \uD83D\uDE00 "), user.getUsername(), sources, targets, new Emoji("✔️")));
                 break;
             case "closed":
-                sb.append(String.format(" \uD83D\uDE36 %s has closed the merge %s➔➔%s\uD83D\uDEAB %n", user.getUsername(), sources, targets));
+                sb.append(String.format(" %s %s has closed the merge %s➔➔%s%s %n", new Emoji(" \uD83D\uDE36 "), user.getUsername(), sources, targets, new Emoji("\uD83D\uDEAB")));
                 break;
             default:
                 break;

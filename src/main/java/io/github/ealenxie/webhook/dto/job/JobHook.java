@@ -245,22 +245,25 @@ public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
         String project = String.format("[[%s]](%s)", repository.getName(), repository.getHomepage());
         String pipeline = String.format("pipeline[#%s](%s/-/pipelines/%s)", pipelineId, repository.getHomepage(), pipelineId);
         String costTime = String.format("%.0f", getBuildDuration());
-        String emoji = "";
+        if (costTime.equals("")) {
+            costTime = "0";
+        }
+        Emoji emoji = new Emoji("");
         String color = "#000000";
         if (Objects.equals(buildStatus, "success")) {
             color = "#00b140";
-            emoji = "✔️";
+            emoji.setCode("✔️");
         } else if (Objects.equals(buildStatus, "failed")) {
             color = "#ff0000";
-            emoji = "❌";
+            emoji.setCode("❌");
         } else if (Objects.equals(buildStatus, "canceled")) {
             color = "#FFDAC8";
-            emoji = "⏹️";
+            emoji.setCode("⏹️");
         } else if (Objects.equals(buildStatus, "skipped")) {
             color = "#8E8E8E";
-            emoji = "⏭️";
+            emoji.setCode("⏭️");
         }
         String build = String.format("<font color='%s'> [%s](%s/-/jobs/%s) %s%s</font>", color, buildStage, repository.getHomepage(), buildId, buildStatus, emoji);
-        return String.format("<font color='#000000'>%s %s %s \uD83D\uDD57%ss</font>", project, pipeline, build, costTime);
+        return String.format("<font color='#000000'>%s %s %s %s%ss</font>", project, pipeline, build,new Emoji("\uD83D\uDD57"), costTime);
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/1/22 10:07
  */
-public class TagHook implements DingRobotActionCard , DingRobotMarkdown{
+public class TagHook implements DingRobotActionCard, DingRobotMarkdown {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -187,6 +187,6 @@ public class TagHook implements DingRobotActionCard , DingRobotMarkdown{
         String t = String.format("[%s](%s/-/tree/%s)", tag, project.getWebUrl(), tag);
         String p = String.format("[%s](%s)", project.getName(), project.getWebUrl());
         String user = String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
-        return String.format("%s push new tag(%s) by %s \uD83D\uDE80\uD83D\uDE80\uD83D\uDE80%n%n > %s", p, t, user, message);
+        return String.format("%s push new tag(%s) by %s %s%n%n > %s", p, t, user, new Emoji("\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80"), message);
     }
 }

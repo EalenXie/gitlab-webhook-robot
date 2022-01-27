@@ -99,14 +99,14 @@ public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
         StringBuilder sb = new StringBuilder();
         String projectUrl = String.format("[%s](%s)", getProject().getName(), project.getWebUrl());
         String issue = String.format("[#%s](%s)", objectAttributes.getId(), objectAttributes.getUrl());
-        String emoji = "";
-        String titleEmoji = "";
+        Emoji emoji = new Emoji("");
+        Emoji titleEmoji = new Emoji("");
         if (objectAttributes.getState().equals("opened")) {
-            titleEmoji = "\uD83D\uDD34";
-            emoji = "\uD83D\uDE4B\u200D♂️";
+            titleEmoji.setCode("\uD83D\uDD34");
+            emoji.setCode("\uD83D\uDE4B\u200D♂️");
         } else if (objectAttributes.getState().equals("closed")) {
-            titleEmoji = "\uD83D\uDFE2";
-            emoji = "✌️";
+            titleEmoji.setCode("\uD83D\uDFE2");
+            emoji.setCode("✌️");
         }
         sb.append(String.format("#### %s%s **%s** %n", titleEmoji, projectUrl, objectAttributes.getTitle()));
         sb.append(String.format("<font color='#000000'>The Issue [%s] %s%s by [%s](%s) </font> %n>%s", issue, objectAttributes.getState(), emoji, user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()), objectAttributes.getDescription()));

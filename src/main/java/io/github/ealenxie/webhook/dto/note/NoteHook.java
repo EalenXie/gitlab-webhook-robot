@@ -98,7 +98,7 @@ public class NoteHook implements DingRobotActionCard , DingRobotMarkdown{
         String u = String.format("[%s](%s)", user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()));
         String i = String.format("[#%s](%s)", issue.getId(), issue.getUrl());
         String n = String.format("[%s](%s)", objectKind, objectAttributes.getUrl());
-        sb.append(String.format("<font color='#000000'>%s\uD83E\uDDD0 add new %s in Issue[%s]</font>%n%n", u, n, i));
+        sb.append(String.format("<font color='#000000'>%s%s add new %s in Issue[%s]</font>%n%n", u,new Emoji("\uD83E\uDDD0"), n, i));
         sb.append(String.format("**%s**%n%n>%s%n", issue.getTitle(), objectAttributes.getNote()));
         return sb.toString();
     }

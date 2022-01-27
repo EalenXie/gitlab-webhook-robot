@@ -1,5 +1,6 @@
 package io.github.ealenxie.webhook.conf;
 
+import io.github.ealenxie.webhook.dto.Emoji;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,6 +23,19 @@ public class DingRobotConfig {
 
     private String signKey;
 
+    /**
+     * 消息是否使用emoji
+     */
+    private Boolean enableEmoji;
+
+    public boolean isEnableEmoji() {
+        return enableEmoji;
+    }
+
+    public void setEnableEmoji(boolean enableEmoji) {
+        this.enableEmoji = enableEmoji;
+        Emoji.enableEmoji(enableEmoji);
+    }
 
     public String getUrl() {
         return url;

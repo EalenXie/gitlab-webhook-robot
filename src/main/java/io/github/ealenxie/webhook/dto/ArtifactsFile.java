@@ -8,7 +8,7 @@ public class ArtifactsFile {
 
     private String filename;
 
-    private String size;
+    private Long size;
 
     public String getFilename() {
         return filename;
@@ -18,11 +18,11 @@ public class ArtifactsFile {
         this.filename = filename;
     }
 
-    public String getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 }
