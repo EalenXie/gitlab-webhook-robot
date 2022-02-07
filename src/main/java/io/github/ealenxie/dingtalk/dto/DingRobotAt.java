@@ -37,4 +37,13 @@ public class DingRobotAt {
     public void setAtAll(Boolean atAll) {
         isAtAll = atAll;
     }
+
+    public String getAtMobilesString() {
+        if (atMobiles == null) return "";
+        StringBuilder at = new StringBuilder();
+        for (String mobile : atMobiles) {
+            at.append("@").append(mobile);
+        }
+        return at.toString();
+    }
 }

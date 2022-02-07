@@ -19,7 +19,6 @@ public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
     private Project project;
     @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
-
     private List<Label> labels;
     private Changes changes;
     private Repository repository;
@@ -39,7 +38,6 @@ public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
-
 
     public ObjectAttributes getObjectAttributes() {
         return objectAttributes;
@@ -99,8 +97,8 @@ public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
         StringBuilder sb = new StringBuilder();
         String projectUrl = String.format("[%s](%s)", getProject().getName(), project.getWebUrl());
         String issue = String.format("[#%s](%s)", objectAttributes.getId(), objectAttributes.getUrl());
-        Emoji emoji = new Emoji("");
-        Emoji titleEmoji = new Emoji("");
+        Emoji emoji = new Emoji();
+        Emoji titleEmoji = new Emoji();
         if (objectAttributes.getState().equals("opened")) {
             titleEmoji.setCode("\uD83D\uDD34");
             emoji.setCode("\uD83D\uDE4B\u200D♂️");

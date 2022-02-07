@@ -10,7 +10,10 @@ public class Emoji {
      */
     private static boolean enable = true;
 
-    private String code;
+    private String code = "";
+
+    public Emoji() {
+    }
 
     public Emoji(String code) {
         this.code = code;
@@ -33,10 +36,6 @@ public class Emoji {
 
 
     public void setCode(String code) {
-        if (enable) {
-            this.code = code;
-        } else {
-            this.code = "";
-        }
+        this.code = code;
     }
 }

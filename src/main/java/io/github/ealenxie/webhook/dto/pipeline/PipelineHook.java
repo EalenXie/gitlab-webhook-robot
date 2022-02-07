@@ -105,7 +105,7 @@ public class PipelineHook implements DingRobotActionCard, DingRobotMarkdown {
             if (!"running".equals(status)) {
                 int totalTime = (int) (objectAttributes.getDuration() + objectAttributes.getQueuedDuration());
                 sb.append(String.format(">[%s](%s) %s - %s%n%n", commit.getId().substring(0, 8), commit.getUrl(), commit.getAuthor().getName(), commit.getTitle()));
-                Emoji statusEmoji = new Emoji("");
+                Emoji statusEmoji = new Emoji();
                 String statusColor = "";
                 if (Objects.equals(status, "success")) {
                     statusEmoji.setCode("✅");
@@ -128,7 +128,7 @@ public class PipelineHook implements DingRobotActionCard, DingRobotMarkdown {
                         costTime = "0";
                     }
                     String color = "";
-                    Emoji emoji = new Emoji("");
+                    Emoji emoji = new Emoji();
                     if (Objects.equals(build.getStatus(), "success")) {
                         color = "#00b140";
                         emoji.setCode("✔️");

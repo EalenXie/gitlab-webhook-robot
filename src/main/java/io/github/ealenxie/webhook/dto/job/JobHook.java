@@ -248,7 +248,7 @@ public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
         if (costTime.equals("")) {
             costTime = "0";
         }
-        Emoji emoji = new Emoji("");
+        Emoji emoji = new Emoji();
         String color = "#000000";
         if (Objects.equals(buildStatus, "success")) {
             color = "#00b140";
