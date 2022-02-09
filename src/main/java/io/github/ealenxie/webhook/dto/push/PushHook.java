@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/1 11:21
  */
-public class PushHook implements DingRobotActionCard, DingRobotMarkdown {
+public class PushHook implements MarkDownMsg {
 
 
     @JsonProperty("object_kind")
@@ -182,7 +182,7 @@ public class PushHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         Collections.sort(commits);
         StringBuilder sb = new StringBuilder();
         String[] refSplit = ref.split("/");

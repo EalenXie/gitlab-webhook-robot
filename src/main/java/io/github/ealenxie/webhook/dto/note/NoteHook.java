@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/21 15:51
  */
-public class NoteHook implements DingRobotActionCard, DingRobotMarkdown {
+public class NoteHook implements MarkDownMsg {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -93,7 +93,7 @@ public class NoteHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         StringBuilder sb = new StringBuilder();
         String u = String.format("[%s](%s)", user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()));
         String i = String.format("[#%s](%s)", issue.getId(), issue.getUrl());

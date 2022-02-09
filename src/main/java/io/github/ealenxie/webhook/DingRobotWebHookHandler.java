@@ -7,7 +7,7 @@ import io.github.ealenxie.dingtalk.DingRobotAPI;
 import io.github.ealenxie.dingtalk.dto.Markdown;
 import io.github.ealenxie.dingtalk.message.MarkdownMessage;
 import io.github.ealenxie.webhook.conf.DingRobotConfig;
-import io.github.ealenxie.webhook.dto.DingRobotMarkdown;
+import io.github.ealenxie.webhook.dto.MarkDownMsg;
 import io.github.ealenxie.webhook.dto.ObjectAttributes;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.webhook.dto.job.JobHook;
@@ -103,10 +103,10 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
     }
 
 
-    private ResponseEntity<String> callDingRobotActionCard(DingRobotMarkdown dto) {
+    private ResponseEntity<String> callDingRobotActionCard(MarkDownMsg msg) {
         Markdown markdown = new Markdown();
-        markdown.setTitle(dto.getTitle());
-        markdown.setText(dto.getText());
+        markdown.setTitle(msg.getTitle());
+        markdown.setText(msg.getMarkdown());
         MarkdownMessage actionCardMessage = new MarkdownMessage(markdown);
         return DingRobotAPI.callDingRobot(dingRobotConfig.getUrl(), actionCardMessage, dingRobotConfig.getAccessToken(), dingRobotConfig.getSignKey());
     }

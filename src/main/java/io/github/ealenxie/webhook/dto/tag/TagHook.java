@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/1/22 10:07
  */
-public class TagHook implements DingRobotActionCard, DingRobotMarkdown {
+public class TagHook implements MarkDownMsg {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -181,7 +181,7 @@ public class TagHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         String[] refSplit = ref.split("/");
         String tag = refSplit[refSplit.length - 1];
         String t = String.format("[%s](%s/-/tree/%s)", tag, project.getWebUrl(), tag);

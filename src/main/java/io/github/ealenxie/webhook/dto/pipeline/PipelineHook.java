@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
-public class PipelineHook implements DingRobotActionCard, DingRobotMarkdown {
+public class PipelineHook implements MarkDownMsg {
 
 
     @JsonProperty("object_kind")
@@ -96,7 +96,7 @@ public class PipelineHook implements DingRobotActionCard, DingRobotMarkdown {
 
     @SuppressWarnings("all")
     @Override
-    public String getText() {
+    public String getMarkdown() {
         StringBuilder sb = new StringBuilder();
         if (objectAttributes != null) {
             String status = objectAttributes.getStatus();

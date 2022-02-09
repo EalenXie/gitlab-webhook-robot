@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Created by EalenXie on 2022/1/24 13:14
  */
-public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
+public class JobHook implements MarkDownMsg {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -25,7 +25,6 @@ public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
     private String buildStage;
     @JsonProperty("build_status")
     private String buildStatus;
-
     @JsonProperty("build_created_at")
     private String buildCreatedAt;
     @JsonProperty("build_started_at")
@@ -241,7 +240,7 @@ public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         String project = String.format("[[%s]](%s)", repository.getName(), repository.getHomepage());
         String pipeline = String.format("pipeline[#%s](%s/-/pipelines/%s)", pipelineId, repository.getHomepage(), pipelineId);
         String costTime = String.format("%.0f", getBuildDuration());

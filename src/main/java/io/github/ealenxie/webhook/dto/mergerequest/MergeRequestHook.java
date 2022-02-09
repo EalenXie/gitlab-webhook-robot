@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2021/12/10 10:12
  */
-public class MergeRequestHook implements DingRobotActionCard, DingRobotMarkdown {
+public class MergeRequestHook implements MarkDownMsg {
 
 
     @JsonProperty("object_kind")
@@ -92,7 +92,7 @@ public class MergeRequestHook implements DingRobotActionCard, DingRobotMarkdown 
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         StringBuilder sb = new StringBuilder();
         String p = String.format("[[%s]](%s)", project.getName(), project.getWebUrl());
         String sources = String.format("[%s](%s/-/tree/%s)", objectAttributes.getSourceBranch(), project.getWebUrl(), objectAttributes.getSourceBranch());

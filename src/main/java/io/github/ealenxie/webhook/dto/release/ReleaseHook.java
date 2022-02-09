@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/20 9:57
  */
-public class ReleaseHook implements DingRobotActionCard, DingRobotMarkdown {
+public class ReleaseHook implements MarkDownMsg {
 
 
     private String id;
@@ -118,7 +118,7 @@ public class ReleaseHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         String tags = String.format("[%s](%s/-/tags/%s)", tag, project.getWebUrl(), tag);
         String head = String.format("<font color='#000000'>[%s](%s) %s new %s %s by tag%s(%s)</font> %s%n%n", project.getName(), project.getWebUrl(), action, objectKind,
                 String.format("[%s](%s)", name, url), new Emoji("\uD83D\uDCCC"), tags, new Emoji("\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80"));

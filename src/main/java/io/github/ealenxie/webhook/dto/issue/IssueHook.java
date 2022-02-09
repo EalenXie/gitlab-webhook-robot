@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/16 14:15
  */
-public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
-
+public class IssueHook implements MarkDownMsg {
 
     @JsonProperty("object_kind")
     private String objectKind;
@@ -93,7 +92,7 @@ public class IssueHook implements DingRobotActionCard, DingRobotMarkdown {
     }
 
     @Override
-    public String getText() {
+    public String getMarkdown() {
         StringBuilder sb = new StringBuilder();
         String projectUrl = String.format("[%s](%s)", getProject().getName(), project.getWebUrl());
         String issue = String.format("[#%s](%s)", objectAttributes.getId(), objectAttributes.getUrl());
