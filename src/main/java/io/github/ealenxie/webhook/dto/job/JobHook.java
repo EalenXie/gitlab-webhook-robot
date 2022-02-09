@@ -264,6 +264,6 @@ public class JobHook implements DingRobotActionCard, DingRobotMarkdown {
             emoji.setCode("⏭️");
         }
         String build = String.format("<font color='%s'> [%s](%s/-/jobs/%s) %s%s</font>", color, buildStage, repository.getHomepage(), buildId, buildStatus, emoji);
-        return String.format("<font color='#000000'>%s %s %s %s%ss</font>", project, pipeline, build,new Emoji("\uD83D\uDD57"), costTime);
+        return String.format("<font color='#000000'>%s %s %s %s%ss</font>", project, pipeline, build, new Emoji("\uD83D\uDD57"), costTime);
     }
 }

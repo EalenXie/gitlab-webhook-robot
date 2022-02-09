@@ -6,7 +6,7 @@ import io.github.ealenxie.webhook.dto.*;
 /**
  * Created by EalenXie on 2022/1/20 9:57
  */
-public class ReleaseHook implements DingRobotActionCard , DingRobotMarkdown{
+public class ReleaseHook implements DingRobotActionCard, DingRobotMarkdown {
 
 
     private String id;
@@ -121,12 +121,12 @@ public class ReleaseHook implements DingRobotActionCard , DingRobotMarkdown{
     public String getText() {
         String tags = String.format("[%s](%s/-/tags/%s)", tag, project.getWebUrl(), tag);
         String head = String.format("<font color='#000000'>[%s](%s) %s new %s %s by tag%s(%s)</font> %s%n%n", project.getName(), project.getWebUrl(), action, objectKind,
-                String.format("[%s](%s)", name, url),new Emoji("\uD83D\uDCCC"), tags, new Emoji("\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80"));
+                String.format("[%s](%s)", name, url), new Emoji("\uD83D\uDCCC"), tags, new Emoji("\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80"));
         StringBuilder context = new StringBuilder(head);
         context.append(description).append("\n\n");
         context.append("<font color='#000000'>Assets</font> \n");
         for (Source source : assets.getSources()) {
-            context.append(String.format("> - [%s Source code (%s)](%s) %n",new Emoji("\uD83D\uDCC1") ,source.getFormat(), source.getUrl()));
+            context.append(String.format("> - [%s Source code (%s)](%s) %n", new Emoji("\uD83D\uDCC1"), source.getFormat(), source.getUrl()));
         }
         return context.toString();
     }
