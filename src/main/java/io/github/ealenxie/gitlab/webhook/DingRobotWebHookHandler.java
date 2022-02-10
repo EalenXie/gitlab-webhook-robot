@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.dingtalk.DingRobotClient;
+import io.github.ealenxie.dingtalk.dto.DingRobotAt;
 import io.github.ealenxie.dingtalk.dto.Markdown;
 import io.github.ealenxie.dingtalk.message.MarkdownMessage;
 import io.github.ealenxie.gitlab.webhook.conf.DingRobotConfig;
@@ -18,6 +19,7 @@ import io.github.ealenxie.gitlab.webhook.dto.push.PushHook;
 import io.github.ealenxie.gitlab.webhook.dto.release.ReleaseHook;
 import io.github.ealenxie.gitlab.webhook.dto.tag.TagHook;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,58 +55,63 @@ public class DingRobotWebHookHandler implements WebHookHandler<JsonNode, Respons
         dingRobotClient = new DingRobotClient(httpClientRestTemplate);
     }
 
-    private ResponseEntity<String> callDingRobot(MarkDownMsg msg) {
+    private ResponseEntity<String> callDingRobot(@NonNull MarkDownMsg msg) {
         Markdown markdown = new Markdown();
         markdown.setTitle(msg.getTitle());
         markdown.setText(msg.getMarkdown());
         MarkdownMessage actionCardMessage = new MarkdownMessage(markdown);
+        if (!msg.notifier().isEmpty()) {
+            DingRobotAt at = new DingRobotAt();
+            at.setAtMobiles(msg.notifier());
+            actionCardMessage.setAt(at);
+        }
         return dingRobotClient.callDingRobot(dingRobotConfig.getUrl(), actionCardMessage, dingRobotConfig.getAccessToken(), dingRobotConfig.getSignKey());
     }
 
     @Override
-    public ResponseEntity<String> handle(JsonNode body, String event) {
+    public ResponseEntity<String> handle(@NonNull JsonNode body, @NonNull String event) {
         switch (event) {
             case PUSH_HOOK:
-                PushHook pushHookVO = objectMapper.convertValue(body, PushHook.class);
-                if (!pushHookVO.getCommits().isEmpty()) {
-                    return callDingRobot(pushHookVO);
+                PushHook pushHook = objectMapper.convertValue(body, PushHook.class);
+                if (!pushHook.getCommits().isEmpty()) {
+                    return callDingRobot(pushHook);
                 }
                 break;
             case PIPELINE_HOOK:
-                PipelineHook pipelineHookVO = objectMapper.convertValue(body, PipelineHook.class);
-                ObjectAttributes objectAttributes = pipelineHookVO.getObjectAttributes();
+                PipelineHook pipelineHook = objectMapper.convertValue(body, PipelineHook.class);
+                ObjectAttributes objectAttributes = pipelineHook.getObjectAttributes();
                 if (objectAttributes != null && !"pending".equals(objectAttributes.getStatus())) {
-                    return callDingRobot(pipelineHookVO);
+                    return callDingRobot(pipelineHook);
                 }
                 break;
             case MERGE_REQUEST_HOOK:
-                MergeRequestHook mergeRequestHookVO = objectMapper.convertValue(body, MergeRequestHook.class);
-                String action = mergeRequestHookVO.getObjectAttributes().getAction();
+                MergeRequestHook mergeRequestHook = objectMapper.convertValue(body, MergeRequestHook.class);
+                String action = mergeRequestHook.getObjectAttributes().getAction();
                 if (action != null && !ACTION_UPDATE.equals(action)) {
-                    return callDingRobot(mergeRequestHookVO);
+                    return callDingRobot(mergeRequestHook);
                 }
                 break;
             case ISSUE_HOOK:
-                IssueHook issueHookVO = objectMapper.convertValue(body, IssueHook.class);
-                String issueAction = issueHookVO.getObjectAttributes().getAction();
+                IssueHook issueHook = objectMapper.convertValue(body, IssueHook.class);
+                String issueAction = issueHook.getObjectAttributes().getAction();
                 if (!ACTION_UPDATE.equals(issueAction)) {
-                    return callDingRobot(issueHookVO);
+                    return callDingRobot(issueHook);
                 }
                 break;
             case RELEASE_HOOK:
-                ReleaseHook releaseHookVO = objectMapper.convertValue(body, ReleaseHook.class);
-                String releaseAction = releaseHookVO.getAction();
+                ReleaseHook releaseHook = objectMapper.convertValue(body, ReleaseHook.class);
+                String releaseAction = releaseHook.getAction();
                 if (!ACTION_UPDATE.equals(releaseAction)) {
-                    return callDingRobot(releaseHookVO);
+                    return callDingRobot(releaseHook);
                 }
                 break;
             case NOTE_HOOK:
-                NoteHook noteHookVO = objectMapper.convertValue(body, NoteHook.class);
-                return callDingRobot(noteHookVO);
+                NoteHook noteHook = objectMapper.convertValue(body, NoteHook.class);
+                return callDingRobot(noteHook);
             case TAG_PUSH_HOOK:
-                TagHook tagHookVO = objectMapper.convertValue(body, TagHook.class);
-                if ("tag_push".equals(tagHookVO.getObjectKind())) {
-                    return callDingRobot(tagHookVO);
+                TagHook tagHook = objectMapper.convertValue(body, TagHook.class);
+                if ("tag_push".equals(tagHook.getObjectKind())) {
+                    return callDingRobot(tagHook);
                 }
                 break;
             case JOB_HOOK:

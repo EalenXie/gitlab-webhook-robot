@@ -28,8 +28,8 @@ public class RestTemplateConfig {
         connectionManager.setMaxTotal(50);
         CloseableHttpClient closeableHttpClient = HttpClientBuilder.create().setConnectionManager(connectionManager).build();
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setConnectTimeout(15 * 1000);
-        factory.setReadTimeout(30 * 1000);
+        factory.setConnectTimeout(5 * 1000);
+        factory.setReadTimeout(10 * 1000);
         factory.setHttpClient(closeableHttpClient);
         RestTemplate restTemplate = new RestTemplate(factory);
         List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();

@@ -1,5 +1,8 @@
 package io.github.ealenxie.gitlab.webhook.dto;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by EalenXie on 2021/12/1 9:46
  * 生成markdown消息
@@ -11,6 +14,13 @@ public interface MarkDownMsg {
      */
     default String getTitle() {
         return "undefined";
+    }
+
+    /**
+     * 设置通知人
+     */
+    default List<String> notifier() {
+        return Collections.emptyList();
     }
 
     /**
