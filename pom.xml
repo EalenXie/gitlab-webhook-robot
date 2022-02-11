@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.ealenxie</groupId>
-    <artifactId>gitlab-webhook-dingrobot</artifactId>
+    <artifactId>gitlab-webhook-robot</artifactId>
     <version>1.0</version>
 
     <properties>
