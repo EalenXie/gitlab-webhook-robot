@@ -23,7 +23,7 @@ Java版 Gitlab Webhook + 机器人通知
 
 #### 快速开始
 
-##### 1. 配置项目`gitlab-webhook-dingrobot`的机器人
+##### 1. 配置项目`gitlab-webhook-robot`的机器人
 
 例如钉钉机器人:
 ```yaml
@@ -47,11 +47,11 @@ webhook:
 ```
 
 
-##### 2. 部署启动项目`gitlab-webhook-dingrobot`
+##### 2. 部署启动项目`gitlab-webhook-robot`
 
 ##### 3. 配置Gitlab项目的webhook。包括接口地址,支持的事件
 
-`gitlab-webhook-dingrobot`的接口为`http://ip:port/actuator/gitlab/webhook`
+`gitlab-webhook-robot`的接口为`http://ip:port/actuator/gitlab/webhook`
 
 - 目前已实现的机器人
 - [x] 钉钉机器人
