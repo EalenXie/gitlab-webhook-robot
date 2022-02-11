@@ -1,7 +1,7 @@
-Java版 Gitlab Webhook + 钉钉机器人通知
+Java版 Gitlab Webhook + 机器人通知
 ======
 
-这是一个简单的SpringBoot项目,主要用于接入Gitlab的webhook，通过钉钉机器人来实现消息通知
+这是一个简单的SpringBoot项目,主要用于接入Gitlab的webhook 通过机器人实现消息通知 支持企业微信机器人/钉钉机器人
 
 #### 实现效果 :
 
@@ -23,21 +23,40 @@ Java版 Gitlab Webhook + 钉钉机器人通知
 
 #### 快速开始
 
-##### 1. 配置项目`gitlab-webhook-dingrobot`的钉钉机器人，例如:
+##### 1. 配置项目`gitlab-webhook-dingrobot`的机器人
+
+例如钉钉机器人:
 ```yaml
-ding:
-  robot:
+webhook:
+  ## webhook的消息发送方式为钉钉机器人
+  way: ding
+  ding:
     ## 请配置钉钉机器人的access-token
     access-token: 93axxxxahfjahklhjfxxxxx46f655ae0xxxxxxxxxx
     ## 请配置钉钉机器人sign-key
     sign-key: SECcd68c6bxxxxxxxx614xxxc926xxxxxxxxxxe811656bdd0
 ```
+例如企业微信机器人:
+```yaml
+webhook:
+  ## webhook的消息发送方式为企业微信机器人
+  way: wechat
+  wechat:
+    ## 请配置企业机器人的key
+    key: 1xxxxxxx-xxxx-49ce-xxxx-4cd44xxxxxxx
+```
+
 
 ##### 2. 部署启动项目`gitlab-webhook-dingrobot`
 
 ##### 3. 配置Gitlab项目的webhook。包括接口地址,支持的事件
 
 `gitlab-webhook-dingrobot`的接口为`http://ip:port/actuator/gitlab/webhook`
+
+- 目前已实现的机器人
+- [x] 钉钉机器人
+- [x] 企业微信机器人
+
 
 - 目前已实现对以下事件的通知
 - [x] Push Hook

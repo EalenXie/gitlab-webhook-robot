@@ -1,11 +1,18 @@
 server:
   port: 8787
 
+webhook:
+  ## webhook的消息发送方式为钉钉机器人
+  way: ding
+  ding:
+    ## 请配置钉钉机器人的access-token
+    access-token: 93axxxxahfjahklhjfxxxxx46f655ae0xxxxxxxxxx
+    ## 请配置钉钉机器人sign-key
+    sign-key: SECcd68c6bxxxxxxxx614xxxc926xxxxxxxxxxe811656bdd0
+  wechat:
+    ## 请配置企业机器人的key
+    key: 1xxxxxxx-xxxx-49ce-xxxx-4cd44xxxxxxx
 
-ding:
-  robot:
-    access-token: xxxxxxxxxxxxxxxxxxx
-    sign-key: xxxxxxxxxxxxxxx
 spring:
   application:
     name: gitlab-webhook-dingrobot

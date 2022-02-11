@@ -27,20 +27,17 @@ public class DingRobotClient {
     private static final String DEFAULT_API_URL = "https://oapi.dingtalk.com/robot/send";
     private final RestOperations restOperations;
 
-    private static final HttpHeaders HEADERS;
-
-    static {
-        // 钉钉请求头为 application/json
-        HEADERS = new HttpHeaders();
-        HEADERS.setContentType(MediaType.APPLICATION_JSON);
-    }
+    private final HttpHeaders jsonHeader;
 
     public DingRobotClient() {
-        restOperations = new RestTemplate();
+        this(new RestTemplate());
     }
 
     public DingRobotClient(RestOperations restOperations) {
         this.restOperations = restOperations;
+        // 钉钉请求头为 application/json
+        jsonHeader = new HttpHeaders();
+        jsonHeader.setContentType(MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -69,8 +66,8 @@ public class DingRobotClient {
      * @param accessToken accessToken
      * @param signKey     signKey
      */
-    public ResponseEntity<String> callDingRobot(DingRobotMessage message, String accessToken, String signKey) {
-        return callDingRobot(DEFAULT_API_URL, message, accessToken, signKey);
+    public ResponseEntity<String> sendMessage(DingRobotMessage message, String accessToken, String signKey) {
+        return sendMessage(DEFAULT_API_URL, message, accessToken, signKey);
     }
 
     /**
@@ -81,9 +78,9 @@ public class DingRobotClient {
      * @param accessToken accessToken
      * @param signKey     signKey
      */
-    public ResponseEntity<String> callDingRobot(String url, DingRobotMessage message, String accessToken, String signKey) {
+    public ResponseEntity<String> sendMessage(String url, DingRobotMessage message, String accessToken, String signKey) {
         try {
-            HttpEntity<DingRobotMessage> entity = new HttpEntity<>(message, HEADERS);
+            HttpEntity<DingRobotMessage> entity = new HttpEntity<>(message, jsonHeader);
             long timeStamp = System.currentTimeMillis();
             return restOperations.postForEntity(String.format("%s?access_token=%s&timestamp=%s&sign=%s", url, accessToken, timeStamp, sign(timeStamp, signKey)), entity, String.class);
         } catch (RestClientResponseException e) {

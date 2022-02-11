@@ -1,13 +1,24 @@
 {
   "properties": [
     {
-      "name": "ding.robot.access-token",
+      "name": "webhook.way",
       "type": "java.lang.String",
-      "description": "钉钉机器人的access-token."
+      "description": "webhook 消息发送方式."
     },
     {
-      "name": "ding.robot.sign-key",
+      "name": "webhook.ding.access-token",
       "type": "java.lang.String",
-      "description": "钉钉机器人的sign-key."
+      "description": "webhook 钉钉发送方式的access-token 配置."
+    },
+    {
+      "name": "webhook.ding.sign-key",
+      "type": "java.lang.String",
+      "description": "webhook 钉钉发送方式的sign-key 配置."
+    },
+    {
+      "name": "webhook.wechat.key",
+      "type": "java.lang.String",
+      "description": "webhook 企业微信的key 配置 ."
     }
-  ] }
+  ]
+}
