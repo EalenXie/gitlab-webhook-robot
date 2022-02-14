@@ -2,7 +2,7 @@
   "properties": [
     {
       "name": "webhook.way",
-      "type": "java.lang.String",
+      "type": "io.github.ealenxie.gitlab.WebHookWay",
       "description": "webhook 消息发送方式."
     },
     {
@@ -19,6 +19,16 @@
       "name": "webhook.wechat.key",
       "type": "java.lang.String",
       "description": "webhook 企业微信的key 配置 ."
+    },
+    {
+      "name": "webhook.feishu.url",
+      "type": "java.lang.String",
+      "description": "webhook 飞书机器人接口地址配置 ."
+    },
+    {
+      "name": "webhook.feishu.signKey",
+      "type": "java.lang.String",
+      "description": "飞书机器人设置签名校验的key."
     }
   ]
 }
