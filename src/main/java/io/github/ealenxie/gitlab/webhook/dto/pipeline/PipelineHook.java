@@ -3,6 +3,8 @@ package io.github.ealenxie.gitlab.webhook.dto.pipeline;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.gitlab.webhook.dto.*;
 import io.github.ealenxie.gitlab.webhook.tool.FileConvert;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,83 +12,19 @@ import java.util.List;
 /**
  * Created by EalenXie on 2021/12/1 9:25
  */
+@Getter
+@Setter
 public class PipelineHook implements MarkDownMsg {
-
-
     @JsonProperty("object_kind")
     private String objectKind;
-
     @JsonProperty("object_attributes")
     private ObjectAttributes objectAttributes;
-
     @JsonProperty("merge_request")
     private String mergeRequest;
-
     private User user;
-
     private Project project;
-
     private Commit commit;
-
     private List<Build> builds;
-
-    public String getObjectKind() {
-        return objectKind;
-    }
-
-    public void setObjectKind(String objectKind) {
-        this.objectKind = objectKind;
-    }
-
-
-    public String getMergeRequest() {
-        return mergeRequest;
-    }
-
-    public void setMergeRequest(String mergeRequest) {
-        this.mergeRequest = mergeRequest;
-    }
-
-    public ObjectAttributes getObjectAttributes() {
-        return objectAttributes;
-    }
-
-    public void setObjectAttributes(ObjectAttributes objectAttributes) {
-        this.objectAttributes = objectAttributes;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Commit getCommit() {
-        return commit;
-    }
-
-    public void setCommit(Commit commit) {
-        this.commit = commit;
-    }
-
-    public List<Build> getBuilds() {
-        return builds;
-    }
-
-    public void setBuilds(List<Build> builds) {
-        this.builds = builds;
-    }
-
 
     @Override
     public String getTitle() {
@@ -162,5 +100,30 @@ public class PipelineHook implements MarkDownMsg {
             }
         }
         return sb.toString();
+    }
+
+
+    @Getter
+    @Setter
+    public static class ObjectAttributes {
+        private Long id;
+        private String ref;
+        private Boolean tag;
+        private String sha;
+        @JsonProperty("before_sha")
+        private String beforeSha;
+        private String source;
+        private String status;
+        @JsonProperty("detailed_status")
+        private String detailedStatus;
+        private String[] stages;
+        @JsonProperty("created_at")
+        private String createdAt;
+        @JsonProperty("finished_at")
+        private String finishedAt;
+        private Double duration;
+        @JsonProperty("queued_duration")
+        private Double queuedDuration;
+        private String[] variables;
     }
 }

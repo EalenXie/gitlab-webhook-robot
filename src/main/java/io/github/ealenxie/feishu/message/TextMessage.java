@@ -2,55 +2,40 @@ package io.github.ealenxie.feishu.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.feishu.dto.Content;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/2/14 17:16
  */
-public class TextMessage implements FeiShuMessage {
 
+public class TextMessage implements FeiShuMessage {
+    @Getter
+    @Setter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("sign")
     private String sign;
+    @Getter
+    @Setter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("timestamp")
     private String timestamp;
+    @Getter
     @JsonProperty("msg_type")
     private String msgType = "text";
+    @Getter
+    @Setter
     @JsonProperty("content")
     private Content content;
 
-    public String getSign() {
-        return sign;
-    }
-
-    @Override
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    @Override
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public TextMessage(Content content) {
-        this.content = content;
-    }
-
-    public String getMsgType() {
-        return msgType;
-    }
-
-    public Content getContent() {
-        return content;
-    }
-
-    public void setContent(Content content) {
-        this.content = content;
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Setter
+    @Getter
+    public static class Content {
+        @JsonProperty("text")
+        private String text;
     }
 }

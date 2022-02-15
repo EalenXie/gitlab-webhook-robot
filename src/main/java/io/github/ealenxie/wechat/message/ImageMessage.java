@@ -6,6 +6,7 @@ import lombok.*;
 /**
  * Created by EalenXie on 2022/2/11 13:08
  */
+@NoArgsConstructor
 public class ImageMessage implements WeChatMessage {
     @JsonProperty("msgtype")
     private String msgType = "image";
@@ -16,9 +17,6 @@ public class ImageMessage implements WeChatMessage {
 
     public String getMsgType() {
         return msgType;
-    }
-
-    public ImageMessage() {
     }
 
     public ImageMessage(Image image) {

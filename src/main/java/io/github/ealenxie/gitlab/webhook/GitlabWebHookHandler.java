@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
-import io.github.ealenxie.gitlab.webhook.dto.ObjectAttributes;
 import io.github.ealenxie.gitlab.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.gitlab.webhook.dto.job.JobHook;
 import io.github.ealenxie.gitlab.webhook.dto.mergerequest.MergeRequestHook;
@@ -62,7 +61,7 @@ public class GitlabWebHookHandler implements WebHookHandler<JsonNode, ResponseEn
                 break;
             case PIPELINE_HOOK:
                 PipelineHook pipelineHook = objectMapper.convertValue(body, PipelineHook.class);
-                ObjectAttributes objectAttributes = pipelineHook.getObjectAttributes();
+                PipelineHook.ObjectAttributes objectAttributes = pipelineHook.getObjectAttributes();
                 if (objectAttributes != null && !"pending".equals(objectAttributes.getStatus())) {
                     return messageSender.sendMessage(pipelineHook);
                 }

@@ -6,9 +6,8 @@ import lombok.*;
 /**
  * Created by EalenXie on 2021/12/27 10:58
  */
+@NoArgsConstructor
 public class MarkdownMessage implements WeChatMessage {
-
-
     @JsonProperty("msgtype")
     private String msgType = "markdown";
 
@@ -20,13 +19,9 @@ public class MarkdownMessage implements WeChatMessage {
     @Setter
     private Markdown markdown;
 
-    public MarkdownMessage() {
-    }
-
     public MarkdownMessage(Markdown markdown) {
         this.markdown = markdown;
     }
-
 
     @Data
     @AllArgsConstructor

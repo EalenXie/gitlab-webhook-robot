@@ -1,19 +1,13 @@
 package io.github.ealenxie.dingtalk.message;
 
-import io.github.ealenxie.dingtalk.dto.DingRobotAt;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2021/12/27 9:23
  */
+@Getter
+@Setter
 public abstract class DingRobotMessage {
-
     private DingRobotAt at;
-
-    public DingRobotAt getAt() {
-        return at;
-    }
-
-    public void setAt(DingRobotAt at) {
-        this.at = at;
-    }
 }

@@ -20,6 +20,7 @@ public class FileMessage implements WeChatMessage {
         return msgType;
     }
 
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
