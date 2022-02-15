@@ -32,6 +32,7 @@ public class TextMessage implements FeiShuMessage {
     public String getTimestamp() {
         return timestamp;
     }
+
     @Override
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;

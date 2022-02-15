@@ -7,7 +7,7 @@ import io.github.ealenxie.feishu.dto.Interactive;
 /**
  * Created by EalenXie on 2022/2/15 12:56
  */
-public class InteractiveMessage implements FeiShuMessage{
+public class InteractiveMessage implements FeiShuMessage {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("sign")
