@@ -12,7 +12,12 @@ webhook:
   wechat:
     ## 请配置企业机器人的key
     key: 1xxxxxxx-xxxx-49ce-xxxx-4cd44xxxxxxx
+  feishu:
+    ## 飞书机器人地址
+    url: https://open.feishu.cn/open-apis/bot/v2/hook/4xxxxxxx-xxxx-4ef0-xxxx-eexxxxxxxx7
 
 spring:
   application:
-    name: gitlab-webhook-dingrobot
+    name: @artifactId@
+  banner:
+    location: banner.txt
