@@ -23,9 +23,9 @@ public class ObjectAttributes {
     private String lineCode;
     private String note;
     @JsonProperty("noteable_id")
-    private Long noteableId;
+    private Long noteAbleId;
     @JsonProperty("noteable_type")
-    private String noteableType;
+    private String noteAbleType;
     @JsonProperty("original_position")
     private String originalPosition;
     private String position;
@@ -119,20 +119,20 @@ public class ObjectAttributes {
         this.note = note;
     }
 
-    public Long getNoteableId() {
-        return noteableId;
+    public Long getNoteAbleId() {
+        return noteAbleId;
     }
 
-    public void setNoteableId(Long noteableId) {
-        this.noteableId = noteableId;
+    public void setNoteAbleId(Long noteAbleId) {
+        this.noteAbleId = noteAbleId;
     }
 
-    public String getNoteableType() {
-        return noteableType;
+    public String getNoteAbleType() {
+        return noteAbleType;
     }
 
-    public void setNoteableType(String noteableType) {
-        this.noteableType = noteableType;
+    public void setNoteAbleType(String noteAbleType) {
+        this.noteAbleType = noteAbleType;
     }
 
     public String getOriginalPosition() {

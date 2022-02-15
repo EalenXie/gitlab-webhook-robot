@@ -1,7 +1,7 @@
 package io.github.ealenxie.wechat.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.wechat.dto.Markdown;
+import lombok.*;
 
 /**
  * Created by EalenXie on 2021/12/27 10:58
@@ -16,6 +16,8 @@ public class MarkdownMessage implements WeChatMessage {
         return msgType;
     }
 
+    @Getter
+    @Setter
     private Markdown markdown;
 
     public MarkdownMessage() {
@@ -25,11 +27,11 @@ public class MarkdownMessage implements WeChatMessage {
         this.markdown = markdown;
     }
 
-    public Markdown getMarkdown() {
-        return markdown;
-    }
 
-    public void setMarkdown(Markdown markdown) {
-        this.markdown = markdown;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Markdown {
+        private String content;
     }
 }

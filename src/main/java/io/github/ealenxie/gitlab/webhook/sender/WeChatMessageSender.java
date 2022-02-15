@@ -3,7 +3,6 @@ package io.github.ealenxie.gitlab.webhook.sender;
 import io.github.ealenxie.gitlab.webhook.conf.WebHookConfig;
 import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
 import io.github.ealenxie.wechat.WeChatClient;
-import io.github.ealenxie.wechat.dto.Markdown;
 import io.github.ealenxie.wechat.message.MarkdownMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +29,7 @@ public class WeChatMessageSender implements MessageSender<MarkDownMsg, String> {
 
     @Override
     public ResponseEntity<String> sendMessage(MarkDownMsg markDownMsg) {
-        Markdown markdown = new Markdown(markDownMsg.getMarkdown());
-        MarkdownMessage actionCardMessage = new MarkdownMessage(markdown);
+        MarkdownMessage actionCardMessage = new MarkdownMessage(new MarkdownMessage.Markdown(markDownMsg.getMarkdown()));
         return weChatClient.sendMessage(actionCardMessage, key);
     }
 

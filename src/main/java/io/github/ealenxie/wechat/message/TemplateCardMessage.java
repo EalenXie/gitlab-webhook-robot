@@ -1,6 +1,9 @@
 package io.github.ealenxie.wechat.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.ealenxie.wechat.dto.TemplateCard;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/2/11 15:58
@@ -8,6 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TemplateCardMessage implements WeChatMessage {
     @JsonProperty("msgtype")
     private String msgType = "template_card";
+
+    @Getter
+    @Setter
+    @JsonProperty("template_card")
+    private TemplateCard templateCard;
 
     public String getMsgType() {
         return msgType;
