@@ -1,7 +1,7 @@
 Java版 Gitlab Webhook + 机器人通知
 ======
 
-这是一个简单的SpringBoot项目,主要用于接入Gitlab的webhook 通过机器人实现消息通知 支持企业微信机器人/钉钉机器人
+这是一个简单的SpringBoot项目,主要用于接入Gitlab的webhook 通过机器人实现消息通知 支持企业微信机器人/钉钉机器人/飞书机器人
 
 #### 实现效果 :
 
@@ -46,6 +46,16 @@ webhook:
     key: 1xxxxxxx-xxxx-49ce-xxxx-4cd44xxxxxxx
 ```
 
+例如飞书机器人:
+
+```yaml
+webhook:
+  ## webhook的消息发送方式为飞书机器人
+  way: feishu
+  feishu:
+    ## 飞书机器人地址
+    url: https://open.feishu.cn/open-apis/bot/v2/hook/4xxxxxxx-xxxx-4ef0-xxxx-eexxxxxxxx7
+```
 
 ##### 2. 部署启动项目`gitlab-webhook-robot`
 
@@ -56,6 +66,7 @@ webhook:
 - 目前已实现的机器人
 - [x] 钉钉机器人
 - [x] 企业微信机器人
+- [x] 飞书机器人
 
 
 - 目前已实现对以下事件的通知
