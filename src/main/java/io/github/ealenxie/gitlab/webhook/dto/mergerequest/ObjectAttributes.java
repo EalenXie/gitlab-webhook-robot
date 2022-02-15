@@ -1,6 +1,5 @@
 package io.github.ealenxie.gitlab.webhook.dto.mergerequest;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.gitlab.webhook.dto.Commit;
 import io.github.ealenxie.gitlab.webhook.dto.Project;
@@ -54,7 +53,6 @@ public class ObjectAttributes {
     @JsonProperty("time_estimate")
     private Integer timeEstimate;
     private String title;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("updated_by_id")

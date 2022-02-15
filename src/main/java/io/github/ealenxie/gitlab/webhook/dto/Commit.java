@@ -1,7 +1,5 @@
 package io.github.ealenxie.gitlab.webhook.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 /**
@@ -16,7 +14,6 @@ public class Commit implements Comparable<Commit> {
 
     private String title;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "GMT+8")
     private Date timestamp;
 
     private String url;

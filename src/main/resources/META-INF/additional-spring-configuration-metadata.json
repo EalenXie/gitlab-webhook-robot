@@ -29,6 +29,11 @@
       "name": "webhook.feishu.signKey",
       "type": "java.lang.String",
       "description": "飞书机器人设置签名校验的key."
+    },
+    {
+      "name": "webhook.enable-emoji",
+      "type": "java.lang.Boolean",
+      "description": "webhook消息是否发送emoji."
     }
   ]
 }

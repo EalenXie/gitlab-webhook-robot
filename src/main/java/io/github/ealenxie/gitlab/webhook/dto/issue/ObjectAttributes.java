@@ -1,6 +1,5 @@
 package io.github.ealenxie.gitlab.webhook.dto.issue;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.ealenxie.gitlab.webhook.dto.Label;
 
@@ -15,21 +14,17 @@ public class ObjectAttributes {
     @JsonProperty("author_id")
     private Long authorId;
     @JsonProperty("closed_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String closedAt;
     private Boolean confidential;
     @JsonProperty("created_at")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String createdAt;
     private String description;
     @JsonProperty("discussion_locked")
     private Boolean discussionLocked;
     @JsonProperty("due_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private String dueDate;
     private Long id;
     private Long iid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("last_edited_at")
     private String lastEditedAt;
     @JsonProperty("last_edited_by_id")
@@ -49,7 +44,6 @@ public class ObjectAttributes {
     @JsonProperty("time_estimate")
     private Integer timeEstimate;
     private String title;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     @JsonProperty("updated_at")
     private String updatedAt;
     @JsonProperty("updated_by_id")
