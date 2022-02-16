@@ -21,6 +21,13 @@ public class Commit implements Comparable<Commit> {
     private String[] modified;
     private String[] removed;
 
+    @Setter
+    @Getter
+    public static class Author {
+        private String name;
+        private String email;
+    }
+
     @Override
     public int compareTo(Commit o) {
         if (timestamp.after(o.timestamp)) {
