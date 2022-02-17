@@ -55,7 +55,7 @@ public class PushHook implements MarkDownMsg {
         String branch = refSplit[refSplit.length - 1];
         sb.append(String.format("[[%s:%s]](%s/-/tree/%s) ", project.getName(), branch, project.getWebUrl(), branch));
         String c = commits.size() > 1 ? "commits" : "commit";
-        String user = String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
+        String user = userUsername == null ? userName : String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
         sb.append(String.format("<font color='#000000'>%s %s new %s by %s %s </font>%n%n", eventName, totalCommitsCount, c, new Emoji("\uD83D\uDE00"), user));
         for (Commit vo : commits) {
             sb.append(String.format("- [%s](%s) %s - %s%n", vo.getId().substring(0, 8), vo.getUrl(), vo.getAuthor().getName(), vo.getTitle()));
