@@ -54,7 +54,6 @@ public class TemplateCardMessage implements WeChatMessage {
         @JsonProperty("card_action")
         private CardAction cardAction;
 
-
         @Getter
         @Setter
         public static class Source {
@@ -137,7 +136,6 @@ public class TemplateCardMessage implements WeChatMessage {
             private String pagePath;
         }
 
-
         @Getter
         @Setter
         @AllArgsConstructor
@@ -159,7 +157,6 @@ public class TemplateCardMessage implements WeChatMessage {
             private String title;
             @JsonProperty("desc")
             private String desc;
-
         }
 
         @Getter

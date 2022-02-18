@@ -31,6 +31,5 @@ public class ImageMessage implements WeChatMessage {
         private String base64;
         @JsonProperty("md5")
         private String md5;
-
     }
 }
