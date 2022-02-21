@@ -1,6 +1,6 @@
 package io.github.ealenxie.gitlab.webhook.conf;
 
-import io.github.ealenxie.gitlab.WebHookWay;
+import io.github.ealenxie.gitlab.webhook.WebHookWay;
 import io.github.ealenxie.gitlab.webhook.dto.Emoji;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +19,21 @@ public class WebHookConfig {
      * 通知方式 钉钉机器人(ding) / 企业微信(wechat) 默认为ding
      */
     private WebHookWay way = WebHookWay.ding;
-
+    /**
+     * 是否消息发送emoji
+     */
     private Boolean enableEmoji = Boolean.TRUE;
-
+    /**
+     * 钉钉机器人 配置
+     */
     private DingRobotConfig ding;
-
+    /**
+     * 企业微信机器人 配置
+     */
     private WeChatConfig wechat;
-
+    /**
+     * 飞书机器人 配置
+     */
     @SuppressWarnings("all")
     private FeiShuConfig feishu;
 
@@ -104,7 +112,6 @@ public class WebHookConfig {
     }
 
     public static class WeChatConfig {
-
         private String key;
 
         public String getKey() {
@@ -117,11 +124,8 @@ public class WebHookConfig {
     }
 
     public static class FeiShuConfig {
-
         private String url;
-
         private String signKey;
-
 
         public String getUrl() {
             return url;

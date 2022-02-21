@@ -1,5 +1,8 @@
 package io.github.ealenxie.gitlab;
 
+import io.github.ealenxie.gitlab.webhook.WebHookWay;
+import io.github.ealenxie.gitlab.webhook.WebhookEndpoint;
+import io.github.ealenxie.gitlab.webhook.conf.WebHookConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
@@ -30,6 +33,8 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     @Resource
     private Environment environment;
+    @Resource
+    private WebHookConfig webHookConfig;
 
     /**
      * 获取Linux下的IP地址
@@ -65,6 +70,10 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        WebHookWay way = webHookConfig.getWay();
+        sb.append("Gitlab Webhook Robot Start Success \n");
+        sb.append(String.format("The message sending way is %s%n", way));
         String ip;
         if ("Linux".equalsIgnoreCase(System.getProperty("os.name"))) {
             ip = getLinuxLocalIp();
@@ -83,16 +92,15 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> m : map.entrySet()) {
             HandlerMethod value = m.getValue();
             if (value.getBeanType().equals(WebhookEndpoint.class)) {
-                StringBuilder sb = new StringBuilder();
                 RequestMappingInfo key = m.getKey();
                 PatternsRequestCondition con = key.getPatternsCondition();
                 if (!con.isEmpty()) {
                     Set<String> patterns = con.getPatterns();
-                    sb.append(String.format("%s%s", contentPath, patterns.size() == 1 ? patterns.iterator().next() : patterns));
+                    sb.append(String.format("Please fill in this address in your Gitlab Webhook: %s%s%n", contentPath, patterns.size() == 1 ? patterns.iterator().next() : patterns));
                 }
-                log.info("Please fill in this address in your Gitlab Webhook: {}", sb);
                 break;
             }
         }
+        log.info(sb.toString());
     }
 }

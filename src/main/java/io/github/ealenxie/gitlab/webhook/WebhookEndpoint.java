@@ -1,7 +1,6 @@
-package io.github.ealenxie.gitlab;
+package io.github.ealenxie.gitlab.webhook;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.github.ealenxie.gitlab.webhook.GitlabWebHookHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -2,7 +2,7 @@
   "properties": [
     {
       "name": "webhook.way",
-      "type": "io.github.ealenxie.gitlab.WebHookWay",
+      "type": "io.github.ealenxie.gitlab.webhook.WebHookWay",
       "description": "webhook 消息发送方式."
     },
     {

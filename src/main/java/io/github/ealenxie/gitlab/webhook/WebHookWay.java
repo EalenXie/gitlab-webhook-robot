@@ -1,4 +1,4 @@
-package io.github.ealenxie.gitlab;
+package io.github.ealenxie.gitlab.webhook;
 
 /**
  * Created by EalenXie on 2022/2/14 17:23
