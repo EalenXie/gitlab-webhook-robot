@@ -6,8 +6,13 @@ import io.github.ealenxie.gitlab.webhook.tool.FileConvert;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by EalenXie on 2021/12/1 9:25
@@ -39,7 +44,13 @@ public class PipelineHook implements MarkDownMsg {
         String pipeline = String.format("%s [#%s %s](%s/-/pipelines/%s)", objectKind, objectAttributes.getId(), new Emoji("\uD83D\uDE80"), project.getWebUrl(), objectAttributes.getId());
         sb.append(String.format("[[%s:%s]](%s/-/tree/%s) <font color='#000000'>%s %s</font>%n%n", project.getName(), objectAttributes.getRef(), project.getWebUrl(), getObjectAttributes().getRef(), pipeline, status));
         if (!"running".equals(status)) {
-            int totalTime = (int) (objectAttributes.getDuration() + objectAttributes.getQueuedDuration());
+            int totalTime = 0;
+            if (objectAttributes.getDuration() != null) {
+                totalTime += objectAttributes.getDuration();
+            }
+            if (objectAttributes.getQueuedDuration() != null) {
+                totalTime += objectAttributes.getQueuedDuration();
+            }
             sb.append(String.format(">[%s](%s) %s - %s%n%n", commit.getId().substring(0, 8), commit.getUrl(), commit.getAuthor().getName(), commit.getTitle()));
             Emoji statusEmoji = new Emoji();
             String statusColor = "";
@@ -68,7 +79,13 @@ public class PipelineHook implements MarkDownMsg {
             for (Build build : builds) {
                 String costTime = String.format("%.0f", build.getDuration());
                 if (costTime.equals("")) {
-                    costTime = "0";
+                    if (build.getFinishedAt() != null && build.getStartedAt() != null) {
+                        Date finishedAt = Date.from(LocalDateTime.parse(build.getFinishedAt().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atZone(ZoneId.systemDefault()).toInstant());
+                        Date start = Date.from(LocalDateTime.parse(build.getStartedAt().substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atZone(ZoneId.systemDefault()).toInstant());
+                        costTime = String.valueOf((finishedAt.getTime() - start.getTime()) / 1000);
+                    } else {
+                        costTime = "0";
+                    }
                 }
                 String color = "";
                 Emoji emoji = new Emoji();
