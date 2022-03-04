@@ -31,9 +31,38 @@ public class PipelineHook implements MarkDownMsg {
     private Commit commit;
     private List<Build> builds;
 
+    @Getter
+    @Setter
+    public static class ObjectAttributes {
+        private Long id;
+        private String ref;
+        private Boolean tag;
+        private String sha;
+        @JsonProperty("before_sha")
+        private String beforeSha;
+        private String source;
+        private String status;
+        @JsonProperty("detailed_status")
+        private String detailedStatus;
+        private String[] stages;
+        @JsonProperty("created_at")
+        private String createdAt;
+        @JsonProperty("finished_at")
+        private String finishedAt;
+        private Double duration;
+        @JsonProperty("queued_duration")
+        private Double queuedDuration;
+        private String[] variables;
+    }
+
     @Override
     public String getTitle() {
         return getObjectKind();
+    }
+
+    @Override
+    public List<String> notifier() {
+        return Collections.singletonList(String.valueOf(user.getId()));
     }
 
     @SuppressWarnings("all")
@@ -119,28 +148,4 @@ public class PipelineHook implements MarkDownMsg {
         return sb.toString();
     }
 
-
-    @Getter
-    @Setter
-    public static class ObjectAttributes {
-        private Long id;
-        private String ref;
-        private Boolean tag;
-        private String sha;
-        @JsonProperty("before_sha")
-        private String beforeSha;
-        private String source;
-        private String status;
-        @JsonProperty("detailed_status")
-        private String detailedStatus;
-        private String[] stages;
-        @JsonProperty("created_at")
-        private String createdAt;
-        @JsonProperty("finished_at")
-        private String finishedAt;
-        private Double duration;
-        @JsonProperty("queued_duration")
-        private Double queuedDuration;
-        private String[] variables;
-    }
 }

@@ -5,6 +5,9 @@ import io.github.ealenxie.gitlab.webhook.dto.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by EalenXie on 2022/1/21 15:51
  */
@@ -28,6 +31,11 @@ public class NoteHook implements MarkDownMsg {
     @Override
     public String getTitle() {
         return getObjectKind();
+    }
+
+    @Override
+    public List<String> notifier() {
+        return Collections.singletonList(String.valueOf(user.getId()));
     }
 
     @Override

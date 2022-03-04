@@ -5,6 +5,7 @@ import io.github.ealenxie.gitlab.webhook.dto.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -112,6 +113,10 @@ public class IssueHook implements MarkDownMsg {
         private List<Label> labels;
     }
 
+    @Override
+    public List<String> notifier(){
+        return Collections.singletonList(String.valueOf(user.getId()));
+    }
 }
 
 

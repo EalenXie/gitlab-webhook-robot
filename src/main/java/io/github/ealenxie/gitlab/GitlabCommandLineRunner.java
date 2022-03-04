@@ -71,9 +71,6 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         StringBuilder sb = new StringBuilder();
-        WebHookWay way = webHookConfig.getWay();
-        sb.append("Gitlab Webhook Robot Start Success \n");
-        sb.append(String.format("The message sending way is %s%n", way));
         String ip;
         if ("Linux".equalsIgnoreCase(System.getProperty("os.name"))) {
             ip = getLinuxLocalIp();
@@ -88,6 +85,8 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
         } else {
             contentPath = String.format("%s://%s:%s", "http", ip, port);
         }
+        WebHookWay way = webHookConfig.getWay();
+        sb.append(String.format("The message sending way is %s", way));
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> m : map.entrySet()) {
             HandlerMethod value = m.getValue();
@@ -96,7 +95,7 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
                 PatternsRequestCondition con = key.getPatternsCondition();
                 if (!con.isEmpty()) {
                     Set<String> patterns = con.getPatterns();
-                    sb.append(String.format("Please fill in this address in your Gitlab Webhook: %s%s%n", contentPath, patterns.size() == 1 ? patterns.iterator().next() : patterns));
+                    sb.append(String.format(" , Please fill in this address in your Gitlab Webhook: %s%s%n", contentPath, patterns.size() == 1 ? patterns.iterator().next() : patterns));
                 }
                 break;
             }

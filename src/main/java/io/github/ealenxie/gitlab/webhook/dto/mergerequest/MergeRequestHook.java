@@ -5,6 +5,8 @@ import io.github.ealenxie.gitlab.webhook.dto.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,11 @@ public class MergeRequestHook implements MarkDownMsg {
     @Override
     public String getTitle() {
         return getObjectKind();
+    }
+
+    @Override
+    public List<String> notifier() {
+        return Collections.singletonList(String.valueOf(user.getId()));
     }
 
     @Override
