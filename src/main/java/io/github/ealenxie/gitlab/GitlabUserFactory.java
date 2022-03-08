@@ -2,6 +2,7 @@ package io.github.ealenxie.gitlab;
 
 import io.github.ealenxie.gitlab.dto.GitlabUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class GitlabUserFactory {
         this.gitlabClient = gitlabClient;
     }
 
+    @Nullable
     public GitlabUser getUser(Long userId) {
         if (!gitlabUsers.containsKey(userId)) {
             try {
@@ -30,5 +32,15 @@ public class GitlabUserFactory {
             }
         }
         return gitlabUsers.get(userId);
+    }
+
+
+    @Nullable
+    public String getUserSkype(Long userId) {
+        GitlabUser gitlabUser = getUser(userId);
+        if (gitlabUser != null && gitlabUser.getSkype() != null && !gitlabUser.getSkype().trim().equals("")) {
+            return gitlabUser.getSkype();
+        }
+        return null;
     }
 }
