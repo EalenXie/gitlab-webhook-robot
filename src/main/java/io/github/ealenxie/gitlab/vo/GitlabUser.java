@@ -1,4 +1,4 @@
-package io.github.ealenxie.gitlab.dto;
+package io.github.ealenxie.gitlab.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

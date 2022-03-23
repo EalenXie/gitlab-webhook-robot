@@ -1,6 +1,6 @@
 package io.github.ealenxie.gitlab;
 
-import io.github.ealenxie.gitlab.dto.GitlabUser;
+import io.github.ealenxie.gitlab.vo.GitlabUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 

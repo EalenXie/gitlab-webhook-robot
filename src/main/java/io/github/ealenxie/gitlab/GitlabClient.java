@@ -1,11 +1,18 @@
 package io.github.ealenxie.gitlab;
 
-import io.github.ealenxie.gitlab.dto.GitlabUser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.ealenxie.gitlab.dto.PipelinesDTO;
+import io.github.ealenxie.gitlab.vo.*;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.lang.Nullable;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by EalenXie on 2022/2/10 14:11
@@ -19,6 +26,8 @@ public class GitlabClient {
     private final RestOperations restOperations;
 
     private final HttpHeaders httpHeaders = new HttpHeaders();
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GitlabClient(String host, String privateToken) {
         this(host, privateToken, new RestTemplate());
@@ -40,4 +49,75 @@ public class GitlabClient {
         return restOperations.exchange(URI.create(String.format("%s/api/v4/users/%s", host, userId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), GitlabUser.class);
     }
 
+
+    /**
+     * 调用Gitlab 根据组Id获取用户成员信息
+     *
+     * @param groupId 组Id
+     */
+    public ResponseEntity<List<Member>> getAllMembersByGroupId(Long groupId) {
+        return restOperations.exchange(URI.create(String.format("%s/api/v4/groups/%s/members/all", host, groupId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Member>>() {
+        });
+    }
+
+
+    /**
+     * 调用Gitlab 根据组Id获取用户成员信息
+     *
+     * @param projectId 项目Id
+     */
+    public ResponseEntity<List<Member>> getAllMembersByProjectId(Long projectId) {
+        return restOperations.exchange(URI.create(String.format("%s/api/v4/projects/%s/members/all", host, projectId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Member>>() {
+        });
+    }
+
+
+    /**
+     * 调用Gitlab 根据组Id获取Jobs
+     *
+     * @param projectId 项目Id
+     * @param scope     Scope of jobs to show. Either one of or an array of the following: created, pending, running, failed, success, canceled, skipped, or manual. All jobs are returned if scope is not provided.
+     */
+    public ResponseEntity<List<Job>> getJobsByProjectId(Long projectId, @Nullable JobScope scope) {
+        Map<String, String> uriVariables = new LinkedHashMap<>();
+        if (scope != null) {
+            uriVariables.put("scope", scope.name());
+        }
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/jobs", host, projectId), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Job>>() {
+        }, uriVariables);
+    }
+
+    /**
+     * 调用Gitlab 移除JOB
+     *
+     * @param projectId 项目Id
+     * @param jobId     JobId
+     */
+    public ResponseEntity<EraseJob> eraseJob(Long projectId, Long jobId) {
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/jobs/%s/erase", host, projectId, jobId), HttpMethod.POST, new HttpEntity<>(null, httpHeaders), EraseJob.class);
+    }
+
+
+    /**
+     * 调用Gitlab 获取pipelines
+     *
+     * @param projectId 项目Id
+     * @param dto       请求参数
+     */
+    public ResponseEntity<List<Pipeline>> getPipelinesByProjectId(Long projectId, @Nullable PipelinesDTO dto) {
+        @SuppressWarnings("unchecked") Map<String, ?> args = objectMapper.convertValue(dto, Map.class);
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines", host, projectId), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Pipeline>>() {
+        }, args != null ? args : new LinkedHashMap<>());
+    }
+
+
+    /**
+     * 删除pipeline
+     *
+     * @param projectId  项目Id
+     * @param pipelineId pipelineId
+     */
+    public ResponseEntity<Void> deletePipeline(Long projectId, Long pipelineId) {
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), Void.class);
+    }
 }
