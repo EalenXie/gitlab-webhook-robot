@@ -7,10 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
 import java.net.InetAddress;
@@ -18,8 +14,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import java.util.Map;
-import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Created by EalenXie on 2022/2/18 9:38
@@ -30,8 +25,6 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
 
 
     @Resource
-    private RequestMappingHandlerMapping requestMappingHandlerMapping;
-    @Resource
     private Environment environment;
     @Resource
     private WebHookConfig webHookConfig;
@@ -39,15 +32,15 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
     /**
      * 获取Linux下的IP地址
      */
-    private static String getLinuxLocalIp() throws SocketException, UnknownHostException {
+    private static String getLocalIpV4() throws SocketException, UnknownHostException {
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface ni = interfaces.nextElement();
-            if (isNotLoopNetwork(ni)) {
+            if (!isLoopNetwork(ni)) {
                 Enumeration<InetAddress> ipAddresses = ni.getInetAddresses();
                 while (ipAddresses.hasMoreElements()) {
                     InetAddress address = ipAddresses.nextElement();
-                    if (isNotLoopIp(address)) {
+                    if (isNotIpv6(address)) {
                         return address.getHostAddress();
                     }
                 }
@@ -56,11 +49,21 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
         return InetAddress.getLocalHost().getHostAddress();
     }
 
-    public static boolean isNotLoopNetwork(NetworkInterface ni) {
-        return !ni.getName().contains("docker") && !ni.getName().contains("lo");
+    /**
+     * 判断虚拟网卡,非环回地址,包含有效InetAddresses
+     */
+    public static boolean isLoopNetwork(NetworkInterface ni) {
+        if (!ni.getInetAddresses().hasMoreElements()) {
+            return true;
+        }
+        Pattern compile = Pattern.compile("docker|lo|VMware|veth|flannel|cni");
+        if (!compile.matcher(ni.getName()).find() && ni.getDisplayName() != null) {
+            return compile.matcher(ni.getDisplayName()).find();
+        }
+        return true;
     }
 
-    public static boolean isNotLoopIp(InetAddress address) {
+    public static boolean isNotIpv6(InetAddress address) {
         if (!address.isLoopbackAddress()) {
             String ip = address.getHostAddress();
             return !ip.contains("::") && !ip.contains("0:0:") && !ip.contains("fe80");
@@ -71,12 +74,7 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         StringBuilder sb = new StringBuilder();
-        String ip;
-        if ("Linux".equalsIgnoreCase(System.getProperty("os.name"))) {
-            ip = getLinuxLocalIp();
-        } else {
-            ip = InetAddress.getLocalHost().getHostAddress();
-        }
+        String ip = getLocalIpV4();
         String port = environment.getProperty("server.port");
         String contextPath = environment.getProperty("server.servlet.context-path");
         String contentPath;
@@ -87,19 +85,7 @@ public class GitlabCommandLineRunner implements CommandLineRunner {
         }
         WebHookWay way = webHookConfig.getWay();
         sb.append(String.format("The message sending way is %s", way));
-        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> m : map.entrySet()) {
-            HandlerMethod value = m.getValue();
-            if (value.getBeanType().equals(WebhookEndpoint.class)) {
-                RequestMappingInfo key = m.getKey();
-                PatternsRequestCondition con = key.getPatternsCondition();
-                if (!con.isEmpty()) {
-                    Set<String> patterns = con.getPatterns();
-                    sb.append(String.format(" , Please fill in this address in your Gitlab Webhook: %s%s%n", contentPath, patterns.size() == 1 ? patterns.iterator().next() : patterns));
-                }
-                break;
-            }
-        }
+        sb.append(String.format(" , Please fill in this address in your Gitlab Webhook: %s%s%n", contentPath, WebhookEndpoint.PIPELINE_ENDPOINT_URL));
         log.info(sb.toString());
     }
 }

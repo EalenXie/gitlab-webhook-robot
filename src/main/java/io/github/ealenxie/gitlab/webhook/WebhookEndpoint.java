@@ -17,10 +17,12 @@ public class WebhookEndpoint {
 
     private static final String EVENT_HEADER = "X-Gitlab-Event";
 
+    public static final String PIPELINE_ENDPOINT_URL = "/actuator/gitlab/webhook";
+
     @Resource
     private GitlabWebHookHandler gitlabWebHookHandler;
 
-    @PostMapping("/actuator/gitlab/webhook")
+    @PostMapping(PIPELINE_ENDPOINT_URL)
     public ResponseEntity<String> pipeline(@RequestBody JsonNode requestBody, @RequestHeader(EVENT_HEADER) String event) {
         return gitlabWebHookHandler.handle(requestBody, event);
     }
