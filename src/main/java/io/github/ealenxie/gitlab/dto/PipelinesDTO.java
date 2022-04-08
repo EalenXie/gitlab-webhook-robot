@@ -24,7 +24,7 @@ public class PipelinesDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String sha;
     @JsonProperty("yaml_errors")
-    private Boolean yamlErrors;
+    private String yamlErrors;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
     @JsonInclude(JsonInclude.Include.NON_NULL)

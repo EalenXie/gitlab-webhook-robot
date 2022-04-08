@@ -6,11 +6,12 @@ import io.github.ealenxie.gitlab.vo.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,12 +80,13 @@ public class GitlabClient {
      * @param scope     Scope of jobs to show. Either one of or an array of the following: created, pending, running, failed, success, canceled, skipped, or manual. All jobs are returned if scope is not provided.
      */
     public ResponseEntity<List<Job>> getJobsByProjectId(Long projectId, @Nullable JobScope scope) {
-        Map<String, String> uriVariables = new LinkedHashMap<>();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/api/v4/projects/%s/jobs", host, projectId));
         if (scope != null) {
-            uriVariables.put("scope", scope.name());
+            builder.queryParam("scope", scope.name());
         }
-        return restOperations.exchange(String.format("%s/api/v4/projects/%s/jobs", host, projectId), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Job>>() {
-        }, uriVariables);
+        URI uri = builder.build().encode().toUri();
+        return restOperations.exchange(uri, HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Job>>() {
+        });
     }
 
     /**
@@ -105,9 +107,16 @@ public class GitlabClient {
      * @param dto       请求参数
      */
     public ResponseEntity<List<Pipeline>> getPipelinesByProjectId(Long projectId, @Nullable PipelinesDTO dto) {
-        @SuppressWarnings("unchecked") Map<String, ?> args = objectMapper.convertValue(dto, Map.class);
-        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines", host, projectId), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Pipeline>>() {
-        }, args != null ? args : new LinkedHashMap<>());
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/api/v4/projects/%s/pipelines", host, projectId));
+        if (dto != null) {
+            @SuppressWarnings("unchecked") Map<String, String> args = objectMapper.convertValue(dto, Map.class);
+            LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+            queryParams.setAll(args);
+            builder.queryParams(queryParams);
+        }
+        URI uri = builder.build().encode().toUri();
+        return restOperations.exchange(uri, HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Pipeline>>() {
+        });
     }
 
 
