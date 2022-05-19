@@ -28,14 +28,4 @@ public class DivElement implements Element {
         return tag;
     }
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    public static class Text {
-        @JsonProperty("content")
-        private String content;
-        @JsonProperty("tag")
-        private String tag;
-    }
 }

@@ -1,10 +1,14 @@
 package io.github.ealenxie.gitlab;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.gitlab.dto.PipelinesDTO;
 import io.github.ealenxie.gitlab.vo.*;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestOperations;
@@ -20,7 +24,7 @@ import java.util.Map;
  */
 public class GitlabClient {
     /**
-     * gitlab域名 例如 http://xxx.gitlab 或 http://192.168.1.1:8090
+     * gitlab域名 例如 http://xxx.gitlab
      */
     private final String host;
 
@@ -46,8 +50,8 @@ public class GitlabClient {
      *
      * @param userId 用户Id
      */
-    public ResponseEntity<GitlabUser> getUserById(Long userId) {
-        return restOperations.exchange(URI.create(String.format("%s/api/v4/users/%s", host, userId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), GitlabUser.class);
+    public GitlabUser getUserById(Long userId) {
+        return restOperations.exchange(URI.create(String.format("%s/api/v4/users/%s", host, userId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), GitlabUser.class).getBody();
     }
 
 
@@ -56,9 +60,9 @@ public class GitlabClient {
      *
      * @param groupId 组Id
      */
-    public ResponseEntity<List<Member>> getAllMembersByGroupId(Long groupId) {
+    public List<Member> getAllMembersByGroupId(Long groupId) {
         return restOperations.exchange(URI.create(String.format("%s/api/v4/groups/%s/members/all", host, groupId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Member>>() {
-        });
+        }).getBody();
     }
 
 
@@ -67,9 +71,9 @@ public class GitlabClient {
      *
      * @param projectId 项目Id
      */
-    public ResponseEntity<List<Member>> getAllMembersByProjectId(Long projectId) {
+    public List<Member> getAllMembersByProjectId(Long projectId) {
         return restOperations.exchange(URI.create(String.format("%s/api/v4/projects/%s/members/all", host, projectId)), HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Member>>() {
-        });
+        }).getBody();
     }
 
 
@@ -79,14 +83,14 @@ public class GitlabClient {
      * @param projectId 项目Id
      * @param scope     Scope of jobs to show. Either one of or an array of the following: created, pending, running, failed, success, canceled, skipped, or manual. All jobs are returned if scope is not provided.
      */
-    public ResponseEntity<List<Job>> getJobsByProjectId(Long projectId, @Nullable JobScope scope) {
+    public List<Job> getJobsByProjectId(Long projectId, @Nullable JobScope scope) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/api/v4/projects/%s/jobs", host, projectId));
         if (scope != null) {
             builder.queryParam("scope", scope.name());
         }
         URI uri = builder.build().encode().toUri();
         return restOperations.exchange(uri, HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Job>>() {
-        });
+        }).getBody();
     }
 
     /**
@@ -95,8 +99,8 @@ public class GitlabClient {
      * @param projectId 项目Id
      * @param jobId     JobId
      */
-    public ResponseEntity<EraseJob> eraseJob(Long projectId, Long jobId) {
-        return restOperations.exchange(String.format("%s/api/v4/projects/%s/jobs/%s/erase", host, projectId, jobId), HttpMethod.POST, new HttpEntity<>(null, httpHeaders), EraseJob.class);
+    public EraseJob eraseJob(Long projectId, Long jobId) {
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/jobs/%s/erase", host, projectId, jobId), HttpMethod.POST, new HttpEntity<>(null, httpHeaders), EraseJob.class).getBody();
     }
 
 
@@ -106,17 +110,18 @@ public class GitlabClient {
      * @param projectId 项目Id
      * @param dto       请求参数
      */
-    public ResponseEntity<List<Pipeline>> getPipelinesByProjectId(Long projectId, @Nullable PipelinesDTO dto) {
+    public List<Pipeline> getPipelinesByProjectId(Long projectId, @Nullable PipelinesDTO dto) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/api/v4/projects/%s/pipelines", host, projectId));
         if (dto != null) {
-            @SuppressWarnings("unchecked") Map<String, String> args = objectMapper.convertValue(dto, Map.class);
+            Map<String, String> args = objectMapper.convertValue(dto, new TypeReference<Map<String, String>>() {
+            });
             LinkedMultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
             queryParams.setAll(args);
             builder.queryParams(queryParams);
         }
         URI uri = builder.build().encode().toUri();
         return restOperations.exchange(uri, HttpMethod.GET, new HttpEntity<>(null, httpHeaders), new ParameterizedTypeReference<List<Pipeline>>() {
-        });
+        }).getBody();
     }
 
 
@@ -126,7 +131,7 @@ public class GitlabClient {
      * @param projectId  项目Id
      * @param pipelineId pipelineId
      */
-    public ResponseEntity<Void> deletePipeline(Long projectId, Long pipelineId) {
-        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), Void.class);
+    public void deletePipeline(Long projectId, Long pipelineId) {
+        restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), Void.class);
     }
 }

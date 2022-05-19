@@ -34,25 +34,4 @@ public class MarkdownElement implements Element {
     }
 
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    public static class Href {
-        @JsonProperty("urlVal")
-        private UrlVal urlVal;
-
-        @Getter
-        @Setter
-        public static class UrlVal {
-            @JsonProperty("url")
-            private String url;
-            @JsonProperty("android_url")
-            private String androidUrl;
-            @JsonProperty("ios_url")
-            private String iosUrl;
-            @JsonProperty("pc_url")
-            private String pcUrl;
-        }
-    }
 }

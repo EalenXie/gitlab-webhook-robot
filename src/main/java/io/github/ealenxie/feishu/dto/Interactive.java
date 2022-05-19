@@ -21,34 +21,4 @@ public class Interactive {
     @JsonProperty("header")
     private Header header;
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    public static class Config {
-        @JsonProperty("wide_screen_mode")
-        private Boolean wideScreenMode;
-        @JsonProperty("enable_forward")
-        private Boolean enableForward;
-    }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    public static class Header {
-        @JsonProperty("title")
-        private Title title;
-
-        @NoArgsConstructor
-        @AllArgsConstructor
-        @Getter
-        @Setter
-        public static class Title {
-            @JsonProperty("content")
-            private String content;
-            @JsonProperty("tag")
-            private String tag;
-        }
-    }
 }

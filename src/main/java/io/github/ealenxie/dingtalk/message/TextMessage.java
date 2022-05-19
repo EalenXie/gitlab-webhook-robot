@@ -1,7 +1,7 @@
 package io.github.ealenxie.dingtalk.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
+import io.github.ealenxie.dingtalk.dto.Text;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,13 +26,5 @@ public class TextMessage extends DingRobotMessage {
         return msgType;
     }
 
-
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Text {
-        private String content;
-    }
 
 }

@@ -1,6 +1,7 @@
 package io.github.ealenxie.gitlab.webhook.sender;
 
 import io.github.ealenxie.dingtalk.DingRobotClient;
+import io.github.ealenxie.dingtalk.dto.Markdown;
 import io.github.ealenxie.dingtalk.message.DingRobotAt;
 import io.github.ealenxie.dingtalk.message.MarkdownMessage;
 import io.github.ealenxie.gitlab.GitlabClient;
@@ -65,7 +66,7 @@ public class DingRobotMessageSender implements MessageSender<MarkDownMsg, String
             actionCardMessage.setAt(at);
         }
         sb.append(markDownMsg.getMarkdown());
-        MarkdownMessage.Markdown markdown = new MarkdownMessage.Markdown(markDownMsg.getTitle(), sb.toString());
+        Markdown markdown = new Markdown(markDownMsg.getTitle(), sb.toString());
         actionCardMessage.setMarkdown(markdown);
         return dingRobotClient.sendMessage(actionCardMessage, accessToken, signKey);
     }

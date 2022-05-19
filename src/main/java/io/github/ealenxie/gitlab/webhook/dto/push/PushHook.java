@@ -64,7 +64,7 @@ public class PushHook implements MarkDownMsg {
     }
 
     @Override
-    public List<String> notifier(){
+    public List<String> notifier() {
         return Collections.singletonList(String.valueOf(userId));
     }
 }

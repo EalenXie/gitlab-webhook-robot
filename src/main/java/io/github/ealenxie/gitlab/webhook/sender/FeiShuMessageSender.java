@@ -1,8 +1,7 @@
 package io.github.ealenxie.gitlab.webhook.sender;
 
 import io.github.ealenxie.feishu.FeiShuClient;
-import io.github.ealenxie.feishu.dto.Interactive;
-import io.github.ealenxie.feishu.dto.MarkdownElement;
+import io.github.ealenxie.feishu.dto.*;
 import io.github.ealenxie.feishu.message.InteractiveMessage;
 import io.github.ealenxie.gitlab.webhook.conf.WebHookConfig;
 import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
@@ -37,8 +36,8 @@ public class FeiShuMessageSender implements MessageSender<MarkDownMsg, String> {
     @Override
     public ResponseEntity<String> sendMessage(MarkDownMsg markDownMsg) {
         Interactive interactive = new Interactive();
-        interactive.setConfig(new Interactive.Config(true, true));
-        interactive.setHeader(new Interactive.Header(new Interactive.Header.Title(markDownMsg.getTitle(), "plain_text")));
+        interactive.setConfig(new Config(true, true));
+        interactive.setHeader(new Header(new Title(markDownMsg.getTitle(), "plain_text")));
         MarkdownElement markdownElement = new MarkdownElement(markDownMsg.getMarkdown());
         interactive.setElements(Collections.singletonList(markdownElement));
         InteractiveMessage interactiveMessage = new InteractiveMessage(interactive);

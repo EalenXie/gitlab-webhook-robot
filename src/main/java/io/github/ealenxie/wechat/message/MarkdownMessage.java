@@ -1,8 +1,10 @@
 package io.github.ealenxie.wechat.message;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import io.github.ealenxie.wechat.dto.Markdown;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2021/12/27 10:58
@@ -24,15 +26,5 @@ public class MarkdownMessage implements WeChatMessage {
         this.markdown = markdown;
     }
 
-    @Data
-    @NoArgsConstructor
-    public static class Markdown {
-        private String content;
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @JsonProperty("mentioned_list")
-        private String[] mentionedList;
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @JsonProperty("mentioned_mobile_list")
-        private String[] mentionedMobileList;
-    }
+
 }

@@ -1,7 +1,6 @@
 package io.github.ealenxie.gitlab;
 
 import io.github.ealenxie.gitlab.vo.GitlabUser;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 
 import java.util.HashMap;
@@ -24,8 +23,7 @@ public class GitlabUserFactory {
     public GitlabUser getUser(Long userId) {
         if (!gitlabUsers.containsKey(userId)) {
             try {
-                ResponseEntity<GitlabUser> response = gitlabClient.getUserById(userId);
-                GitlabUser body = response.getBody();
+                GitlabUser body = gitlabClient.getUserById(userId);
                 gitlabUsers.put(userId, body);
             } catch (Exception e) {
                 gitlabUsers.put(userId, new GitlabUser());

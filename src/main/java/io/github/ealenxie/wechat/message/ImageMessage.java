@@ -1,7 +1,10 @@
 package io.github.ealenxie.wechat.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import io.github.ealenxie.wechat.dto.Image;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/2/11 13:08
@@ -23,13 +26,5 @@ public class ImageMessage implements WeChatMessage {
         this.image = image;
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class Image {
-        @JsonProperty("base64")
-        private String base64;
-        @JsonProperty("md5")
-        private String md5;
-    }
+
 }

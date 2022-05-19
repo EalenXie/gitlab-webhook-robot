@@ -1,7 +1,7 @@
 package io.github.ealenxie.dingtalk.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
+import io.github.ealenxie.dingtalk.dto.Markdown;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,13 +27,4 @@ public class MarkdownMessage extends DingRobotMessage {
         this.markdown = markdown;
     }
 
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    public static class Markdown {
-        private String title;
-        private String text;
-    }
 }
