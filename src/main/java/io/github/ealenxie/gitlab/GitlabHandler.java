@@ -1,7 +1,12 @@
 package io.github.ealenxie.gitlab;
 
+import io.github.ealenxie.gitlab.config.GitlabConfig;
+import io.github.ealenxie.gitlab.dto.PipelineCancelDeleteDTO;
+import io.github.ealenxie.gitlab.vo.CancelPipeline;
 import io.github.ealenxie.gitlab.vo.GitlabUser;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,14 +14,16 @@ import java.util.Map;
 /**
  * Created by EalenXie on 2022/3/4 13:18
  */
-public class GitlabUserFactory {
+@ConditionalOnProperty(prefix = GitlabConfig.PREFIX, value = "enable", havingValue = "true")
+@Component
+public class GitlabHandler {
 
     private final GitlabClient gitlabClient;
 
     private final Map<Long, GitlabUser> gitlabUsers = new HashMap<>();
 
-    public GitlabUserFactory(GitlabClient gitlabClient) {
-        this.gitlabClient = gitlabClient;
+    public GitlabHandler(GitlabConfig gitlabConfig) {
+        this.gitlabClient = new GitlabClient(gitlabConfig.getHost(), gitlabConfig.getPrivateToken());
     }
 
     @Nullable
@@ -40,5 +47,13 @@ public class GitlabUserFactory {
             return gitlabUser.getSkype();
         }
         return null;
+    }
+
+    public CancelPipeline pipelineCancelDelete(PipelineCancelDeleteDTO dto) {
+        CancelPipeline cancelPipeline = gitlabClient.cancelPipeline(dto.getProjectId(), dto.getPipelineId());
+        if (dto.getAction().equals("delete")) {
+            gitlabClient.deletePipeline(dto.getProjectId(), dto.getPipelineId());
+        }
+        return cancelPipeline;
     }
 }

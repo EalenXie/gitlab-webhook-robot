@@ -4,13 +4,12 @@ import io.github.ealenxie.dingtalk.DingRobotClient;
 import io.github.ealenxie.dingtalk.dto.Markdown;
 import io.github.ealenxie.dingtalk.message.DingRobotAt;
 import io.github.ealenxie.dingtalk.message.MarkdownMessage;
-import io.github.ealenxie.gitlab.GitlabClient;
-import io.github.ealenxie.gitlab.GitlabUserFactory;
-import io.github.ealenxie.gitlab.config.GitlabConfig;
+import io.github.ealenxie.gitlab.GitlabHandler;
 import io.github.ealenxie.gitlab.webhook.conf.WebHookConfig;
 import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,18 +26,14 @@ public class DingRobotMessageSender implements MessageSender<MarkDownMsg, String
     private final DingRobotClient dingRobotClient;
     private final String accessToken;
     private final String signKey;
-    private final GitlabUserFactory userFactory;
+    private final GitlabHandler gitlabHandler;
 
 
-    public DingRobotMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, GitlabConfig gitlabConfig) {
+    public DingRobotMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, @Nullable GitlabHandler gitlabHandler) {
         this.dingRobotClient = new DingRobotClient(httpClientRestTemplate);
         this.accessToken = webHookConfig.getDing().getAccessToken();
         this.signKey = webHookConfig.getDing().getSignKey();
-        if (gitlabConfig.getHost() != null && gitlabConfig.getPrivateToken() != null) {
-            this.userFactory = new GitlabUserFactory(new GitlabClient(gitlabConfig.getHost(), gitlabConfig.getPrivateToken()));
-        } else {
-            this.userFactory = null;
-        }
+        this.gitlabHandler = gitlabHandler;
     }
 
 
@@ -48,10 +43,10 @@ public class DingRobotMessageSender implements MessageSender<MarkDownMsg, String
         StringBuilder sb = new StringBuilder();
         if (!markDownMsg.notifier().isEmpty()) {
             List<String> atMobiles = new ArrayList<>();
-            if (userFactory != null) {
+            if (gitlabHandler != null) {
                 List<String> notifier = markDownMsg.notifier();
                 for (String s : notifier) {
-                    String skype = userFactory.getUserSkype(Long.parseLong(s));
+                    String skype = gitlabHandler.getUserSkype(Long.parseLong(s));
                     if (skype != null) {
                         sb.append("@").append(skype);
                         atMobiles.add(skype);

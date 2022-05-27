@@ -1,6 +1,8 @@
 package io.github.ealenxie.gitlab.config;
 
+import io.github.ealenxie.gitlab.webhook.tool.SpringEnvHelper;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -28,5 +30,11 @@ public class GitlabConfig {
 
     public void setPrivateToken(String privateToken) {
         this.privateToken = privateToken;
+    }
+
+
+    @Bean
+    public SpringEnvHelper springEnvHelper() {
+        return new SpringEnvHelper();
     }
 }

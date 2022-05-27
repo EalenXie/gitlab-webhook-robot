@@ -126,6 +126,16 @@ public class GitlabClient {
 
 
     /**
+     * 取消pipeline
+     *
+     * @param projectId  项目Id
+     * @param pipelineId pipelineId
+     */
+    public CancelPipeline cancelPipeline(Long projectId, Long pipelineId) {
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s/cancel", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), CancelPipeline.class).getBody();
+    }
+
+    /**
      * 删除pipeline
      *
      * @param projectId  项目Id

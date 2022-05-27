@@ -1,8 +1,10 @@
 package io.github.ealenxie.gitlab.webhook.dto.pipeline;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.github.ealenxie.gitlab.GitlabEndpoint;
 import io.github.ealenxie.gitlab.webhook.dto.*;
 import io.github.ealenxie.gitlab.webhook.tool.FileConvert;
+import io.github.ealenxie.gitlab.webhook.tool.SpringEnvHelper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -143,6 +145,13 @@ public class PipelineHook implements MarkDownMsg {
                 }
                 sb.append(String.format(">%s [%s](%s/-/jobs/%s) : <font color='%s'>%s</font> %s %s %ss%n%n", emoji, build.getStage(), project.getWebUrl(), build.getId(), color, build.getStatus(), fileName, new Emoji("\uD83D\uDD57"), costTime));
             }
+        } else {
+            String pipelineCancelDeleteUrl = GitlabEndpoint.PIPELINE_CANCEL_DELETE_URL;
+            String localhostIp = SpringEnvHelper.getLocalhostIp();
+            Integer port = SpringEnvHelper.getPort();
+            String hostSchema = String.format("http://%s:%s", localhostIp, port);
+            sb.append(String.format("[取消pipeline](%s%s?projectId=%s&pipelineId=%s&action=cancel) %n%n", hostSchema, pipelineCancelDeleteUrl, project.getId(), objectAttributes.getId()));
+            sb.append(String.format("[取消并删除pipeline](%s%s?projectId=%s&pipelineId=%s&action=delete) %n%n", hostSchema, pipelineCancelDeleteUrl, project.getId(), objectAttributes.getId()));
         }
         return sb.toString();
     }
