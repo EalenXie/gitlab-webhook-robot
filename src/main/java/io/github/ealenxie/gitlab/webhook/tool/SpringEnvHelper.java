@@ -201,7 +201,8 @@ public class SpringEnvHelper implements ApplicationContextAware {
      */
     private static void setPort(ApplicationContext applicationContext) {
         Environment environment = applicationContext.getEnvironment();
-        port = Integer.parseInt(environment.getProperty("server.port"));
+        String portString = environment.getProperty("server.port");
+        port = Integer.parseInt(StringUtils.isEmpty(portString) ? "8080" : portString);
 
     }
 

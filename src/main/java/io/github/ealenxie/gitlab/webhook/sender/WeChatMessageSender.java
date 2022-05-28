@@ -6,9 +6,9 @@ import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
 import io.github.ealenxie.wechat.WeChatClient;
 import io.github.ealenxie.wechat.dto.Markdown;
 import io.github.ealenxie.wechat.message.MarkdownMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,13 +21,11 @@ import java.util.List;
 @Component
 @ConditionalOnProperty(prefix = WebHookConfig.PREFIX, value = "way", havingValue = "wechat")
 public class WeChatMessageSender implements MessageSender<MarkDownMsg, String> {
-
     private final WeChatClient weChatClient;
-
     private final String key;
     private final GitlabHandler gitlabHandler;
 
-    public WeChatMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, @Nullable GitlabHandler gitlabHandler) {
+    public WeChatMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, @Autowired(required = false) GitlabHandler gitlabHandler) {
         this.weChatClient = new WeChatClient(httpClientRestTemplate);
         this.key = webHookConfig.getWechat().getKey();
         this.gitlabHandler = gitlabHandler;

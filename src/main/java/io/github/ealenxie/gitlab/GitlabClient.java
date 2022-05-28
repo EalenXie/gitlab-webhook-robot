@@ -132,7 +132,18 @@ public class GitlabClient {
      * @param pipelineId pipelineId
      */
     public CancelPipeline cancelPipeline(Long projectId, Long pipelineId) {
-        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s/cancel", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), CancelPipeline.class).getBody();
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s/cancel", host, projectId, pipelineId), HttpMethod.POST, new HttpEntity<>(null, httpHeaders), CancelPipeline.class).getBody();
+    }
+
+
+    /**
+     * 重试pipeline
+     *
+     * @param projectId  项目Id
+     * @param pipelineId pipelineId
+     */
+    public CancelPipeline retryPipeline(Long projectId, Long pipelineId) {
+        return restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s/retry", host, projectId, pipelineId), HttpMethod.POST, new HttpEntity<>(null, httpHeaders), CancelPipeline.class).getBody();
     }
 
     /**

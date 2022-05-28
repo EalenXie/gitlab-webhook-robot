@@ -7,9 +7,9 @@ import io.github.ealenxie.dingtalk.message.MarkdownMessage;
 import io.github.ealenxie.gitlab.GitlabHandler;
 import io.github.ealenxie.gitlab.webhook.conf.WebHookConfig;
 import io.github.ealenxie.gitlab.webhook.dto.MarkDownMsg;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,7 +29,7 @@ public class DingRobotMessageSender implements MessageSender<MarkDownMsg, String
     private final GitlabHandler gitlabHandler;
 
 
-    public DingRobotMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, @Nullable GitlabHandler gitlabHandler) {
+    public DingRobotMessageSender(WebHookConfig webHookConfig, RestTemplate httpClientRestTemplate, @Autowired(required = false) GitlabHandler gitlabHandler) {
         this.dingRobotClient = new DingRobotClient(httpClientRestTemplate);
         this.accessToken = webHookConfig.getDing().getAccessToken();
         this.signKey = webHookConfig.getDing().getSignKey();
