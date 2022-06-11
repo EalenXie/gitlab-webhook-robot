@@ -8,14 +8,14 @@ webhook:
     access-token: 93a93799cde9xxxxxx655ae0d4eb9872883c
     sign-key: SECcd68c6b173cca046231c48739c6141a891c9
   wechat:
-    key: 11910fab-07f1-49ce-8
+    key: 11910fa
   feishu:
-    url: https://open.feishu.cn/open-apis/bot/v2/hook/4ad2ff7d-78e4-4ef0-84be-ee6f0cac25e7
+    url: https://open.feishu.cn/open-apis/bot/v2/hook/4ad2ff7d-78e4-4ef0-84be-ee6
     signKey:
 gitlab:
   enable: true
-  host: http://8.142.140.82
-  private-token: TJ4MJ
+  host: http://8.142
+  private-token: TJ
 spring:
   application:
     name: @artifactId@
