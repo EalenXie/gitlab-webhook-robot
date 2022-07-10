@@ -2,11 +2,11 @@ package io.github.ealenxie.wechat.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 public class Markdown {
     private String content;
     @JsonInclude(JsonInclude.Include.NON_NULL)

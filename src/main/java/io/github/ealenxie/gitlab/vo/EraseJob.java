@@ -2,15 +2,17 @@ package io.github.ealenxie.gitlab.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 /**
  * Created by EalenXie on 2022/3/23 13:22
  */
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class EraseJob {
 
     @JsonProperty("commit")

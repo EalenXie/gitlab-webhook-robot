@@ -2,13 +2,15 @@ package io.github.ealenxie.gitlab.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/3/23 10:54
  */
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Member {
 
     @JsonProperty("id")

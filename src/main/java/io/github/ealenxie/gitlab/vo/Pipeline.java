@@ -1,14 +1,14 @@
 package io.github.ealenxie.gitlab.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/3/23 13:27
  */
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Pipeline {
     @JsonProperty("id")
     private Integer id;

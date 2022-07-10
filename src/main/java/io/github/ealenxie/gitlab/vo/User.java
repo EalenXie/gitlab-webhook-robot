@@ -1,14 +1,14 @@
 package io.github.ealenxie.gitlab.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/5/27 14:35
  */
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class User {
     @JsonProperty("name")
     private String name;

@@ -2,12 +2,14 @@ package io.github.ealenxie.gitlab.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by EalenXie on 2022/3/23 13:34
  */
-@Data
+@Getter
+@Setter
 public class PipelinesDTO {
     /**
      * The scope of pipelines, one of: running, pending, finished, branches, tags
