@@ -26,6 +26,7 @@ Java版 Gitlab Webhook + 机器人通知
 ##### 1. 配置项目`gitlab-webhook-robot`的机器人
 
 例如钉钉机器人:
+
 ```yaml
 webhook:
   ## webhook的消息发送方式为钉钉机器人
@@ -36,7 +37,9 @@ webhook:
     ## 请配置钉钉机器人sign-key
     sign-key: SECcd68c6bxxxxxxxx614xxxc926xxxxxxxxxxe811656bdd0
 ```
+
 例如企业微信机器人:
+
 ```yaml
 webhook:
   ## webhook的消息发送方式为企业微信机器人
