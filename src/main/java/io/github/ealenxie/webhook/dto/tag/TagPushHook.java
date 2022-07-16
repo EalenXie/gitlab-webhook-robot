@@ -1,7 +1,9 @@
 package io.github.ealenxie.webhook.dto.tag;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.webhook.dto.*;
+import io.github.ealenxie.webhook.dto.Commit;
+import io.github.ealenxie.webhook.dto.Project;
+import io.github.ealenxie.webhook.dto.Repository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +14,7 @@ import java.util.List;
  */
 @Setter
 @Getter
-public class TagPushHook implements MarkDownMsg {
-
+public class TagPushHook {
     @JsonProperty("object_kind")
     private String objectKind;
     @JsonProperty("event_name")
@@ -42,18 +43,4 @@ public class TagPushHook implements MarkDownMsg {
     private Integer totalCommitsCount;
     private Repository repository;
 
-    @Override
-    public String getTitle() {
-        return getObjectKind();
-    }
-
-    @Override
-    public String getMarkdown() {
-        String[] refSplit = ref.split("/");
-        String tag = refSplit[refSplit.length - 1];
-        String t = String.format("[%s](%s/-/tree/%s)", tag, project.getWebUrl(), tag);
-        String p = String.format("[%s](%s)", project.getName(), project.getWebUrl());
-        String user = String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
-        return String.format("%s push new tag(%s) by %s %s%n%n > %s", p, t, user, new Emoji("\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80"), message);
-    }
 }

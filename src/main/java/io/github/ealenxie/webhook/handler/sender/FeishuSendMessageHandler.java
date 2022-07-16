@@ -5,7 +5,6 @@ import io.github.ealenxie.client.feishu.FeiShuClient;
 import io.github.ealenxie.client.feishu.dto.*;
 import io.github.ealenxie.client.feishu.message.InteractiveMessage;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessage;
-import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
 import io.github.ealenxie.webhook.meta.FeiShuConfig;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -33,7 +32,8 @@ public class FeishuSendMessageHandler implements WebhookEventSendMessageHandler<
     }
 
     @Override
-    public Object sendMessage(WebhookDefinition webhook, EventMessage message) {
+    public Object sendMessage(EventMessage message) {
+        WebhookDefinition webhook = message.webhook();
         Map<String, Object> config = webhook.getConfig();
         FeiShuConfig feiShuConfig = objectMapper.convertValue(config, FeiShuConfig.class);
         Interactive interactive = new Interactive();

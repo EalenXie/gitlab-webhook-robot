@@ -4,6 +4,7 @@ import io.github.ealenxie.webhook.dto.Project;
 import io.github.ealenxie.webhook.dto.User;
 import io.github.ealenxie.webhook.dto.UserUtils;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
+import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,24 +12,33 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/7/10 15:58
  */
-public class DefaultIssueMessage extends IssueHook implements EmojiSupport, EventMessage {
+public class DefaultIssueMessage extends WebhookMessage {
+
+    private final IssueHook issueHook;
+
+    public DefaultIssueMessage(WebhookDefinition webhook, IssueHook issueHook) {
+        super(webhook);
+        this.issueHook = issueHook;
+    }
+
+
     @Override
     public String title() {
-        return getObjectKind();
+        return issueHook.getObjectKind();
     }
 
     @Override
     public String message() {
-        ObjectAttributes objectAttributes = getObjectAttributes();
-        Project project = getProject();
-        User user = getUser();
+        IssueHook.ObjectAttributes objectAttributes = issueHook.getObjectAttributes();
+        Project project = issueHook.getProject();
+        User user = issueHook.getUser();
         StringBuilder sb = new StringBuilder();
         String projectUrl = String.format("[%s](%s)", project.getName(), project.getWebUrl());
-        String issue = String.format("[#%s](%s)", getObjectAttributes().getId(), objectAttributes.getUrl());
+        String issue = String.format("[#%s](%s)", issueHook.getObjectAttributes().getId(), objectAttributes.getUrl());
         String titleEmoji = "";
         String statusEmoji = "";
         if (enableEmoji()) {
-            if (getObjectAttributes().getState().equals("opened")) {
+            if (objectAttributes.getState().equals("opened")) {
                 titleEmoji = "\uD83D\uDD34";
                 statusEmoji = "\uD83D\uDE4B\u200D♂️";
             } else if (objectAttributes.getState().equals("closed")) {
@@ -47,6 +57,6 @@ public class DefaultIssueMessage extends IssueHook implements EmojiSupport, Even
 
     @Override
     public List<String> notifies() {
-        return Collections.singletonList(String.valueOf(getUser().getId()));
+        return Collections.singletonList(String.valueOf(issueHook.getUser().getId()));
     }
 }

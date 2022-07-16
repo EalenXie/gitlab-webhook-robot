@@ -114,7 +114,7 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
         switch (webhookWay) {
             case DING_MESSAGE:
                 return applicationContext.getBean(DingSendMessageHandler.class);
-            case FEISHU_MESSAGE:
+            case FEI_SHU_MESSAGE:
                 return applicationContext.getBean(FeishuSendMessageHandler.class);
             case WECHAT_MESSAGE:
                 return applicationContext.getBean(WechatSendMessageHandler.class);

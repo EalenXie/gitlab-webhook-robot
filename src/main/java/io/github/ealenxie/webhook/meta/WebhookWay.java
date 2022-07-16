@@ -16,5 +16,5 @@ public enum WebhookWay {
     /**
      * 发送飞书机器人消息
      */
-    FEISHU_MESSAGE
+    FEI_SHU_MESSAGE
 }

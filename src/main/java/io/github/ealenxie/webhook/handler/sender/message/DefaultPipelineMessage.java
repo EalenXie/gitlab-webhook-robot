@@ -5,6 +5,7 @@ import io.github.ealenxie.webhook.dto.Build;
 import io.github.ealenxie.webhook.dto.Commit;
 import io.github.ealenxie.webhook.dto.Project;
 import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
+import io.github.ealenxie.webhook.meta.WebhookDefinition;
 import io.github.ealenxie.webhook.tool.FileConvert;
 import io.github.ealenxie.webhook.tool.SpringEnvHelper;
 
@@ -18,23 +19,31 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/7/10 15:58
  */
-public class DefaultPipelineMessage extends PipelineHook implements EmojiSupport, EventMessage {
+public class DefaultPipelineMessage extends WebhookMessage {
+
+    private final PipelineHook pipelineHook;
+
+    public DefaultPipelineMessage(WebhookDefinition webhook, PipelineHook pipelineHook) {
+        super(webhook);
+        this.pipelineHook = pipelineHook;
+    }
+
     @Override
     public String title() {
-        return getObjectKind();
+        return pipelineHook.getObjectKind();
     }
 
     @Override
     @SuppressWarnings("all")
     public String message() {
         StringBuilder sb = new StringBuilder();
-        ObjectAttributes objectAttributes = getObjectAttributes();
-        Project project = getProject();
-        Commit commit = getCommit();
-        List<Build> builds = getBuilds();
+        PipelineHook.ObjectAttributes objectAttributes = pipelineHook.getObjectAttributes();
+        Project project = pipelineHook.getProject();
+        Commit commit = pipelineHook.getCommit();
+        List<Build> builds = pipelineHook.getBuilds();
         String status = objectAttributes.getStatus();
-        String pipeline = String.format("%s [#%s %s](%s/-/pipelines/%s)", getObjectKind(), objectAttributes.getId(), enableEmoji() ? "\uD83D\uDE80" : "", project.getWebUrl(), objectAttributes.getId());
-        sb.append(String.format("[[%s:%s]](%s/-/tree/%s) <font color='#000000'>%s %s</font>%n%n", project.getName(), objectAttributes.getRef(), project.getWebUrl(), getObjectAttributes().getRef(), pipeline, status));
+        String pipeline = String.format("%s [#%s %s](%s/-/pipelines/%s)", pipelineHook.getObjectKind(), objectAttributes.getId(), enableEmoji() ? "\uD83D\uDE80" : "", project.getWebUrl(), objectAttributes.getId());
+        sb.append(String.format("[[%s:%s]](%s/-/tree/%s) <font color='#000000'>%s %s</font>%n%n", project.getName(), objectAttributes.getRef(), project.getWebUrl(), objectAttributes.getRef(), pipeline, status));
         if (!"running".equals(status)) {
             int totalTime = 0;
             if (objectAttributes.getDuration() != null) {
@@ -112,11 +121,17 @@ public class DefaultPipelineMessage extends PipelineHook implements EmojiSupport
         } else {
             String pipelineCancelDeleteUrl = GitlabEndpoint.PIPELINE_CANCEL_DELETE_URL;
             String localhostIp = SpringEnvHelper.getLocalhostIp();
+            Long projectId = project.getId();
+            Long pipelineId = objectAttributes.getId();
             Integer port = SpringEnvHelper.getPort();
-            String hostSchema = String.format("http://%s:%s", localhostIp, port);
-            sb.append(String.format("[%s取消运行](%s%s?projectId=%s&pipelineId=%s&action=cancel) ", enableEmoji() ? "\uD83D\uDEAB" : "", hostSchema, pipelineCancelDeleteUrl, project.getId(), objectAttributes.getId()));
-            sb.append(String.format("[%s重新运行](%s%s?projectId=%s&pipelineId=%s&action=retry) ", enableEmoji() ? "♻️" : "", hostSchema, pipelineCancelDeleteUrl, project.getId(), objectAttributes.getId()));
-            sb.append(String.format("[%s删除](%s%s?projectId=%s&pipelineId=%s&action=delete) %n%n", enableEmoji() ? "⛔" : "", hostSchema, pipelineCancelDeleteUrl, project.getId(), objectAttributes.getId()));
+            String hostSchema = String.format("http://%s:%s/%s", localhostIp, port, webhook().getId());
+            sb.append(String.format("[%s取消运行](%s%s?projectId=%s&pipelineId=%s&action=cancel) ",
+                    enableEmoji() ? "\uD83D\uDEAB" : "", hostSchema, pipelineCancelDeleteUrl, projectId, pipelineId));
+            sb.append(String.format("[%s重新运行](%s%s?projectId=%s&pipelineId=%s&action=retry) ",
+                    enableEmoji() ? "♻️" : "", hostSchema, pipelineCancelDeleteUrl, projectId, pipelineId));
+            sb.append(String.format("[%s删除](%s%s?projectId=%s&pipelineId=%s&action=delete) %n%n",
+                    enableEmoji() ? "⛔" : "", hostSchema, pipelineCancelDeleteUrl, projectId, pipelineId));
+
         }
         return sb.toString();
     }
@@ -124,6 +139,7 @@ public class DefaultPipelineMessage extends PipelineHook implements EmojiSupport
 
     @Override
     public List<String> notifies() {
-        return Collections.singletonList(String.valueOf(getUser().getId()));
+        return Collections.singletonList(String.valueOf(pipelineHook.getUser().getId()));
     }
+
 }

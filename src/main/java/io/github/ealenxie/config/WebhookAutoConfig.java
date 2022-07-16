@@ -5,17 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.ealenxie.client.dingtalk.DingRobotClient;
 import io.github.ealenxie.client.feishu.FeiShuClient;
 import io.github.ealenxie.client.wechat.WeChatClient;
-import io.github.ealenxie.webhook.DefaultWebhookEventExecutor;
-import io.github.ealenxie.webhook.WebhookEventExecutor;
-import io.github.ealenxie.webhook.GitlabClientRepository;
-import io.github.ealenxie.webhook.PropertiesWebhookDefinitionRepository;
-import io.github.ealenxie.webhook.WebhookDefinitionRepository;
-import io.github.ealenxie.webhook.WebhookGitlabClientRepository;
-import io.github.ealenxie.webhook.handler.sender.DingSendMessageHandler;
-import io.github.ealenxie.webhook.handler.sender.FeishuSendMessageHandler;
-import io.github.ealenxie.webhook.handler.sender.WechatSendMessageHandler;
-import io.github.ealenxie.webhook.handler.sender.message.DefaultEventMessageGenerator;
-import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
+import io.github.ealenxie.webhook.*;
+import io.github.ealenxie.webhook.handler.sender.*;
 import io.github.ealenxie.webhook.tool.SpringEnvHelper;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -103,8 +94,8 @@ public class WebhookAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public GitlabClientRepository gitlabClientRepository(WebhookProperties webhookProperties, RestTemplate httpClientRestTemplate) {
-        return new WebhookGitlabClientRepository(webhookProperties, httpClientRestTemplate);
+    public GitlabHandlerRepository gitlabClientRepository(WebhookProperties webhookProperties, RestTemplate httpClientRestTemplate) {
+        return new WebhookGitlabHandlerRepository(webhookProperties, httpClientRestTemplate);
     }
 
     @Bean
@@ -116,16 +107,16 @@ public class WebhookAutoConfig {
     @Bean
     @ConditionalOnMissingBean
     public WechatSendMessageHandler wechatSendMessageHandler(WeChatClient weChatClient, ObjectMapper objectMapper, EventMessageGenerator eventMessageGenerator,
-                                                             GitlabClientRepository gitlabClientRepository) {
-        return new WechatSendMessageHandler(weChatClient, objectMapper, eventMessageGenerator, gitlabClientRepository);
+                                                             GitlabHandlerRepository gitlabHandlerRepository) {
+        return new WechatSendMessageHandler(weChatClient, objectMapper, eventMessageGenerator, gitlabHandlerRepository);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public DingSendMessageHandler dingRobotSendMessageHandler(DingRobotClient dingRobotClient,
                                                               ObjectMapper objectMapper,
-                                                              EventMessageGenerator eventMessageGenerator, GitlabClientRepository gitlabClientRepository) {
-        return new DingSendMessageHandler(dingRobotClient, objectMapper, gitlabClientRepository, eventMessageGenerator);
+                                                              EventMessageGenerator eventMessageGenerator, GitlabHandlerRepository gitlabHandlerRepository) {
+        return new DingSendMessageHandler(dingRobotClient, objectMapper, gitlabHandlerRepository, eventMessageGenerator);
     }
 
     @Bean

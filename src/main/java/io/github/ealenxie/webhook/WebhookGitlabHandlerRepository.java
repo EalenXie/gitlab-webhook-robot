@@ -15,16 +15,17 @@ import java.util.Map;
 /**
  * Created by EalenXie on 2022/7/15 22:54
  */
-public class WebhookGitlabClientRepository implements GitlabClientRepository {
-    private final Map<String, GitlabClient> clients = new HashMap<>();
+public class WebhookGitlabHandlerRepository implements GitlabHandlerRepository {
+
+    private final Map<String, GitlabHandler> handlers = new HashMap<>();
     private final ObjectMapper objectMapper;
     private final RestOperations restOperations;
 
-    public WebhookGitlabClientRepository(WebhookProperties webhookProperties, RestOperations restOperations) {
+    public WebhookGitlabHandlerRepository(WebhookProperties webhookProperties, RestOperations restOperations) {
         this(webhookProperties, new ObjectMapper(), restOperations);
     }
 
-    public WebhookGitlabClientRepository(WebhookProperties webhookProperties, ObjectMapper objectMapper, RestOperations restOperations) {
+    public WebhookGitlabHandlerRepository(WebhookProperties webhookProperties, ObjectMapper objectMapper, RestOperations restOperations) {
         this.objectMapper = objectMapper;
         this.restOperations = restOperations;
         List<WebhookDefinition> webhooks = webhookProperties.getWebhooks();
@@ -34,20 +35,21 @@ public class WebhookGitlabClientRepository implements GitlabClientRepository {
     }
 
 
-    public GitlabClient findByWebhook(String id) {
-        return clients.get(id);
+    public GitlabHandler findByWebhook(String id) {
+        return handlers.get(id);
     }
 
     public void save(WebhookDefinition webhook) {
         GitlabConfig gitlab = webhook.getGitlab();
         if (gitlab != null) {
-            clients.put(webhook.getId(), new GitlabClient(gitlab.getHost(), gitlab.getPrivateToken(), objectMapper, restOperations));
+            GitlabClient gitlabClient = new GitlabClient(gitlab.getHost(), gitlab.getPrivateToken(), objectMapper, restOperations);
+            handlers.put(webhook.getId(), new GitlabHandler(gitlabClient));
         }
     }
 
     @Override
     public void delete(String id) {
-        clients.remove(id);
+        handlers.remove(id);
     }
 
 }

@@ -3,6 +3,7 @@ package io.github.ealenxie.webhook.meta;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@Validated
 public class WebhookDefinition {
 
     /**

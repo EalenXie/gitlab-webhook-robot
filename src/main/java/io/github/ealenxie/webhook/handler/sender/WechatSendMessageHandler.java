@@ -1,13 +1,12 @@
 package io.github.ealenxie.webhook.handler.sender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.ealenxie.client.gitlab.GitlabClient;
 import io.github.ealenxie.client.wechat.WeChatClient;
 import io.github.ealenxie.client.wechat.dto.Markdown;
 import io.github.ealenxie.client.wechat.message.MarkdownMessage;
-import io.github.ealenxie.webhook.GitlabClientRepository;
+import io.github.ealenxie.webhook.GitlabHandler;
+import io.github.ealenxie.webhook.GitlabHandlerRepository;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessage;
-import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
 import io.github.ealenxie.webhook.meta.WeChatConfig;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -25,32 +24,33 @@ public class WechatSendMessageHandler implements WebhookEventSendMessageHandler<
 
     private final WeChatClient weChatClient;
     private final ObjectMapper objectMapper;
-    private final GitlabClientRepository gitlabClientRepository;
+    private final GitlabHandlerRepository gitlabHandlerRepository;
 
     public WechatSendMessageHandler(WeChatClient weChatClient,
                                     ObjectMapper objectMapper, EventMessageGenerator eventMessageGenerator,
-                                    GitlabClientRepository gitlabClientRepository
+                                    GitlabHandlerRepository gitlabHandlerRepository
 
     ) {
         this.weChatClient = weChatClient;
         this.objectMapper = objectMapper;
         this.eventMessageGenerator = eventMessageGenerator;
-        this.gitlabClientRepository = gitlabClientRepository;
+        this.gitlabHandlerRepository = gitlabHandlerRepository;
     }
 
     @Override
-    public Object sendMessage(WebhookDefinition webhook, EventMessage message) {
+    public Object sendMessage(EventMessage message) {
+        WebhookDefinition webhook = message.webhook();
         Map<String, Object> config = webhook.getConfig();
         WeChatConfig weChatConfig = objectMapper.convertValue(config, WeChatConfig.class);
         Markdown markdown = new Markdown();
         StringBuilder sb = new StringBuilder();
         if (!message.notifies().isEmpty()) {
             List<String> atMobiles = new ArrayList<>();
-            GitlabClient gitlabClient = gitlabClientRepository.findByWebhook(webhook.getId());
-            if (gitlabClient != null) {
+            GitlabHandler gitlabHandler = gitlabHandlerRepository.findByWebhook(webhook.getId());
+            if (gitlabHandler != null) {
                 List<String> notifier = message.notifies();
                 for (String s : notifier) {
-                    String skype = gitlabClient.getUserSkype(Long.parseLong(s));
+                    String skype = gitlabHandler.getUserSkype(Long.parseLong(s));
                     if (skype != null) {
                         atMobiles.add(skype);
                     }

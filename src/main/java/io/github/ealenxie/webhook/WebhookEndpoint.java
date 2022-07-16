@@ -1,8 +1,6 @@
 package io.github.ealenxie.webhook;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.github.ealenxie.webhook.WebhookDefinitionRepository;
-import io.github.ealenxie.webhook.DefaultWebhookEventExecutor;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -5,12 +5,12 @@ import io.github.ealenxie.client.dingtalk.DingRobotClient;
 import io.github.ealenxie.client.dingtalk.dto.Markdown;
 import io.github.ealenxie.client.dingtalk.message.DingRobotAt;
 import io.github.ealenxie.client.dingtalk.message.MarkdownMessage;
-import io.github.ealenxie.client.gitlab.GitlabClient;
-import io.github.ealenxie.webhook.GitlabClientRepository;
+import io.github.ealenxie.webhook.GitlabHandler;
+import io.github.ealenxie.webhook.GitlabHandlerRepository;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessage;
-import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
 import io.github.ealenxie.webhook.meta.DingDingConfig;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +21,46 @@ import java.util.Map;
  * 钉钉机器人
  */
 public class DingSendMessageHandler implements WebhookEventSendMessageHandler<Object> {
-    public final EventMessageGenerator eventMessageGenerator;
 
-    private final GitlabClientRepository gitlabClientRepository;
+    private final GitlabHandlerRepository gitlabHandlerRepository;
 
     private final DingRobotClient dingRobotClient;
 
-    private final ObjectMapper objectMapper;
+    private final EventMessageGenerator eventMessageGenerator;
 
+    private final ObjectMapper objectMapper;
 
     public DingSendMessageHandler(DingRobotClient dingRobotClient,
                                   ObjectMapper objectMapper,
-                                  GitlabClientRepository gitlabClientRepository,
+                                  GitlabHandlerRepository gitlabHandlerRepository,
                                   EventMessageGenerator eventMessageGenerator) {
         this.dingRobotClient = dingRobotClient;
         this.objectMapper = objectMapper;
+        this.gitlabHandlerRepository = gitlabHandlerRepository;
         this.eventMessageGenerator = eventMessageGenerator;
-        this.gitlabClientRepository = gitlabClientRepository;
+    }
+
+
+    @Override
+    public EventMessageGenerator getEventMessageGenerator() {
+        return eventMessageGenerator;
     }
 
     @Override
-    public Object sendMessage(WebhookDefinition webhook, EventMessage message) {
+    public Object sendMessage(EventMessage message) {
+        WebhookDefinition webhook = message.webhook();
         Map<String, Object> config = webhook.getConfig();
         DingDingConfig dingDingConfig = objectMapper.convertValue(config, DingDingConfig.class);
         MarkdownMessage actionCardMessage = new MarkdownMessage();
         StringBuilder sb = new StringBuilder();
         if (!message.notifies().isEmpty()) {
             List<String> atMobiles = new ArrayList<>();
-            GitlabClient gitlabClient = gitlabClientRepository.findByWebhook(webhook.getId());
-            if (gitlabClient != null) {
+            GitlabHandler gitlabHandler = gitlabHandlerRepository.findByWebhook(webhook.getId());
+            if (gitlabHandler != null) {
                 List<String> notifier = message.notifies();
                 for (String s : notifier) {
-                    String skype = gitlabClient.getUserSkype(Long.parseLong(s));
-                    if (skype != null) {
+                    String skype = gitlabHandler.getUserSkype(Long.parseLong(s));
+                    if (!ObjectUtils.isEmpty(skype)) {
                         sb.append("@").append(skype);
                         atMobiles.add(skype);
                     }
@@ -73,8 +80,4 @@ public class DingSendMessageHandler implements WebhookEventSendMessageHandler<Ob
                 dingDingConfig.getAccessToken(), dingDingConfig.getSignKey()).getBody();
     }
 
-    @Override
-    public EventMessageGenerator getEventMessageGenerator() {
-        return eventMessageGenerator;
-    }
 }

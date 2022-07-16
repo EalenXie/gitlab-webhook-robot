@@ -1,18 +1,18 @@
 package io.github.ealenxie.webhook.dto.job;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.ealenxie.webhook.dto.*;
+import io.github.ealenxie.webhook.dto.Repository;
+import io.github.ealenxie.webhook.dto.Runner;
+import io.github.ealenxie.webhook.dto.User;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Objects;
 
 /**
  * Created by EalenXie on 2022/1/24 13:14
  */
 @Getter
 @Setter
-public class JobHook implements MarkDownMsg {
+public class JobHook {
     @JsonProperty("object_kind")
     private String objectKind;
     private String ref;
@@ -52,38 +52,6 @@ public class JobHook implements MarkDownMsg {
     private User user;
     private Commit commit;
     private Repository repository;
-
-    @Override
-    public String getTitle() {
-        return getObjectKind();
-    }
-
-    @Override
-    public String getMarkdown() {
-        String project = String.format("[[%s]](%s)", repository.getName(), repository.getHomepage());
-        String pipeline = String.format("pipeline[#%s](%s/-/pipelines/%s)", pipelineId, repository.getHomepage(), pipelineId);
-        String costTime = String.format("%.0f", getBuildDuration());
-        if (costTime.equals("")) {
-            costTime = "0";
-        }
-        Emoji emoji = new Emoji();
-        String color = "#000000";
-        if (Objects.equals(buildStatus, "success")) {
-            color = "#00b140";
-            emoji.setCode("✔️");
-        } else if (Objects.equals(buildStatus, "failed")) {
-            color = "#ff0000";
-            emoji.setCode("❌");
-        } else if (Objects.equals(buildStatus, "canceled")) {
-            color = "#FFDAC8";
-            emoji.setCode("⏹️");
-        } else if (Objects.equals(buildStatus, "skipped")) {
-            color = "#8E8E8E";
-            emoji.setCode("⏭️");
-        }
-        String build = String.format("<font color='%s'> [%s](%s/-/jobs/%s) %s%s</font>", color, buildStage, repository.getHomepage(), buildId, buildStatus, emoji);
-        return String.format("<font color='#000000'>%s %s %s %s%ss</font>", project, pipeline, build, new Emoji("\uD83D\uDD57"), costTime);
-    }
 
     @Getter
     @Setter

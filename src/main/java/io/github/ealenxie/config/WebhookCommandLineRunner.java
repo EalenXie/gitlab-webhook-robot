@@ -1,7 +1,7 @@
 package io.github.ealenxie.config;
 
-import io.github.ealenxie.webhook.WebhookEndpoint;
 import io.github.ealenxie.webhook.WebhookDefinitionRepository;
+import io.github.ealenxie.webhook.WebhookEndpoint;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 import io.github.ealenxie.webhook.tool.SpringEnvHelper;
 import lombok.extern.slf4j.Slf4j;

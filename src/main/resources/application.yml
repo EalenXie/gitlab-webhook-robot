@@ -10,7 +10,7 @@ gitlab:
         access-token: 93a93799cde9xxxxxx655ae0d4eb9872883c
         sign-key: SECcd68c6b173cca046231c48739c6141a891c9
     - id: order
-      way: FEISHU_MESSAGE
+      way: FEI_SHU_MESSAGE
       config:
         url: https://open.feishu.cn/open-apis/bot/v2/hook/4ad2ff7d-78e4-4ef0-84be-ee6
         sign:

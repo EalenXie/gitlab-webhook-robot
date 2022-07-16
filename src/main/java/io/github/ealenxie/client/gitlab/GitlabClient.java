@@ -11,13 +11,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +31,6 @@ public class GitlabClient {
     private final HttpHeaders httpHeaders;
     private final ObjectMapper objectMapper;
 
-    private final Map<Long, GitlabUser> gitlabUsers = new HashMap<>();
 
     public GitlabClient(String host, String privateToken) {
         this(host, privateToken, new ObjectMapper(), new RestTemplate());
@@ -46,6 +43,10 @@ public class GitlabClient {
         httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(privateToken);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    }
+
+    public String getHost() {
+        return host;
     }
 
     /**
@@ -159,44 +160,4 @@ public class GitlabClient {
         restOperations.exchange(String.format("%s/api/v4/projects/%s/pipelines/%s", host, projectId, pipelineId), HttpMethod.DELETE, new HttpEntity<>(null, httpHeaders), Void.class);
     }
 
-    @Nullable
-    public GitlabUser getUser(Long userId) {
-        if (!gitlabUsers.containsKey(userId)) {
-            try {
-                GitlabUser body = getUserById(userId);
-                gitlabUsers.put(userId, body);
-            } catch (Exception e) {
-                gitlabUsers.put(userId, new GitlabUser());
-            }
-        }
-        return gitlabUsers.get(userId);
-    }
-
-
-    @Nullable
-    public String getUserSkype(Long userId) {
-        GitlabUser gitlabUser = getUser(userId);
-        if (gitlabUser != null && !ObjectUtils.isEmpty(gitlabUser.getSkype())) {
-            return gitlabUser.getSkype();
-        }
-        return null;
-    }
-
-//    public String pipelineCancelDelete(PipelineCancelDeleteDTO dto) {
-//        try {
-//            CancelPipeline cancelPipeline = cancelPipeline(dto.getProjectId(), dto.getPipelineId());
-//            String webUrl = cancelPipeline.getWebUrl();
-//            if (dto.getAction().equals("retry")) {
-//                CancelPipeline pipeline = retryPipeline(dto.getProjectId(), dto.getPipelineId());
-//                webUrl = pipeline.getWebUrl();
-//            } else if (dto.getAction().equals("delete")) {
-//                deletePipeline(dto.getProjectId(), dto.getPipelineId());
-//                webUrl = webUrl.substring(0, webUrl.lastIndexOf("/"));
-//            }
-//            return webUrl;
-//        } catch (HttpStatusCodeException e) {
-//            log.warn("call gitlab error , statusCode:{}, body:{}", e.getRawStatusCode(), e.getResponseBodyAsString());
-//            return gitlabConfig.getHost();
-//        }
-//    }
 }

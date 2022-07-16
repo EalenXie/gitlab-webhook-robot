@@ -5,6 +5,7 @@ import io.github.ealenxie.webhook.dto.Project;
 import io.github.ealenxie.webhook.dto.User;
 import io.github.ealenxie.webhook.dto.UserUtils;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHook;
+import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,24 +13,31 @@ import java.util.List;
 /**
  * Created by EalenXie on 2022/7/10 15:58
  */
-public class DefaultMergeRequestMessage extends MergeRequestHook implements EmojiSupport, EventMessage {
+public class DefaultMergeRequestMessage extends WebhookMessage {
+    private final MergeRequestHook mergeRequestHook;
+
+    public DefaultMergeRequestMessage(WebhookDefinition webhook, MergeRequestHook mergeRequestHook) {
+        super(webhook);
+        this.mergeRequestHook = mergeRequestHook;
+    }
+
     @Override
     public String title() {
-        return getObjectKind();
+        return mergeRequestHook.getObjectKind();
     }
 
     @Override
     public String message() {
-        User user = getUser();
-        Project project = getProject();
-        ObjectAttributes objectAttributes = getObjectAttributes();
+        User user = mergeRequestHook.getUser();
+        Project project = mergeRequestHook.getProject();
+        MergeRequestHook.ObjectAttributes objectAttributes = mergeRequestHook.getObjectAttributes();
         StringBuilder sb = new StringBuilder();
         String p = String.format("[[%s]](%s)", project.getName(), project.getWebUrl());
         String sources = String.format("[%s](%s/-/tree/%s)", objectAttributes.getSourceBranch(), project.getWebUrl(), objectAttributes.getSourceBranch());
         String targets = String.format("[%s](%s/-/tree/%s)", objectAttributes.getTargetBranch(), project.getWebUrl(), objectAttributes.getTargetBranch());
         String u = String.format("[%s](%s)", user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()));
         String merge = String.format(" [#%s](%s)(%s)", objectAttributes.getId(), objectAttributes.getUrl(), objectAttributes.getTitle());
-        sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), getObjectKind(), merge));
+        sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), mergeRequestHook.getObjectKind(), merge));
         switch (objectAttributes.getState()) {
             case "opened":
                 sb.append(String.format("%s %s  wants to merge %s ➔➔ %s %n",
@@ -54,6 +62,6 @@ public class DefaultMergeRequestMessage extends MergeRequestHook implements Emoj
 
     @Override
     public List<String> notifies() {
-        return Collections.singletonList(String.valueOf(getUser().getId()));
+        return Collections.singletonList(String.valueOf(mergeRequestHook.getUser().getId()));
     }
 }
