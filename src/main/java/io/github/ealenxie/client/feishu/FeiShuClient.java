@@ -68,7 +68,7 @@ public class FeiShuClient {
      * @param fullUrl 接口完整路径
      * @param message 钉钉机器人消息
      */
-    public ResponseEntity<String> sendMessage(String fullUrl, FeiShuMessage message, String signKey) {
+    public ResponseEntity<Object> sendMessage(String fullUrl, FeiShuMessage message, String signKey) {
         try {
             if (signKey != null && !"".equals(signKey.trim())) {
                 long timestamp = System.currentTimeMillis();
@@ -77,7 +77,7 @@ public class FeiShuClient {
                 message.setSign(sign);
             }
             HttpEntity<FeiShuMessage> entity = new HttpEntity<>(message, jsonHeader);
-            return restOperations.postForEntity(fullUrl, entity, String.class);
+            return restOperations.postForEntity(fullUrl, entity, Object.class);
         } catch (RestClientResponseException e) {
             return ResponseEntity.status(e.getRawStatusCode()).body(e.getResponseBodyAsString());
         }

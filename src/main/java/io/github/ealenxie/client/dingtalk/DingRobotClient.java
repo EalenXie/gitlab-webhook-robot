@@ -6,7 +6,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -66,7 +65,7 @@ public class DingRobotClient {
      * @param accessToken accessToken
      * @param signKey     signKey
      */
-    public ResponseEntity<String> sendMessage(DingRobotMessage message, String accessToken, String signKey) {
+    public ResponseEntity<Object> sendMessage(DingRobotMessage message, String accessToken, String signKey) {
         return sendMessage(DEFAULT_API_URL, message, accessToken, signKey);
     }
 
@@ -78,14 +77,10 @@ public class DingRobotClient {
      * @param accessToken accessToken
      * @param signKey     signKey
      */
-    public ResponseEntity<String> sendMessage(String url, DingRobotMessage message, String accessToken, String signKey) {
-        try {
-            HttpEntity<DingRobotMessage> entity = new HttpEntity<>(message, jsonHeader);
-            long timeStamp = System.currentTimeMillis();
-            return restOperations.postForEntity(String.format("%s?access_token=%s&timestamp=%s&sign=%s", url, accessToken, timeStamp, sign(timeStamp, signKey)), entity, String.class);
-        } catch (RestClientResponseException e) {
-            return ResponseEntity.status(e.getRawStatusCode()).body(e.getResponseBodyAsString());
-        }
+    public ResponseEntity<Object> sendMessage(String url, DingRobotMessage message, String accessToken, String signKey) {
+        HttpEntity<DingRobotMessage> entity = new HttpEntity<>(message, jsonHeader);
+        long timeStamp = System.currentTimeMillis();
+        return restOperations.postForEntity(String.format("%s?access_token=%s&timestamp=%s&sign=%s", url, accessToken, timeStamp, sign(timeStamp, signKey)), entity, Object.class);
     }
 
 }

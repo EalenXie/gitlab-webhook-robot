@@ -1,9 +1,7 @@
 package io.github.ealenxie.webhook;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.ealenxie.webhook.dto.MarkDownMsg;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.webhook.dto.job.JobHook;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHook;
@@ -12,17 +10,23 @@ import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
 import io.github.ealenxie.webhook.dto.push.PushHook;
 import io.github.ealenxie.webhook.dto.release.ReleaseHook;
 import io.github.ealenxie.webhook.dto.tag.TagPushHook;
-import io.github.ealenxie.webhook.sender.MessageSender;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.github.ealenxie.webhook.handler.WebhookEventHandler;
+import io.github.ealenxie.webhook.handler.sender.DingSendMessageHandler;
+import io.github.ealenxie.webhook.handler.sender.FeishuSendMessageHandler;
+import io.github.ealenxie.webhook.handler.sender.WechatSendMessageHandler;
+import io.github.ealenxie.webhook.meta.WebhookDefinition;
+import io.github.ealenxie.webhook.meta.WebhookWay;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 /**
- * Created by EalenXie on 2022/2/11 16:20
+ * Created by EalenXie on 2022/7/10 13:59
+ * webhook 事件处理 执行器
  */
-@Service
-public class GitlabWebHookHandler implements WebHookHandler<JsonNode, ResponseEntity<String>> {
+public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>, ApplicationContextAware {
 
     private static final String PUSH_HOOK = "Push Hook";
     private static final String PIPELINE_HOOK = "Pipeline Hook";
@@ -33,72 +37,67 @@ public class GitlabWebHookHandler implements WebHookHandler<JsonNode, ResponseEn
     private static final String JOB_HOOK = "Job Hook";
     private static final String TAG_PUSH_HOOK = "Tag Push Hook";
     private static final String ACTION_UPDATE = "update";
+    private ApplicationContext applicationContext;
     public final ObjectMapper objectMapper;
 
-    private final MessageSender<MarkDownMsg, String> messageSender;
-
-    public GitlabWebHookHandler(@Autowired MessageSender<MarkDownMsg, String> messageSender) {
-        this.messageSender = messageSender;
-        objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public DefaultWebhookEventExecutor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
-    /**
-     * 处理webhook事件
-     *
-     * @param body  消息请求体
-     * @param event webhook 事件
-     * @return 响应
-     */
     @Override
-    public ResponseEntity<String> handle(@NonNull JsonNode body, @NonNull String event) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    public Object execute(WebhookDefinition webhook, @NonNull String event, @NonNull JsonNode body) {
+        WebhookEventHandler<?> webhookEventHandler = getByWebhook(webhook);
         switch (event) {
             case PUSH_HOOK:
                 PushHook pushHook = objectMapper.convertValue(body, PushHook.class);
                 if (!pushHook.getCommits().isEmpty()) {
-                    return messageSender.sendMessage(pushHook);
+                    return webhookEventHandler.pushEvent(webhook, pushHook);
                 }
                 break;
             case PIPELINE_HOOK:
                 PipelineHook pipelineHook = objectMapper.convertValue(body, PipelineHook.class);
                 PipelineHook.ObjectAttributes objectAttributes = pipelineHook.getObjectAttributes();
                 if (objectAttributes != null && !"pending".equals(objectAttributes.getStatus())) {
-                    return messageSender.sendMessage(pipelineHook);
+                    return webhookEventHandler.pipelineEvent(webhook, pipelineHook);
                 }
                 break;
             case MERGE_REQUEST_HOOK:
                 MergeRequestHook mergeRequestHook = objectMapper.convertValue(body, MergeRequestHook.class);
                 String action = mergeRequestHook.getObjectAttributes().getAction();
                 if (action != null && !ACTION_UPDATE.equals(action)) {
-                    return messageSender.sendMessage(mergeRequestHook);
+                    return webhookEventHandler.mergeRequestEvent(webhook, mergeRequestHook);
                 }
                 break;
             case ISSUE_HOOK:
                 IssueHook issueHook = objectMapper.convertValue(body, IssueHook.class);
                 String issueAction = issueHook.getObjectAttributes().getAction();
                 if (!ACTION_UPDATE.equals(issueAction)) {
-                    return messageSender.sendMessage(issueHook);
+                    return webhookEventHandler.issueEvent(webhook, issueHook);
                 }
                 break;
             case RELEASE_HOOK:
                 ReleaseHook releaseHook = objectMapper.convertValue(body, ReleaseHook.class);
                 String releaseAction = releaseHook.getAction();
                 if (!ACTION_UPDATE.equals(releaseAction)) {
-                    return messageSender.sendMessage(releaseHook);
+                    return webhookEventHandler.releaseEvent(webhook, releaseHook);
                 }
                 break;
             case NOTE_HOOK:
                 NoteHook noteHook = objectMapper.convertValue(body, NoteHook.class);
-                return messageSender.sendMessage(noteHook);
+                return webhookEventHandler.noteEvent(webhook, noteHook);
             case TAG_PUSH_HOOK:
-                TagPushHook tagHook = objectMapper.convertValue(body, TagPushHook.class);
-                if ("tag_push".equals(tagHook.getObjectKind())) {
-                    return messageSender.sendMessage(tagHook);
+                TagPushHook tagPushHook = objectMapper.convertValue(body, TagPushHook.class);
+                if ("tag_push".equals(tagPushHook.getObjectKind())) {
+                    return webhookEventHandler.tagPushEvent(webhook, tagPushHook);
                 }
                 break;
             case JOB_HOOK:
                 JobHook jobHook = objectMapper.convertValue(body, JobHook.class);
-                return messageSender.sendMessage(jobHook);
+                return webhookEventHandler.jobEvent(webhook, jobHook);
             default:
                 return ResponseEntity.ok().body(null);
         }
@@ -106,4 +105,21 @@ public class GitlabWebHookHandler implements WebHookHandler<JsonNode, ResponseEn
     }
 
 
+    @Override
+    public WebhookEventHandler<Object> getByWebhook(WebhookDefinition webhook) {
+        WebhookWay webhookWay = webhook.getWay();
+        if (ObjectUtils.isEmpty(webhook.getConfig())) {
+            throw new UnsupportedOperationException("config is required to enable this feature");
+        }
+        switch (webhookWay) {
+            case DING_MESSAGE:
+                return applicationContext.getBean(DingSendMessageHandler.class);
+            case FEISHU_MESSAGE:
+                return applicationContext.getBean(FeishuSendMessageHandler.class);
+            case WECHAT_MESSAGE:
+                return applicationContext.getBean(WechatSendMessageHandler.class);
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
 }

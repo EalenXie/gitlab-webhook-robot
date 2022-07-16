@@ -35,10 +35,10 @@ public class WeChatClient {
     /**
      * @param message 微信机器人消息
      */
-    public ResponseEntity<String> sendMessage(WeChatMessage message, String key) {
+    public ResponseEntity<Object> sendMessage(WeChatMessage message, String key) {
         try {
             HttpEntity<WeChatMessage> entity = new HttpEntity<>(message, jsonHeader);
-            return restOperations.postForEntity(String.format("%s?key=%s", DEFAULT_API_URL, key), entity, String.class);
+            return restOperations.postForEntity(String.format("%s?key=%s", DEFAULT_API_URL, key), entity, Object.class);
         } catch (RestClientResponseException e) {
             return ResponseEntity.status(e.getRawStatusCode()).body(e.getResponseBodyAsString());
         }

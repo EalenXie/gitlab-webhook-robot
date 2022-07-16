@@ -11,6 +11,10 @@ import io.github.ealenxie.webhook.dto.tag.TagPushHook;
 import io.github.ealenxie.webhook.handler.WebhookEventHandler;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessage;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
+import io.github.ealenxie.webhook.meta.WebhookConfig;
+import io.github.ealenxie.webhook.meta.WebhookDefinition;
+
+import java.util.Map;
 
 /**
  * Created by EalenXie on 2022/7/10 16:59
@@ -18,65 +22,65 @@ import io.github.ealenxie.webhook.handler.sender.message.EventMessageGenerator;
  */
 public interface WebhookEventSendMessageHandler<R> extends WebhookEventHandler<R> {
 
-
-    R sendMessage(EventMessage m);
-
     EventMessageGenerator getEventMessageGenerator();
+
+
+    R sendMessage(WebhookDefinition webhook, EventMessage m);
 
     /**
      * 处理 IssueHook 事件消息
      */
-    default R issueEvent(IssueHook issueHook) {
-        return sendMessage(getEventMessageGenerator().issueHookMessage(issueHook));
+    default R issueEvent(WebhookDefinition webhook, IssueHook issueHook) {
+        return sendMessage(webhook, getEventMessageGenerator().issueHookMessage(issueHook));
     }
 
     /**
      * 处理 JobHook 事件消息
      */
-    default R jobEvent(JobHook jobHook) {
-        return sendMessage(getEventMessageGenerator().jobHookMessage(jobHook));
+    default R jobEvent(WebhookDefinition webhook, JobHook jobHook) {
+        return sendMessage(webhook, getEventMessageGenerator().jobHookMessage(jobHook));
     }
 
     /**
      * 处理 MergeRequestHook 事件消息
      */
-    default R mergeRequestEvent(MergeRequestHook mergeRequestHook) {
-        return sendMessage(getEventMessageGenerator().mergeRequestHookMessage(mergeRequestHook));
+    default R mergeRequestEvent(WebhookDefinition webhook, MergeRequestHook mergeRequestHook) {
+        return sendMessage(webhook, getEventMessageGenerator().mergeRequestHookMessage(mergeRequestHook));
     }
 
     /**
      * 处理 NoteHook 事件消息
      */
-    default R noteEvent(NoteHook noteHook) {
-        return sendMessage(getEventMessageGenerator().noteHookMessage(noteHook));
+    default R noteEvent(WebhookDefinition webhook, NoteHook noteHook) {
+        return sendMessage(webhook, getEventMessageGenerator().noteHookMessage(noteHook));
     }
 
     /**
      * 处理 PipelineHook 事件消息
      */
-    default R pipelineEvent(PipelineHook pipelineHook) {
-        return sendMessage(getEventMessageGenerator().pipelineHookMessage(pipelineHook));
+    default R pipelineEvent(WebhookDefinition webhook, PipelineHook pipelineHook) {
+        return sendMessage(webhook, getEventMessageGenerator().pipelineHookMessage(pipelineHook));
     }
 
     /**
      * 处理 PushHook 事件消息
      */
-    default R pushEvent(PushHook pushHook) {
-        return sendMessage(getEventMessageGenerator().pushHookMessage(pushHook));
+    default R pushEvent(WebhookDefinition webhook, PushHook pushHook) {
+        return sendMessage(webhook, getEventMessageGenerator().pushHookMessage(pushHook));
     }
 
     /**
      * 处理 ReleaseHook 事件消息
      */
-    default R releaseEvent(ReleaseHook releaseHook) {
-        return sendMessage(getEventMessageGenerator().releaseHookMessage(releaseHook));
+    default R releaseEvent(WebhookDefinition webhook, ReleaseHook releaseHook) {
+        return sendMessage(webhook, getEventMessageGenerator().releaseHookMessage(releaseHook));
     }
 
     /**
      * 处理 TagPushHook 事件消息
      */
-    default R tagPushEvent(TagPushHook tagPushHook) {
-        return sendMessage(getEventMessageGenerator().tagPushHookMessage(tagPushHook));
+    default R tagPushEvent(WebhookDefinition webhook, TagPushHook tagPushHook) {
+        return sendMessage(webhook, getEventMessageGenerator().tagPushHookMessage(tagPushHook));
     }
 
 }

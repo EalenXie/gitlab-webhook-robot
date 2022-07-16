@@ -1,7 +1,6 @@
 package io.github.ealenxie.webhook.handler.sender.message;
 
-import io.github.ealenxie.client.gitlab.GitlabHandler;
-import io.github.ealenxie.endpoint.GitlabEndpoint;
+import io.github.ealenxie.webhook.GitlabEndpoint;
 import io.github.ealenxie.webhook.dto.Build;
 import io.github.ealenxie.webhook.dto.Commit;
 import io.github.ealenxie.webhook.dto.Project;
@@ -110,7 +109,7 @@ public class DefaultPipelineMessage extends PipelineHook implements EmojiSupport
                 }
                 sb.append(String.format(">%s [%s](%s/-/jobs/%s) : <font color='%s'>%s</font> %s %s %ss%n%n", emoji, build.getStage(), project.getWebUrl(), build.getId(), color, build.getStatus(), fileName, enableEmoji() ? "\uD83D\uDD57" : "", costTime));
             }
-        } else if (GitlabHandler.gitlabEnable()) {
+        } else {
             String pipelineCancelDeleteUrl = GitlabEndpoint.PIPELINE_CANCEL_DELETE_URL;
             String localhostIp = SpringEnvHelper.getLocalhostIp();
             Integer port = SpringEnvHelper.getPort();
