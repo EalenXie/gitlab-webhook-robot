@@ -4,7 +4,7 @@ import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
 /**
  * Created by EalenXie on 2022/7/10 14:53
- * webhook 工厂
+ * webhook 处理器工厂
  */
 public interface WebhookEventHandlerFactory<R> {
 

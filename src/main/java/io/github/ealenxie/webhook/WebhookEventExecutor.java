@@ -6,6 +6,7 @@ import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
 /**
  * Created by EalenXie on 2022/7/16 13:23
+ * webhook 事件执行器
  */
 public interface WebhookEventExecutor<T> extends WebhookEventHandlerFactory<T> {
 

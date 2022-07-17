@@ -1,7 +1,6 @@
 package io.github.ealenxie.webhook.handler.sender.message;
 
 import io.github.ealenxie.webhook.dto.Project;
-import io.github.ealenxie.webhook.dto.UserUtils;
 import io.github.ealenxie.webhook.dto.tag.TagPushHook;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -32,7 +31,7 @@ public class DefaultTagPushMessage extends WebhookMessage {
         String tag = refSplit[refSplit.length - 1];
         String t = String.format("[%s](%s/-/tree/%s)", tag, project.getWebUrl(), tag);
         String p = String.format("[%s](%s)", project.getName(), project.getWebUrl());
-        String user = String.format("[%s](%s)", userUsername, UserUtils.getUserHomePage(project.getWebUrl(), userUsername));
+        String user = String.format("[%s](%s)", userUsername, getUserHomePage(project.getWebUrl(), userUsername));
         return String.format("%s push new tag(%s) by %s %s%n%n > %s", p, t, user, enableEmoji() ? "\uD83D\uDE80\uD83D\uDE80\uD83D\uDE80" : "", tagPushHook.getMessage());
     }
 

@@ -3,7 +3,6 @@ package io.github.ealenxie.webhook.handler.sender.message;
 import io.github.ealenxie.webhook.dto.Emoji;
 import io.github.ealenxie.webhook.dto.Project;
 import io.github.ealenxie.webhook.dto.User;
-import io.github.ealenxie.webhook.dto.UserUtils;
 import io.github.ealenxie.webhook.dto.mergerequest.MergeRequestHook;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -35,7 +34,7 @@ public class DefaultMergeRequestMessage extends WebhookMessage {
         String p = String.format("[[%s]](%s)", project.getName(), project.getWebUrl());
         String sources = String.format("[%s](%s/-/tree/%s)", objectAttributes.getSourceBranch(), project.getWebUrl(), objectAttributes.getSourceBranch());
         String targets = String.format("[%s](%s/-/tree/%s)", objectAttributes.getTargetBranch(), project.getWebUrl(), objectAttributes.getTargetBranch());
-        String u = String.format("[%s](%s)", user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()));
+        String u = String.format("[%s](%s)", user.getUsername(), getUserHomePage(project.getWebUrl(), user.getUsername()));
         String merge = String.format(" [#%s](%s)(%s)", objectAttributes.getId(), objectAttributes.getUrl(), objectAttributes.getTitle());
         sb.append(String.format("<font color='#000000'>%s %s %s %s %s </font>%n%n", p, u, objectAttributes.getState(), mergeRequestHook.getObjectKind(), merge));
         switch (objectAttributes.getState()) {

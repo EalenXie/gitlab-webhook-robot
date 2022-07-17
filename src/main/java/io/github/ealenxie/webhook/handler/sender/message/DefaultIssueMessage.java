@@ -2,7 +2,6 @@ package io.github.ealenxie.webhook.handler.sender.message;
 
 import io.github.ealenxie.webhook.dto.Project;
 import io.github.ealenxie.webhook.dto.User;
-import io.github.ealenxie.webhook.dto.UserUtils;
 import io.github.ealenxie.webhook.dto.issue.IssueHook;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -49,7 +48,7 @@ public class DefaultIssueMessage extends WebhookMessage {
         sb.append(String.format("#### %s%s **%s** %n", titleEmoji, projectUrl, objectAttributes.getTitle()));
         sb.append(String.format("<font color='#000000'>The Issue [%s] %s%s by [%s](%s) </font> %n>%s", issue,
                 objectAttributes.getState(), statusEmoji,
-                user.getUsername(), UserUtils.getUserHomePage(project.getWebUrl(), user.getUsername()),
+                user.getUsername(), getUserHomePage(project.getWebUrl(), user.getUsername()),
                 objectAttributes.getDescription()));
         return sb.toString();
     }
