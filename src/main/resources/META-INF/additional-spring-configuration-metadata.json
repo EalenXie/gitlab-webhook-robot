@@ -2,7 +2,8 @@
   "properties": [
     {
       "name": "gitlab.webhooks",
-      "type": "java.lang.String",
+      "type": "java.util.List<io.github.ealenxie.webhook.meta.WebhookDefinition>",
       "description": "Description for gitlab.webhooks."
-  }
-] }
+    }
+  ]
+}

@@ -295,15 +295,25 @@ public class SpringEnvHelper implements ApplicationContextAware {
             return clientIp.contains(",") ? clientIp.substring(0, clientIp.indexOf(",")) : clientIp;
         }
         clientIp = request.getHeader("HTTP_X_FORWARDED_FOR");
-        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) return clientIp;
+        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) {
+            return clientIp;
+        }
         clientIp = request.getHeader("Proxy-Client-IP");
-        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) return clientIp;
+        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) {
+            return clientIp;
+        }
         clientIp = request.getHeader("WL-Proxy-Client-IP");
-        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) return clientIp;
+        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) {
+            return clientIp;
+        }
         clientIp = request.getHeader("HTTP_CLIENT_IP");
-        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) return clientIp;
+        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) {
+            return clientIp;
+        }
         clientIp = request.getHeader("X-Real-IP");
-        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) return clientIp;
+        if (!StringUtils.isEmpty(clientIp) && !UNKNOWN.equals(clientIp)) {
+            return clientIp;
+        }
         return request.getRemoteAddr();
     }
 }

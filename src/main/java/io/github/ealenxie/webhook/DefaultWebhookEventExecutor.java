@@ -20,7 +20,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.util.ObjectUtils;
 
 /**
  * Created by EalenXie on 2022/7/10 13:59
@@ -108,15 +107,12 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
     @Override
     public WebhookEventHandler<Object> getByWebhook(WebhookDefinition webhook) {
         WebhookWay webhookWay = webhook.getWay();
-        if (ObjectUtils.isEmpty(webhook.getConfig())) {
-            throw new UnsupportedOperationException("config is required to enable this feature");
-        }
         switch (webhookWay) {
-            case DING_MESSAGE:
+            case ding_message:
                 return applicationContext.getBean(DingSendMessageHandler.class);
-            case FEI_SHU_MESSAGE:
+            case fei_shu_message:
                 return applicationContext.getBean(FeishuSendMessageHandler.class);
-            case WECHAT_MESSAGE:
+            case wechat_message:
                 return applicationContext.getBean(WechatSendMessageHandler.class);
             default:
                 throw new UnsupportedOperationException();

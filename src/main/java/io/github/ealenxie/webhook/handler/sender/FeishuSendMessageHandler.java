@@ -34,7 +34,7 @@ public class FeishuSendMessageHandler implements WebhookEventSendMessageHandler<
     @Override
     public Object sendMessage(EventMessage message) {
         WebhookDefinition webhook = message.webhook();
-        Map<String, Object> config = webhook.getConfig();
+        Map<String, String> config = webhook.getConfig();
         FeiShuConfig feiShuConfig = objectMapper.convertValue(config, FeiShuConfig.class);
         Interactive interactive = new Interactive();
         interactive.setConfig(new Config(true, true));

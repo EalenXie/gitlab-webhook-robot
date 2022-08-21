@@ -40,7 +40,7 @@ public class WechatSendMessageHandler implements WebhookEventSendMessageHandler<
     @Override
     public Object sendMessage(EventMessage message) {
         WebhookDefinition webhook = message.webhook();
-        Map<String, Object> config = webhook.getConfig();
+        Map<String, String> config = webhook.getConfig();
         WeChatConfig weChatConfig = objectMapper.convertValue(config, WeChatConfig.class);
         Markdown markdown = new Markdown();
         StringBuilder sb = new StringBuilder();

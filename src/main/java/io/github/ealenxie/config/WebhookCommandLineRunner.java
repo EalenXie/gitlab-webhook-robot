@@ -42,7 +42,7 @@ public class WebhookCommandLineRunner implements CommandLineRunner {
             StringBuilder sb = new StringBuilder("Webhooks are successfully configured.\n");
             sb.append("The following webhooks are available,Please fill in these address in your Gitlab Webhook: \n");
             for (WebhookDefinition webhook : webhooks) {
-                sb.append(String.format("Webhook address: %s%s/%s %n", contentPath, WebhookEndpoint.PIPELINE_ENDPOINT_URL, webhook.getId()));
+                sb.append(String.format("Webhook Id:%s , Webhook address: %s%s/%s %n",webhook.getId(), contentPath, WebhookEndpoint.PIPELINE_ENDPOINT_URL, webhook.getId()));
             }
             log.info(sb.toString());
         }

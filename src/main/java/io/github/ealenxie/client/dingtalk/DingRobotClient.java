@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by EalenXie on 2021/12/1 14:43
- * <a href="https://open.dingtalk.com/document/robots/custom-robot-access">...</a>
+ * <a href="https://open.dingtalk.com/document/robots/custom-robot-access">钉钉开放平台 自定义机器人接入</a>
  * 钉钉机器人 API
  */
 public class DingRobotClient {

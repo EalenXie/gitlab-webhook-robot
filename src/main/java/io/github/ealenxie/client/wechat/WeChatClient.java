@@ -11,7 +11,9 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by EalenXie on 2022/2/11 10:42
- * <a href="https://developer.work.weixin.qq.com/document/path/91770">...</a>
+ * <p>
+ * 文档地址: <a href="https://developer.work.weixin.qq.com/document/path/91770">企业微信 开发者中心</a>
+ * </p>
  */
 public class WeChatClient {
 

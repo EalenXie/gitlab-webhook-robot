@@ -5,17 +5,17 @@ server:
 gitlab:
   webhooks:
     - id: finance
-      way: DING_MESSAGE
+      way: ding_message
       config:
         access-token: 93a93799cde9xxxxxx655ae0d4eb9872883c
         sign-key: SECcd68c6b173cca046231c48739c6141a891c9
     - id: order
-      way: FEI_SHU_MESSAGE
+      way: fei_shu_message
       config:
         url: https://open.feishu.cn/open-apis/bot/v2/hook/4ad2ff7d-78e4-4ef0-84be-ee6
         sign:
     - id: ware
-      way: WECHAT_MESSAGE
+      way: wechat_message
       config:
         key: 11910fa
 

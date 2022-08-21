@@ -46,10 +46,16 @@ public class DingSendMessageHandler implements WebhookEventSendMessageHandler<Ob
         return eventMessageGenerator;
     }
 
+    /**
+     * 发送钉钉消息
+     *
+     * @param message 钉钉机器人消息
+     * @return 阿里钉钉接口返回
+     */
     @Override
     public Object sendMessage(EventMessage message) {
         WebhookDefinition webhook = message.webhook();
-        Map<String, Object> config = webhook.getConfig();
+        Map<String, String> config = webhook.getConfig();
         DingDingConfig dingDingConfig = objectMapper.convertValue(config, DingDingConfig.class);
         MarkdownMessage actionCardMessage = new MarkdownMessage();
         StringBuilder sb = new StringBuilder();
