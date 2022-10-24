@@ -108,6 +108,10 @@ public class DefaultPipelineMessage extends WebhookMessage {
                         color = "#8E8E8E";
                         emoji = "⏭️";
                         break;
+                    case "manual":
+                        color = "#8E8E8E";
+                        emoji = "\uD83D\uDD04";
+                        break;
                     default:
                         break;
                 }
