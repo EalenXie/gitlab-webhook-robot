@@ -12,6 +12,9 @@ import java.util.List;
 public interface EventMessage {
 
 
+    /**
+     * webhook元信息
+     */
     WebhookDefinition webhook();
 
     /**

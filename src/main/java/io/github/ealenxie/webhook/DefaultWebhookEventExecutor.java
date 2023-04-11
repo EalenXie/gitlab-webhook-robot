@@ -20,6 +20,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.util.ObjectUtils;
+
+import java.util.Objects;
 
 /**
  * Created by EalenXie on 2022/7/10 13:59
@@ -53,7 +56,7 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
         switch (event) {
             case PUSH_HOOK:
                 PushHook pushHook = objectMapper.convertValue(body, PushHook.class);
-                if (!pushHook.getCommits().isEmpty()) {
+                if (!ObjectUtils.isEmpty(pushHook.getCommits())) {
                     return webhookEventHandler.pushEvent(webhook, pushHook);
                 }
                 break;
@@ -90,7 +93,7 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
                 return webhookEventHandler.noteEvent(webhook, noteHook);
             case TAG_PUSH_HOOK:
                 TagPushHook tagPushHook = objectMapper.convertValue(body, TagPushHook.class);
-                if ("tag_push".equals(tagPushHook.getObjectKind())) {
+                if (Objects.equals(tagPushHook.getObjectKind(), "tag_push")) {
                     return webhookEventHandler.tagPushEvent(webhook, tagPushHook);
                 }
                 break;
