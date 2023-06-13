@@ -12,9 +12,9 @@ import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
 /**
  * Created by EalenXie on 2022/7/10 13:59
- * webhook 事件处理器
+ * Gitlab Webhook 事件处理器
  */
-public interface WebhookEventHandler<R> {
+public interface GitlabWebhookEventHandler<R> {
 
     /**
      * 处理 IssueHook 事件消息

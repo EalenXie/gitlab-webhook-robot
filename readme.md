@@ -1,6 +1,10 @@
 Java版 Gitlab Webhook + 机器人通知
 ======
 
+
+### 本项目已不再维护,全新版本已转移至 [https://github.com/EalenXie/webhook](https://github.com/EalenXie/webhook)
+
+
 这是一个简单的SpringBoot项目,主要用于接入Gitlab的webhook 通过机器人实现消息通知 支持企业微信机器人/钉钉机器人/飞书机器人
 
 #### 实现效果 :

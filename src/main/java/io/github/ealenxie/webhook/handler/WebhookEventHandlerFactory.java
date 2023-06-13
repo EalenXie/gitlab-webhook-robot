@@ -13,7 +13,7 @@ public interface WebhookEventHandlerFactory<R> {
      *
      * @param webhook 请求的webhook
      */
-    WebhookEventHandler<R> getByWebhook(WebhookDefinition webhook);
+    GitlabWebhookEventHandler<R> getByWebhook(WebhookDefinition webhook);
 
 
 }

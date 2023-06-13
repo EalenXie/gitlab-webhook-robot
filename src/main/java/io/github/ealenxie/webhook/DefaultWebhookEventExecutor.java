@@ -10,7 +10,7 @@ import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
 import io.github.ealenxie.webhook.dto.push.PushHook;
 import io.github.ealenxie.webhook.dto.release.ReleaseHook;
 import io.github.ealenxie.webhook.dto.tag.TagPushHook;
-import io.github.ealenxie.webhook.handler.WebhookEventHandler;
+import io.github.ealenxie.webhook.handler.GitlabWebhookEventHandler;
 import io.github.ealenxie.webhook.handler.sender.DingSendMessageHandler;
 import io.github.ealenxie.webhook.handler.sender.FeishuSendMessageHandler;
 import io.github.ealenxie.webhook.handler.sender.WechatSendMessageHandler;
@@ -52,7 +52,7 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
     }
 
     public Object execute(WebhookDefinition webhook, @NonNull String event, @NonNull JsonNode body) {
-        WebhookEventHandler<?> webhookEventHandler = getByWebhook(webhook);
+        GitlabWebhookEventHandler<?> webhookEventHandler = getByWebhook(webhook);
         switch (event) {
             case PUSH_HOOK:
                 PushHook pushHook = objectMapper.convertValue(body, PushHook.class);
@@ -108,7 +108,7 @@ public class DefaultWebhookEventExecutor implements WebhookEventExecutor<Object>
 
 
     @Override
-    public WebhookEventHandler<Object> getByWebhook(WebhookDefinition webhook) {
+    public GitlabWebhookEventHandler<Object> getByWebhook(WebhookDefinition webhook) {
         WebhookWay webhookWay = webhook.getWay();
         switch (webhookWay) {
             case ding_message:

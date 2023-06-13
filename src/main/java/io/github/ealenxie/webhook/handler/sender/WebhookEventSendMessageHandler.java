@@ -8,7 +8,7 @@ import io.github.ealenxie.webhook.dto.pipeline.PipelineHook;
 import io.github.ealenxie.webhook.dto.push.PushHook;
 import io.github.ealenxie.webhook.dto.release.ReleaseHook;
 import io.github.ealenxie.webhook.dto.tag.TagPushHook;
-import io.github.ealenxie.webhook.handler.WebhookEventHandler;
+import io.github.ealenxie.webhook.handler.GitlabWebhookEventHandler;
 import io.github.ealenxie.webhook.handler.sender.message.EventMessage;
 import io.github.ealenxie.webhook.meta.WebhookDefinition;
 
@@ -16,11 +16,16 @@ import io.github.ealenxie.webhook.meta.WebhookDefinition;
  * Created by EalenXie on 2022/7/10 16:59
  * webhook事件 发送消息处理器
  */
-public interface WebhookEventSendMessageHandler<R> extends WebhookEventHandler<R> {
+public interface WebhookEventSendMessageHandler<R> extends GitlabWebhookEventHandler<R> {
 
     EventMessageGenerator getEventMessageGenerator();
 
 
+    /**
+     * 发送消息
+     *
+     * @param m 事件消息
+     */
     R sendMessage(EventMessage m);
 
     /**
